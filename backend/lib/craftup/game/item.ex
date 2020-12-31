@@ -4,6 +4,15 @@ defmodule Craftup.Game.Item do
 
   schema "items" do
     field :name, :string
+    field :description, :string
+    field :icon, :string
+    field :stack_size, :integer
+    field :plural, :string
+    field :singular, :string
+    field :patch, :integer
+    field :level, :integer
+
+    has_one :recipe, Craftup.Game.Recipe
 
     timestamps()
   end
@@ -11,7 +20,16 @@ defmodule Craftup.Game.Item do
   @doc false
   def changeset(item, attrs) do
     item
-    |> cast(attrs, [:name])
-    |> validate_required([:name])
+    |> cast(attrs, [:name, :description, :icon, :stack_size, :plural, :singular, :patch, :level])
+    |> validate_required([
+      :name,
+      :description,
+      :icon,
+      :stack_size,
+      :plural,
+      :singular,
+      :patch,
+      :level
+    ])
   end
 end
