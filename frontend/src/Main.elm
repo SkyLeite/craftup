@@ -1,44 +1,78 @@
 module Main exposing (..)
 
+import App exposing (Model, Msg(..))
 import Browser
-import Html exposing (Html, text, div, h1, img)
-import Html.Attributes exposing (src)
+import Browser.Navigation as Nav
+import Html exposing (Html, div)
+import Html.Attributes exposing (class)
+import Pages.CraftingLists
+import Pages.Home
+import Route exposing (Route(..))
+import Sidebar
+import Url exposing (Url)
+import Url.Parser
 
 
----- MODEL ----
-
-
-type alias Model =
-    {}
-
-
-init : ( Model, Cmd Msg )
-init =
-    ( {}, Cmd.none )
+init : () -> Url -> Nav.Key -> ( Model, Cmd Msg )
+init _ url navKey =
+    ( { navKey = navKey, route = Url.Parser.parse Route.parser url }, Cmd.none )
 
 
 
 ---- UPDATE ----
 
 
-type Msg
-    = NoOp
-
-
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
-    ( model, Cmd.none )
+    case msg of
+        NoOp ->
+            ( model, Cmd.none )
+
+        ChangedUrl url ->
+            ( { model | route = Url.Parser.parse Route.parser url }, Cmd.none )
+
+        ClickedLink urlRequest ->
+            case urlRequest of
+                Browser.Internal url ->
+                    ( model, Nav.pushUrl model.navKey <| Url.toString url )
+
+                Browser.External url ->
+                    ( model, Nav.load url )
 
 
 
 ---- VIEW ----
 
 
-view : Model -> Html Msg
+view : Model -> Browser.Document Msg
 view model =
-    div []
-        [ img [ src "/logo.svg" ] []
-        , h1 [] [ text "Your Elm App is working!" ]
+    { title = "XIVCraft"
+    , body =
+        [ div [ class "main-container" ]
+            [ Sidebar.view model
+            , mainArea model
+            ]
+        ]
+    }
+
+
+mainArea : Model -> Html Msg
+mainArea model =
+    div [ class "main" ]
+        [ case model.route of
+            Just route ->
+                case route of
+                    Home ->
+                        Pages.Home.view
+
+                    CraftingList _ ->
+                        div [] []
+
+                    CraftingLists ->
+                        Pages.CraftingLists.view model
+
+            Nothing ->
+                div [] []
         ]
 
 
@@ -48,9 +82,11 @@ view model =
 
 main : Program () Model Msg
 main =
-    Browser.element
-        { view = view
-        , init = \_ -> init
+    Browser.application
+        { init = init
         , update = update
-        , subscriptions = always Sub.none
+        , view = view
+        , subscriptions = \_ -> Sub.none
+        , onUrlRequest = ClickedLink
+        , onUrlChange = ChangedUrl
         }

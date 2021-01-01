@@ -1,0 +1,101 @@
+@font-face {
+    font-family: Karma;
+    src: url("fonts/Karma-Regular.ttf");
+}
+
+@font-face {
+    font-family: Raleway;
+    src: url("fonts/Raleway-Regular.ttf");
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    height: 100vh;
+    font-family: 'Raleway';
+}
+
+.main-container {
+    height: 100vh;
+    width: 100vw;
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    grid-template-rows: 1fr;
+    gap: 0px 0px;
+    grid-template-areas:
+        "sidebar main";
+
+    & > .sidebar {
+        grid-area: sidebar;
+        border-right: 1px solid #DEE2E5;
+
+        & > a {
+            margin: 15px 0 15px 0;
+            padding-left: 15px;
+            height: 30px;
+            font-weight: 900;
+            color: unset;
+            cursor: pointer;
+            border-left: 3px solid transparent;
+
+            display: flex;
+            align-items: center;
+
+            transition-duration: 0.2s;
+
+            &.active {
+                border-left: 3px solid blue;
+            }
+
+            &:hover {
+                color: blue
+            }
+        }
+    }
+
+    & > .main {
+        grid-area: main;
+        background-color: #FAFAFA;
+        padding: 15px;
+    }
+}
+
+.icon {
+    width: 20px;
+    padding-right: 15px;
+    color: grey;
+
+    &.active {
+        color: blue;
+    }
+}
+
+.input {
+    display: flex;
+    height: 20px;
+
+    input {
+        padding-left: 30px;
+    }
+
+    .icon {
+        position: absolute;
+        padding: 7px;
+    }
+}
+
+.craftingListView {
+    height: 100%;
+    display: grid;
+    grid-template-columns: 0.5fr 1.4fr;
+    grid-template-rows: 0.2fr 1.8fr;
+    gap: 0px 0px;
+    grid-template-areas:
+        "search main"
+        "lists main";
+
+    .main { grid-area: main }
+    .search { grid-area: search }
+    .lists { grid-area: lists; }
+}

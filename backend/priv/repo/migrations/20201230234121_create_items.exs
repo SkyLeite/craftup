@@ -3,14 +3,14 @@ defmodule Craftup.Repo.Migrations.CreateItems do
 
   def change do
     create table(:items) do
-      add :name, :string
-      add :description, :string
-      add :icon, :string
-      add :stack_size, :integer
-      add :plural, :string
-      add :singular, :string
-      add :patch, :integer
-      add :level, :integer
+      add :name, :string, null: false
+      add :description, :string, null: false
+      add :icon, :string, null: false
+      add :stack_size, :integer, null: false
+      add :plural, :string, null: false
+      add :singular, :string, null: false
+      add :patch, :integer, null: false
+      add :level, :integer, null: false
 
       timestamps()
     end

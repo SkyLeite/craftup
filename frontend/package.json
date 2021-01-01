@@ -1,0 +1,25 @@
+{
+  "name": "frontend",
+  "version": "1.0.0",
+  "description": "This project is bootstrapped with [Create Elm App](https://github.com/halfzebra/create-elm-app).",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "dev": "parcel ./public/index.html",
+    "generate-graphql": "elm-graphql http://localhost:4000"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "parcel": "^1.12.4"
+  },
+  "devDependencies": {
+    "@dillonkearns/elm-graphql": "^4.0.5",
+    "elm-hot": "^1.1.5",
+    "less": "^4.0.0",
+    "node-elm-compiler": "^5.0.5"
+  }
+}

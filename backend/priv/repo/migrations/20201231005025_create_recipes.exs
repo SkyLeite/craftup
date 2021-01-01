@@ -5,13 +5,13 @@ defmodule Craftup.Repo.Migrations.CreateRecipes do
     create table(:recipes) do
       add :can_hq, :boolean, default: false, null: false
       add :can_quick_synth, :boolean, default: false, null: false
-      add :difficulty, :integer
-      add :durability, :integer
-      add :stars, :integer
-      add :required_control, :integer
-      add :required_craftsmanship, :integer
-      add :patch_number, :integer
-      add :quality, :integer
+      add :difficulty, :integer, null: false
+      add :durability, :integer, null: false
+      add :stars, :integer, null: false
+      add :required_control, :integer, null: false
+      add :required_craftsmanship, :integer, null: false
+      add :patch_number, :integer, null: false
+      add :quality, :integer, null: false
       add :is_specialization_required, :boolean, default: false, null: false
 
       add :required_item_id, references(:items, on_delete: :delete_all), null: false

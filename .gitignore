@@ -43,3 +43,5 @@
 
 # Desktop Services Store on macOS
 /frontend/.DS_Store
+/frontend/dist
+/frontend/.cache
