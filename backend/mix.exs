@@ -47,7 +47,8 @@ defmodule Craftup.MixProject do
       {:plug_cowboy, "~> 2.0"},
       {:absinthe, "~> 1.5.5"},
       {:absinthe_plug, "~> 1.5"},
-      {:cortex, "~> 0.1", only: [:dev, :test]}
+      {:cortex, "~> 0.1", only: [:dev, :test]},
+      {:dataloader, "~> 1.0.0"}
     ]
   end
 
