@@ -8,7 +8,8 @@ defmodule CraftupWeb.Schema do
   query do
     @desc "Get a list of items"
     field :items, list_of(:item) do
-      resolve(&Resolvers.Game.list_items/3)
+      arg(:name, non_null(:string))
+      resolve(&Resolvers.Game.find_item/3)
     end
   end
 end
