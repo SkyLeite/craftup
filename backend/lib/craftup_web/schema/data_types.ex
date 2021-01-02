@@ -1,6 +1,11 @@
 defmodule CraftupWeb.Schema.DataTypes do
   use Absinthe.Schema.Notation
 
+  object :recipe_ingredient do
+    field :quantity, non_null(:integer)
+    field :item, :item
+  end
+
   object :recipe do
     field :can_hq, non_null(:boolean)
     field :can_quick_synth, non_null(:boolean)
@@ -12,6 +17,8 @@ defmodule CraftupWeb.Schema.DataTypes do
     field :required_control, non_null(:integer)
     field :required_craftsmanship, non_null(:integer)
     field :stars, non_null(:integer)
+
+    field :ingredients, non_null(list_of(:recipe_ingredient))
   end
 
   object :item do
