@@ -14,7 +14,6 @@ defmodule Craftup.Repo.Migrations.CreateRecipes do
       add :quality, :integer, null: false
       add :is_specialization_required, :boolean, default: false, null: false
 
-      add :required_item_id, references(:items, on_delete: :delete_all), null: false
       add :resulting_item_id, references(:items, on_delete: :delete_all), null: false
 
       timestamps()
