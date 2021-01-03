@@ -2,7 +2,7 @@ use serde::{self, Deserialize, Deserializer};
 
 #[derive(Debug, Deserialize)]
 pub struct Item {
-    pub id: i32,
+    pub id: i64,
     pub singular: String,
     pub adjective: String,
     pub plural: String,
@@ -14,7 +14,7 @@ pub struct Item {
     pub description: String,
     pub name: String,
     pub icon: String,
-    pub level_item: String,
+    pub level_item: i32,
     pub rarity: String,
     pub filter_group: String,
     pub additional_data: String,
@@ -23,7 +23,7 @@ pub struct Item {
     pub equip_slot_category: String,
     pub item_sort_category: String,
     pub blank2: String,
-    pub stack_size: String,
+    pub stack_size: i32,
 
     #[serde(deserialize_with = "bool_from_string")]
     pub is_unique: bool,

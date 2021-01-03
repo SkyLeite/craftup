@@ -1,15 +1,15 @@
-use std::time::Instant;
 use std::{error::Error, path::Path};
 
 use git2::Repository;
 use simple_logger::SimpleLogger;
 
+mod db;
 mod types;
 
 const REPOSITORY_URL: &str = "https://github.com/xivapi/ffxiv-datamining";
 
 fn main() {
-    SimpleLogger::new().init().unwrap();
+    SimpleLogger::from_env().init().unwrap();
 
     let mut datamining_path = std::env::temp_dir();
     datamining_path.push("ffxiv-datamining");
@@ -20,17 +20,26 @@ fn main() {
     items_path.set_extension("csv");
 
     log::info!("Cloning repository {}", REPOSITORY_URL);
-    // clone_repository();
-    let before = Instant::now();
-    read_items(&items_path).unwrap();
-    println!("Read_items: {:.2?}", before.elapsed());
+    clone_repository(&datamining_path);
+
+    let client = db::Client::new(
+        "host=localhost port=1231 user=postgres password=postgres dbname=craftup_dev",
+    )
+    .unwrap();
+    let items = read_data_file::<types::Item>(&items_path).unwrap();
+
+    client.add_items(items).unwrap();
+    log::info!("Done! Bye!");
 }
 
-fn read_items(file_source: &Path) -> Result<Vec<types::Item>, Box<dyn Error>> {
+fn read_data_file<T>(file_source: &Path) -> Result<Vec<T>, Box<dyn Error>>
+where
+    T: for<'de> serde::Deserialize<'de>,
+{
     let contents: &str = &std::fs::read_to_string(file_source)
         .unwrap()
-        .splitn(4, "\n")
-        .skip(3)
+        .splitn(5, "\n")
+        .skip(4)
         .collect::<Vec<&str>>()
         .join("\n");
 
@@ -39,7 +48,7 @@ fn read_items(file_source: &Path) -> Result<Vec<types::Item>, Box<dyn Error>> {
         .from_reader(contents.as_bytes())
         .deserialize()
         .map(|x| x.unwrap())
-        .collect::<Vec<types::Item>>();
+        .collect::<Vec<T>>();
 
     Ok(results)
 }
