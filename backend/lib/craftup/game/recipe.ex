@@ -12,9 +12,10 @@ defmodule Craftup.Game.Recipe do
     field :quality, :integer
     field :required_control, :integer
     field :required_craftsmanship, :integer
-    field :stars, :integer
+    field :resulting_item_amount, :integer
 
     belongs_to :resulting_item, Craftup.Game.Item
+    belongs_to :recipe_level, Craftup.Game.RecipeLevel
     has_many :required_item, Craftup.Game.RecipeItem
 
     timestamps()
@@ -28,7 +29,6 @@ defmodule Craftup.Game.Recipe do
       :can_quick_synth,
       :difficulty,
       :durability,
-      :stars,
       :required_control,
       :required_craftsmanship,
       :patch_number,
@@ -40,7 +40,6 @@ defmodule Craftup.Game.Recipe do
       :can_quick_synth,
       :difficulty,
       :durability,
-      :stars,
       :required_control,
       :required_craftsmanship,
       :patch_number,

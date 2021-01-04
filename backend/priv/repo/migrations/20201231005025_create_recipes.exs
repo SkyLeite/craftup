@@ -16,7 +16,8 @@ defmodule Craftup.Repo.Migrations.CreateRecipes do
 
       add :resulting_item_id, references(:items, on_delete: :delete_all), null: false
 
-      timestamps()
+      add :inserted_at, :utc_datetime, default: fragment("NOW()")
+      add :updated_at, :utc_datetime, default: fragment("NOW()")
     end
 
   end

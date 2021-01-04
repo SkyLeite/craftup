@@ -1,4 +1,4 @@
-use std::{error::Error, path::Path};
+use std::{error::Error, fs::File, io::BufReader, path::Path};
 
 use git2::Repository;
 use simple_logger::SimpleLogger;
@@ -14,21 +14,28 @@ fn main() {
     let mut datamining_path = std::env::temp_dir();
     datamining_path.push("ffxiv-datamining");
 
+    log::info!("Cloning repository {}", REPOSITORY_URL);
+    // clone_repository(&datamining_path);
+
+    let mut client = db::Client::new(
+        "host=localhost port=1231 user=postgres password=postgres dbname=craftup_dev",
+    )
+    .unwrap();
+
     let mut items_path = datamining_path.clone();
     items_path.push("csv");
     items_path.push("Item");
     items_path.set_extension("csv");
-
-    log::info!("Cloning repository {}", REPOSITORY_URL);
-    clone_repository(&datamining_path);
-
-    let client = db::Client::new(
-        "host=localhost port=1231 user=postgres password=postgres dbname=craftup_dev",
-    )
-    .unwrap();
     let items = read_data_file::<types::Item>(&items_path).unwrap();
+    &client.add_items(items).unwrap();
 
-    client.add_items(items).unwrap();
+    let mut recipes_path = datamining_path.clone();
+    recipes_path.push("csv");
+    recipes_path.push("Recipe");
+    recipes_path.set_extension("csv");
+    let recipes = read_data_file::<types::Recipe>(&recipes_path).unwrap();
+    &client.add_recipes(recipes).unwrap();
+
     log::info!("Done! Bye!");
 }
 
