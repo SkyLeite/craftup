@@ -8,7 +8,8 @@ defmodule Craftup.Repo.Migrations.CreateRecipeIngredients do
       add :item_id, references(:items, on_delete: :delete_all), null: false
       add :recipe_id, references(:recipes, on_delete: :delete_all), null: false
 
-      timestamps()
+      add :inserted_at, :utc_datetime, default: fragment("NOW()")
+      add :updated_at, :utc_datetime, default: fragment("NOW()")
     end
 
     create index(:recipe_ingredients, [:item_id])

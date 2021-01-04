@@ -1,4 +1,4 @@
-use postgres;
+use postgres::{self, Transaction};
 
 pub struct Client {
     db: postgres::Client,
@@ -9,6 +9,48 @@ impl Client {
         Ok(Self {
             db: postgres::Client::connect(connect_string, postgres::NoTls)?,
         })
+    }
+
+    pub fn add_recipe_levels(
+        &mut self,
+        recipe_levels: Vec<crate::types::RecipeLevel>,
+    ) -> Result<(), Box<dyn std::error::Error>> {
+        let query = Client::build_insert(
+            "recipe_levels",
+            vec![
+                "id",
+                "class_job_level",
+                "stars",
+                "suggested_craftsmanship",
+                "suggested_control",
+                "difficulty",
+                "quality",
+                "durability",
+            ],
+        );
+
+        let statement = self.db.prepare(&query)?;
+
+        self.run_transaction(|transaction| {
+            for r in recipe_levels {
+                transaction.execute(
+                    &statement,
+                    &[
+                        &r.id,
+                        &r.class_job_level,
+                        &r.stars,
+                        &r.suggested_craftsmanship,
+                        &r.suggested_control,
+                        &r.difficulty,
+                        &r.quality,
+                        &r.durability,
+                    ],
+                )?;
+            }
+            Ok(())
+        })?;
+
+        Ok(())
     }
 
     pub fn add_items(
@@ -32,37 +74,46 @@ impl Client {
 
         let statement = self.db.prepare(&query)?;
 
-        log::debug!("Prepared query: {}", query);
+        self.run_transaction(|transaction| -> Result<(), Box<dyn std::error::Error>> {
+            log::info!("Building transaction with {} items", items.len());
+            items.into_iter().for_each(|item| {
+                transaction
+                    .execute(
+                        &statement,
+                        &[
+                            &item.id,
+                            &item.name,
+                            &item.description,
+                            &item.icon,
+                            &item.stack_size,
+                            &item.plural,
+                            &item.singular,
+                            &0,
+                            &item.level_item,
+                        ],
+                    )
+                    .unwrap();
+            });
 
+            Ok(())
+        })?;
+
+        Ok(())
+    }
+
+    pub fn run_transaction<F>(&mut self, f: F) -> Result<(), Box<dyn std::error::Error>>
+    where
+        F: FnOnce(&mut Transaction) -> Result<(), Box<dyn std::error::Error>>,
+    {
         let mut transaction = self
             .db
             .build_transaction()
             .isolation_level(postgres::IsolationLevel::RepeatableRead)
             .start()?;
 
-        log::info!("Building transaction with {} items", items.len());
-        items.into_iter().for_each(|item| {
-            transaction
-                .execute(
-                    &statement,
-                    &[
-                        &item.id,
-                        &item.name,
-                        &item.description,
-                        &item.icon,
-                        &item.stack_size,
-                        &item.plural,
-                        &item.singular,
-                        &0,
-                        &item.level_item,
-                    ],
-                )
-                .unwrap();
-        });
+        f(&mut transaction)?;
 
-        log::info!("Transaction built. Comitting.");
         transaction.commit()?;
-        log::info!("Items inserted.");
 
         Ok(())
     }
@@ -98,35 +149,142 @@ impl Client {
         let recipe_ingredients_insert_statement =
             self.db.prepare(&recipe_ingredient_insert_query)?;
 
-        let mut transaction = self
-            .db
-            .build_transaction()
-            .isolation_level(postgres::IsolationLevel::RepeatableRead)
-            .start()?;
-        log::info!("Building transaction with {} recipes", recipes.len());
+        self.run_transaction(|transaction| -> Result<(), Box<dyn std::error::Error>> {
+            log::info!("Building transaction with {} recipes", recipes.len());
 
-        for recipe in recipes {
-            transaction.execute(
-                &recipe_insert_statement,
-                &[
-                    &recipe.id,
-                    &recipe.can_hq,
-                    &recipe.can_quicksynth,
-                    &recipe.difficulty_factor,
-                    &recipe.durability_factor,
-                    &recipe.quality_factor,
-                    &recipe.required_control,
-                    &recipe.required_craftsmanship,
-                    &recipe.patch_number,
-                    &recipe.is_specialization_required,
-                    &recipe.item_result,
-                    &recipe.amount_result,
-                    &recipe.recipe_level_table,
-                ],
-            )?;
-        }
+            for recipe in recipes {
+                transaction.execute(
+                    &recipe_insert_statement,
+                    &[
+                        &recipe.id,
+                        &recipe.can_hq,
+                        &recipe.can_quicksynth,
+                        &recipe.difficulty_factor,
+                        &recipe.durability_factor,
+                        &recipe.quality_factor,
+                        &recipe.required_control,
+                        &recipe.required_craftsmanship,
+                        &recipe.patch_number,
+                        &recipe.is_specialization_required,
+                        &recipe.item_result,
+                        &recipe.amount_result,
+                        &recipe.recipe_level_table,
+                    ],
+                )?;
 
-        transaction.commit()?;
+                if recipe.item_ingredient_0 > 0 && recipe.amount_ingredient_0 > 0 {
+                    transaction.execute(
+                        &recipe_ingredients_insert_statement,
+                        &[
+                            &recipe.amount_ingredient_0,
+                            &recipe.item_ingredient_0,
+                            &recipe.id,
+                        ],
+                    )?;
+                }
+
+                if recipe.item_ingredient_1 > 0 && recipe.amount_ingredient_1 > 0 {
+                    transaction.execute(
+                        &recipe_ingredients_insert_statement,
+                        &[
+                            &recipe.amount_ingredient_1,
+                            &recipe.item_ingredient_1,
+                            &recipe.id,
+                        ],
+                    )?;
+                }
+
+                if recipe.item_ingredient_2 > 0 && recipe.amount_ingredient_2 > 0 {
+                    transaction.execute(
+                        &recipe_ingredients_insert_statement,
+                        &[
+                            &recipe.amount_ingredient_2,
+                            &recipe.item_ingredient_2,
+                            &recipe.id,
+                        ],
+                    )?;
+                }
+
+                if recipe.item_ingredient_3 > 0 && recipe.amount_ingredient_3 > 0 {
+                    transaction.execute(
+                        &recipe_ingredients_insert_statement,
+                        &[
+                            &recipe.amount_ingredient_3,
+                            &recipe.item_ingredient_3,
+                            &recipe.id,
+                        ],
+                    )?;
+                }
+
+                if recipe.item_ingredient_4 > 0 && recipe.amount_ingredient_4 > 0 {
+                    transaction.execute(
+                        &recipe_ingredients_insert_statement,
+                        &[
+                            &recipe.amount_ingredient_4,
+                            &recipe.item_ingredient_4,
+                            &recipe.id,
+                        ],
+                    )?;
+                }
+
+                if recipe.item_ingredient_5 > 0 && recipe.amount_ingredient_5 > 0 {
+                    transaction.execute(
+                        &recipe_ingredients_insert_statement,
+                        &[
+                            &recipe.amount_ingredient_5,
+                            &recipe.item_ingredient_5,
+                            &recipe.id,
+                        ],
+                    )?;
+                }
+
+                if recipe.item_ingredient_6 > 0 && recipe.amount_ingredient_6 > 0 {
+                    transaction.execute(
+                        &recipe_ingredients_insert_statement,
+                        &[
+                            &recipe.amount_ingredient_6,
+                            &recipe.item_ingredient_6,
+                            &recipe.id,
+                        ],
+                    )?;
+                }
+
+                if recipe.item_ingredient_7 > 0 && recipe.amount_ingredient_7 > 0 {
+                    transaction.execute(
+                        &recipe_ingredients_insert_statement,
+                        &[
+                            &recipe.amount_ingredient_7,
+                            &recipe.item_ingredient_7,
+                            &recipe.id,
+                        ],
+                    )?;
+                }
+
+                if recipe.item_ingredient_8 > 0 && recipe.amount_ingredient_8 > 0 {
+                    transaction.execute(
+                        &recipe_ingredients_insert_statement,
+                        &[
+                            &recipe.amount_ingredient_8,
+                            &recipe.item_ingredient_8,
+                            &recipe.id,
+                        ],
+                    )?;
+                }
+
+                if recipe.item_ingredient_9 > 0 && recipe.amount_ingredient_9 > 0 {
+                    transaction.execute(
+                        &recipe_ingredients_insert_statement,
+                        &[
+                            &recipe.amount_ingredient_9,
+                            &recipe.item_ingredient_9,
+                            &recipe.id,
+                        ],
+                    )?;
+                }
+            }
+
+            Ok(())
+        })?;
 
         Ok(())
     }

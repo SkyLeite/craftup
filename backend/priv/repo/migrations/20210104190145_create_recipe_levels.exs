@@ -11,7 +11,8 @@ defmodule Craftup.Repo.Migrations.CreateRecipeLevels do
       add :quality, :integer
       add :durability, :integer
 
-      timestamps()
+      add :inserted_at, :utc_datetime, default: fragment("NOW()")
+      add :updated_at, :utc_datetime, default: fragment("NOW()")
     end
 
     alter table(:recipes) do
