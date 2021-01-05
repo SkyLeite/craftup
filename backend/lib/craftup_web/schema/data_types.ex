@@ -5,22 +5,18 @@ defmodule CraftupWeb.Schema.DataTypes do
 
   object :recipe_ingredient do
     field :quantity, non_null(:integer)
-    field :item, :item
+    field :item, non_null(:item), resolve: dataloader(Craftup.Game)
   end
 
   object :recipe do
     field :can_hq, non_null(:boolean)
     field :can_quick_synth, non_null(:boolean)
-    field :difficulty, non_null(:integer)
-    field :durability, non_null(:integer)
     field :is_specialization_required, non_null(:boolean)
     field :patch_number, non_null(:integer)
-    field :quality, non_null(:integer)
     field :required_control, non_null(:integer)
     field :required_craftsmanship, non_null(:integer)
-    field :stars, non_null(:integer)
 
-    field :ingredients, non_null(list_of(:recipe_ingredient)), resolve: dataloader(Game)
+    field :ingredients, list_of(:recipe_ingredient), resolve: dataloader(Craftup.Game)
   end
 
   object :item do
@@ -34,6 +30,6 @@ defmodule CraftupWeb.Schema.DataTypes do
     field :patch, non_null(:integer)
     field :level, non_null(:integer)
 
-    field :recipe, :recipe
+    field :recipe, :recipe, resolve: dataloader(Craftup.Game)
   end
 end

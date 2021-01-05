@@ -13,6 +13,7 @@ defmodule Craftup.Game.Item do
     field :level, :integer
 
     has_one :recipe, Craftup.Game.Recipe
+    has_many :ingredient_recipes, Craftup.Game.RecipeIngredient
 
     timestamps()
   end

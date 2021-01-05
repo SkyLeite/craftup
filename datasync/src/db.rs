@@ -135,7 +135,7 @@ impl Client {
                 "required_craftsmanship",
                 "patch_number",
                 "is_specialization_required",
-                "resulting_item_id",
+                "item_id",
                 "resulting_item_quantity",
                 "recipe_level_id",
             ],

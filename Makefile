@@ -1,3 +1,6 @@
+server:
+	cd backend && mix phx.server
+
 migrate:
 	cd backend && mix ecto.migrate
 
