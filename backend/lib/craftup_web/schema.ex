@@ -32,5 +32,12 @@ defmodule CraftupWeb.Schema do
 
       resolve(&Resolvers.Account.register/3)
     end
+
+    @desc "Login"
+    field :login, :token_payload do
+      arg(:input, non_null(:login_input))
+
+      resolve(&Resolvers.Account.login/3)
+    end
   end
 end

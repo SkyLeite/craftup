@@ -23,6 +23,8 @@ config :craftup, CraftupWeb.Endpoint,
   check_origin: false,
   watchers: []
 
+config :joken, default_signer: "###craftuptestsigner###"
+
 # ## SSL Support
 #
 # In order to use HTTPS in development, a self-signed

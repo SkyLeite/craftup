@@ -38,8 +38,17 @@ defmodule CraftupWeb.Schema.DataTypes do
     field :email, :string
   end
 
+  object :token_payload do
+    field :token, :string
+  end
+
   input_object :register_input do
     field :email, :string
     field :password, :string
+  end
+
+  input_object :login_input do
+    field :email, non_null(:string)
+    field :password, non_null(:string)
   end
 end

@@ -30,4 +30,8 @@ defmodule Craftup.Account.User do
         changeset
     end
   end
+
+  def verify_password(user, password) do
+    Argon2.verify_pass(password, user.password)
+  end
 end
