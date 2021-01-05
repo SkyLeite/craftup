@@ -16,5 +16,18 @@ defmodule Craftup.Account.User do
     user
     |> cast(attrs, [:email, :password])
     |> validate_required([:email, :password])
+    |> validate_format(:email, ~r/@/)
+    |> unique_constraint(:email)
+    |> hash_password()
+  end
+
+  defp hash_password(changeset) do
+    case changeset do
+      %Ecto.Changeset{valid?: true, changes: %{password: pass}} ->
+        changeset |> put_change(:password, Argon2.hash_pwd_salt(pass))
+
+      _ ->
+        changeset
+    end
   end
 end

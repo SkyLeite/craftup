@@ -32,4 +32,14 @@ defmodule CraftupWeb.Schema.DataTypes do
 
     field :recipe, :recipe, resolve: dataloader(Craftup.Game)
   end
+
+  object :user do
+    field :id, :id
+    field :email, :string
+  end
+
+  input_object :register_input do
+    field :email, :string
+    field :password, :string
+  end
 end

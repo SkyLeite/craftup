@@ -24,4 +24,13 @@ defmodule CraftupWeb.Schema do
       resolve(&Resolvers.Game.find_item/3)
     end
   end
+
+  mutation do
+    @desc "Register a user"
+    field :register, :user do
+      arg(:input, non_null(:register_input))
+
+      resolve(&Resolvers.Account.register/3)
+    end
+  end
 end
