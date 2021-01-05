@@ -2,9 +2,9 @@ defmodule CraftupWeb.Context do
   @behaviour Plug
 
   import Plug.Conn
-  import Ecto.Query, only: [where: 2]
+  import Ecto.Query
 
-  alias Craftup.{Repo, User}
+  alias Craftup.{Repo, Account.User}
 
   def init(opts), do: opts
 
@@ -15,14 +15,17 @@ defmodule CraftupWeb.Context do
 
   def build_context(conn) do
     with ["Bearer " <> token] <- get_req_header(conn, "authorization"),
-         {:ok, current_user} <- authorize(token) do
+         current_user <- authorize(token) do
       %{current_user: current_user}
     else
       _ -> %{}
     end
   end
 
-  defp authorize(_token) do
-    User |> Repo.get(1)
+  defp authorize(token) do
+    {:ok, claims} = CraftupWeb.Token.verify_and_validate(token)
+    user_id = claims |> Map.fetch!("user_id")
+
+    User |> where([u], u.id == ^user_id) |> Repo.one()
   end
 end

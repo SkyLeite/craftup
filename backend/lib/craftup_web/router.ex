@@ -1,9 +1,17 @@
 defmodule CraftupWeb.Router do
   use Phoenix.Router
 
-  forward "/graphiql",
-          Absinthe.Plug.GraphiQL,
-          schema: CraftupWeb.Schema
+  pipeline :graphql do
+    plug CraftupWeb.Context
+  end
 
-  forward "/", Absinthe.Plug, schema: CraftupWeb.Schema
+  scope "/" do
+    pipe_through :graphql
+
+    forward "/graphiql",
+            Absinthe.Plug.GraphiQL,
+            schema: CraftupWeb.Schema
+
+    forward "/", Absinthe.Plug, schema: CraftupWeb.Schema
+  end
 end

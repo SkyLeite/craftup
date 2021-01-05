@@ -23,6 +23,11 @@ defmodule CraftupWeb.Schema do
       arg(:name, non_null(:string))
       resolve(&Resolvers.Game.find_item/3)
     end
+
+    @desc "Gets the current logged in user"
+    field :me, non_null(:user) do
+      resolve(&Resolvers.Account.me/3)
+    end
   end
 
   mutation do
