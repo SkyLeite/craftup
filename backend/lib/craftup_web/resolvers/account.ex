@@ -10,4 +10,8 @@ defmodule CraftupWeb.Resolvers.Account do
   def me(_parents, _args, %{context: %{current_user: user}}) do
     {:ok, user}
   end
+
+  def create_list(_parents, args, %{context: %{current_user: user}}) do
+    Craftup.Account.create_list(user, args)
+  end
 end

@@ -8,6 +8,7 @@ defmodule Craftup.Account.ListItem do
     field :quantity, :integer
     field :necessary_quantity, :integer
 
+    belongs_to :item, Craftup.Game.Item
     belongs_to :list, Craftup.Account.List
 
     timestamps()
@@ -16,7 +17,7 @@ defmodule Craftup.Account.ListItem do
   @doc false
   def changeset(list_item, attrs) do
     list_item
-    |> cast(attrs, [:quantity, :is_hq, :is_result])
-    |> validate_required([:quantity, :is_hq, :is_result])
+    |> cast(attrs, [:necessary_quantity, :quantity, :is_hq, :is_result, :item_id])
+    |> validate_required([:necessary_quantity, :quantity, :is_hq, :is_result])
   end
 end

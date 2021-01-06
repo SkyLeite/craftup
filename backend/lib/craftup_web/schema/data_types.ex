@@ -33,9 +33,27 @@ defmodule CraftupWeb.Schema.DataTypes do
     field :recipe, :recipe, resolve: dataloader(Craftup.Game)
   end
 
+  object :list_item do
+    field :is_hq, :string
+    field :is_result, :string
+    field :quantity, :integer
+    field :necessary_quantity, :integer
+
+    field :item, :item, resolve: dataloader(Craftup.Game)
+  end
+
+  object :list do
+    field :id, non_null(:id)
+    field :title, non_null(:string)
+
+    field :items, non_null(list_of(:list_item)), resolve: dataloader(Craftup.Game)
+  end
+
   object :user do
     field :id, :id
     field :email, :string
+
+    field :lists, non_null(list_of(:list)), resolve: dataloader(Craftup.Game)
   end
 
   object :token_payload do
@@ -50,5 +68,16 @@ defmodule CraftupWeb.Schema.DataTypes do
   input_object :login_input do
     field :email, non_null(:string)
     field :password, non_null(:string)
+  end
+
+  input_object :item_input do
+    field :id, :id
+    field :quantity, :integer
+    field :is_hq, :boolean
+  end
+
+  input_object :create_list_input do
+    field :title, non_null(:string)
+    field :items, non_null(list_of(:item_input))
   end
 end

@@ -44,5 +44,12 @@ defmodule CraftupWeb.Schema do
 
       resolve(&Resolvers.Account.login/3)
     end
+
+    @desc "Create a list"
+    field :create_list, :list do
+      arg(:input, non_null(:create_list_input))
+
+      resolve(&Resolvers.Account.create_list/3)
+    end
   end
 end
