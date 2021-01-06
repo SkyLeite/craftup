@@ -25,8 +25,7 @@ config :craftup, CraftupWeb.Endpoint,
     port: 80
   ],
   http: [
-    port: String.to_integer(System.get_env("PORT") || "4000"),
-    transport_options: [socket_opts: [:inet6]]
+    port: String.to_integer(System.get_env("PORT") || "4000")
   ],
   debug_errors: true,
   secret_key_base: secret_key_base
