@@ -9,3 +9,8 @@ release:
   command:
     - mix ecto.migrate && exit
   image: web
+run:
+  web:
+    command:
+      - mix phx.server
+    image: web
