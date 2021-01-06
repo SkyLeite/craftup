@@ -7,5 +7,5 @@ build:
     web: ./backend/Dockerfile
 release:
   command:
-    - mix ecto.migrate
+    - mix ecto.migrate && exit
   image: web

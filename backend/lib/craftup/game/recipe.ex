@@ -13,8 +13,8 @@ defmodule Craftup.Game.Recipe do
 
     belongs_to :item, Craftup.Game.Item
     belongs_to :recipe_level, Craftup.Game.RecipeLevel
+    belongs_to :required_item, Craftup.Game.Item
     has_many :ingredients, Craftup.Game.RecipeIngredient
-    has_many :required_item, Craftup.Game.RecipeItem
 
     timestamps()
   end
