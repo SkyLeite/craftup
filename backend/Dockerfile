@@ -12,4 +12,4 @@ ADD . .
 
 USER default
 
-CMD ["mix", "phx.server"]
+CMD ["_build/staging/rel/craftup/bin/craftup", "start"]
