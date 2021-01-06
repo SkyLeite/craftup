@@ -7,6 +7,7 @@ ENV PORT=5000 MIX_ENV=staging
 # Cache elixir deps
 ADD mix.exs mix.lock ./
 RUN mix do deps.get, deps.compile
+RUN mix release
 
 ADD . .
 
