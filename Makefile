@@ -1,3 +1,6 @@
+prodserver:
+	cd backend && MIX_ENV=prod mix phx.server
+
 server:
 	cd backend && mix phx.server
 
