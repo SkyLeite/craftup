@@ -31,22 +31,16 @@ services:
       - postgres
     restart: unless-stopped
 
-  graphql-engine:
-    image: hasura/graphql-engine:v1.3.3
+  api:
+    container_name: craftup_api
+    build: ./backend
     ports:
-    - "8080:8080"
-    depends_on:
-    - "postgres"
-    restart: always
+      - "1233:${API_PORT}"
     environment:
-      HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:postgres@postgres:5432/craftup_dev
-      ## enable the console served by server
-      HASURA_GRAPHQL_ENABLE_CONSOLE: "true" # set to "false" to disable console
-      ## enable debugging mode. It is recommended to disable this in production
-      HASURA_GRAPHQL_DEV_MODE: "true"
-      HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
-      ## uncomment next line to set an admin secret
-      # HASURA_GRAPHQL_ADMIN_SECRET: myadminsecretkey
+      PORT: ${API_PORT}
+      MIX_ENV: staging
+      SECRET_KEY_BASE: ${SECRET_KEY_BASE}
+      DATABASE_URL: ${DATABASE_URL}
     networks:
       - postgres
 

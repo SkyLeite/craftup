@@ -19,13 +19,16 @@ secret_key_base =
     You can generate one by calling: mix phx.gen.secret
     """
 
+port = String.to_integer(System.get_env("PORT") || "4000")
+url = System.get_env("HOST") || "localhost"
+
 config :craftup, CraftupWeb.Endpoint,
   url: [
-    host: "craftup-api.herokuapp.com",
-    port: 80
+    host: host,
+    port: port
   ],
   http: [
-    port: String.to_integer(System.get_env("PORT") || "4000")
+    port: port
   ],
   debug_errors: true,
   secret_key_base: secret_key_base
