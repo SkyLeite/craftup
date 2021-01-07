@@ -7,10 +7,7 @@ ENV PORT=5000 MIX_ENV=staging
 # Cache elixir deps
 ADD mix.exs mix.lock ./
 RUN mix do deps.get, deps.compile
-RUN mix release
 
 ADD . .
 
-USER default
-
-CMD ["_build/staging/rel/craftup/bin/craftup", "start"]
+CMD ["mix", "phx.server"]
