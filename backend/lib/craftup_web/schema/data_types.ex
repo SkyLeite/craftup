@@ -34,6 +34,7 @@ defmodule CraftupWeb.Schema.DataTypes do
   end
 
   object :list_item do
+    field :id, :id
     field :is_hq, :string
     field :is_result, :string
     field :quantity, :integer
@@ -79,5 +80,11 @@ defmodule CraftupWeb.Schema.DataTypes do
   input_object :create_list_input do
     field :title, non_null(:string)
     field :items, non_null(list_of(:item_input))
+  end
+
+  input_object :update_list_item_input do
+    field :is_hq, :boolean
+    field :quantity, :integer
+    field :necessary_quantity, :integer
   end
 end

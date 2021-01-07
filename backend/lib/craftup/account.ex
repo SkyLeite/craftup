@@ -95,4 +95,12 @@ defmodule Craftup.Account do
     |> Ecto.Changeset.put_assoc(:items, list_items)
     |> Repo.insert()
   end
+
+  def update_list_item(user, id, args) do
+    ListItem
+    |> where([li], li.id == ^id)
+    |> Repo.one!()
+    |> ListItem.changeset(args, user.id)
+    |> Repo.update()
+  end
 end

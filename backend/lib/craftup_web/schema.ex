@@ -51,5 +51,13 @@ defmodule CraftupWeb.Schema do
 
       resolve(&Resolvers.Account.create_list/3)
     end
+
+    @desc "Update item in list"
+    field :update_list_item, :list_item do
+      arg(:id, non_null(:id))
+      arg(:input, non_null(:update_list_item_input))
+
+      resolve(&Resolvers.Account.update_list_item/3)
+    end
   end
 end
