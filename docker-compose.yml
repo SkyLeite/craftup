@@ -44,6 +44,12 @@ services:
     networks:
       - postgres
 
+  front:
+    container_name: craftup_front
+    build: ./frontend
+    ports:
+      - "1234:80"
+
 networks:
   postgres:
     driver: bridge
