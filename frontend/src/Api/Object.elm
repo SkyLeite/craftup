@@ -7,3 +7,27 @@ module Api.Object exposing (..)
 
 type Item
     = Item
+
+
+type List
+    = List
+
+
+type ListItem
+    = ListItem
+
+
+type Recipe
+    = Recipe
+
+
+type RecipeIngredient
+    = RecipeIngredient
+
+
+type TokenPayload
+    = TokenPayload
+
+
+type User
+    = User

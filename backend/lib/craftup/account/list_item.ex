@@ -20,7 +20,6 @@ defmodule Craftup.Account.ListItem do
     list_item
     |> cast(attrs, [:necessary_quantity, :quantity, :is_hq, :is_result, :item_id])
     |> validate_required([:necessary_quantity, :quantity, :is_hq, :is_result])
-    |> validate_updatable()
     |> validate_is_owner(user_id)
   end
 
@@ -43,13 +42,17 @@ defmodule Craftup.Account.ListItem do
         on: li.list_id == l.id,
         where: li.id == ^changeset.data.id
       )
-      |> Craftup.Repo.one!()
+      |> Craftup.Repo.one()
 
-    case item_owner.id == id do
-      true -> changeset
-      false -> changeset |> add_error(:id, "user does not own list")
+    if item_owner == nil do
+      changeset
+    else
+      case item_owner.id == id do
+        true -> changeset
+        false -> changeset |> add_error(:id, "user does not own list")
+      end
     end
   end
 
-  def validate_is_owner(_changeset, id) when is_nil(id), do: []
+  def validate_is_owner(changeset, id) when is_nil(id), do: changeset
 end

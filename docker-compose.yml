@@ -35,12 +35,10 @@ services:
     container_name: craftup_api
     build: ./backend
     ports:
-      - "1233:${API_PORT}"
+      - "1233:4000"
     environment:
-      PORT: ${API_PORT}
-      MIX_ENV: staging
-      SECRET_KEY_BASE: ${SECRET_KEY_BASE}
-      DATABASE_URL: ${DATABASE_URL}
+      PORT: 4000
+      MIX_ENV: dev
     networks:
       - postgres
 

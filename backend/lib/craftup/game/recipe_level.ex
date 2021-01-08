@@ -4,9 +4,9 @@ defmodule Craftup.Game.RecipeLevel do
 
   schema "recipe_levels" do
     field :class_job_level, :integer
-    field :difficulty_factor, :integer
-    field :durability_factor, :integer
-    field :quality_factor, :integer
+    field :difficulty, :integer
+    field :durability, :integer
+    field :quality, :integer
     field :stars, :integer
     field :suggested_control, :integer
     field :suggested_craftsmanship, :integer
@@ -22,18 +22,18 @@ defmodule Craftup.Game.RecipeLevel do
       :stars,
       :suggested_craftsmanship,
       :suggested_control,
-      :difficulty_factor,
-      :quality_factor,
-      :durability_factor
+      :difficulty,
+      :quality,
+      :durability
     ])
     |> validate_required([
       :class_job_level,
       :stars,
       :suggested_craftsmanship,
       :suggested_control,
-      :difficulty_factor,
-      :quality_factor,
-      :durability_factor
+      :difficulty,
+      :quality,
+      :durability
     ])
   end
 end

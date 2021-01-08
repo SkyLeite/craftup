@@ -4,7 +4,178 @@
 
 module Api.InputObject exposing (..)
 
+import Api.Interface
+import Api.Object
+import Api.Scalar
+import Api.ScalarCodecs
+import Api.Union
+import Graphql.Internal.Builder.Argument as Argument exposing (Argument)
+import Graphql.Internal.Builder.Object as Object
+import Graphql.Internal.Encode as Encode exposing (Value)
+import Graphql.OptionalArgument exposing (OptionalArgument(..))
+import Graphql.SelectionSet exposing (SelectionSet)
+import Json.Decode as Decode
 
-placeholder : String
-placeholder =
-    ""
+
+buildCreateListInput :
+    CreateListInputRequiredFields
+    -> CreateListInput
+buildCreateListInput required =
+    { items = required.items, title = required.title }
+
+
+type alias CreateListInputRequiredFields =
+    { items : List (Maybe ItemInput)
+    , title : String
+    }
+
+
+{-| Type for the CreateListInput input object.
+-}
+type alias CreateListInput =
+    { items : List (Maybe ItemInput)
+    , title : String
+    }
+
+
+{-| Encode a CreateListInput into a value that can be used as an argument.
+-}
+encodeCreateListInput : CreateListInput -> Value
+encodeCreateListInput input =
+    Encode.maybeObject
+        [ ( "items", (encodeItemInput |> Encode.maybe |> Encode.list) input.items |> Just ), ( "title", Encode.string input.title |> Just ) ]
+
+
+buildItemInput :
+    (ItemInputOptionalFields -> ItemInputOptionalFields)
+    -> ItemInput
+buildItemInput fillOptionals =
+    let
+        optionals =
+            fillOptionals
+                { id = Absent, isHq = Absent, quantity = Absent }
+    in
+    { id = optionals.id, isHq = optionals.isHq, quantity = optionals.quantity }
+
+
+type alias ItemInputOptionalFields =
+    { id : OptionalArgument Api.ScalarCodecs.Id
+    , isHq : OptionalArgument Bool
+    , quantity : OptionalArgument Int
+    }
+
+
+{-| Type for the ItemInput input object.
+-}
+type alias ItemInput =
+    { id : OptionalArgument Api.ScalarCodecs.Id
+    , isHq : OptionalArgument Bool
+    , quantity : OptionalArgument Int
+    }
+
+
+{-| Encode a ItemInput into a value that can be used as an argument.
+-}
+encodeItemInput : ItemInput -> Value
+encodeItemInput input =
+    Encode.maybeObject
+        [ ( "id", (Api.ScalarCodecs.codecs |> Api.Scalar.unwrapEncoder .codecId) |> Encode.optional input.id ), ( "isHq", Encode.bool |> Encode.optional input.isHq ), ( "quantity", Encode.int |> Encode.optional input.quantity ) ]
+
+
+buildLoginInput :
+    LoginInputRequiredFields
+    -> LoginInput
+buildLoginInput required =
+    { email = required.email, password = required.password }
+
+
+type alias LoginInputRequiredFields =
+    { email : String
+    , password : String
+    }
+
+
+{-| Type for the LoginInput input object.
+-}
+type alias LoginInput =
+    { email : String
+    , password : String
+    }
+
+
+{-| Encode a LoginInput into a value that can be used as an argument.
+-}
+encodeLoginInput : LoginInput -> Value
+encodeLoginInput input =
+    Encode.maybeObject
+        [ ( "email", Encode.string input.email |> Just ), ( "password", Encode.string input.password |> Just ) ]
+
+
+buildRegisterInput :
+    (RegisterInputOptionalFields -> RegisterInputOptionalFields)
+    -> RegisterInput
+buildRegisterInput fillOptionals =
+    let
+        optionals =
+            fillOptionals
+                { email = Absent, password = Absent }
+    in
+    { email = optionals.email, password = optionals.password }
+
+
+type alias RegisterInputOptionalFields =
+    { email : OptionalArgument String
+    , password : OptionalArgument String
+    }
+
+
+{-| Type for the RegisterInput input object.
+-}
+type alias RegisterInput =
+    { email : OptionalArgument String
+    , password : OptionalArgument String
+    }
+
+
+{-| Encode a RegisterInput into a value that can be used as an argument.
+-}
+encodeRegisterInput : RegisterInput -> Value
+encodeRegisterInput input =
+    Encode.maybeObject
+        [ ( "email", Encode.string |> Encode.optional input.email ), ( "password", Encode.string |> Encode.optional input.password ) ]
+
+
+buildUpdateListItemInput :
+    (UpdateListItemInputOptionalFields -> UpdateListItemInputOptionalFields)
+    -> UpdateListItemInput
+buildUpdateListItemInput fillOptionals =
+    let
+        optionals =
+            fillOptionals
+                { isHq = Absent, necessaryQuantity = Absent, quantity = Absent }
+    in
+    { isHq = optionals.isHq, necessaryQuantity = optionals.necessaryQuantity, quantity = optionals.quantity }
+
+
+type alias UpdateListItemInputOptionalFields =
+    { isHq : OptionalArgument Bool
+    , necessaryQuantity : OptionalArgument Int
+    , quantity : OptionalArgument Int
+    }
+
+
+{-| Type for the UpdateListItemInput input object.
+-}
+type alias UpdateListItemInput =
+    { isHq : OptionalArgument Bool
+    , necessaryQuantity : OptionalArgument Int
+    , quantity : OptionalArgument Int
+    }
+
+
+{-| Encode a UpdateListItemInput into a value that can be used as an argument.
+-}
+encodeUpdateListItemInput : UpdateListItemInput -> Value
+encodeUpdateListItemInput input =
+    Encode.maybeObject
+        [ ( "isHq", Encode.bool |> Encode.optional input.isHq ), ( "necessaryQuantity", Encode.int |> Encode.optional input.necessaryQuantity ), ( "quantity", Encode.int |> Encode.optional input.quantity ) ]

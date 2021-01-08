@@ -19,7 +19,7 @@ defmodule CraftupWeb.Schema do
 
   query do
     @desc "Get a list of items"
-    field :items, list_of(:item) do
+    field :items, non_null(list_of(non_null(:item))) do
       arg(:name, non_null(:string))
       resolve(&Resolvers.Game.find_item/3)
     end
@@ -58,6 +58,13 @@ defmodule CraftupWeb.Schema do
       arg(:input, non_null(:update_list_item_input))
 
       resolve(&Resolvers.Account.update_list_item/3)
+    end
+
+    @desc "Remove item from list"
+    field :remove_list_item, :list do
+      arg(:id, non_null(:id))
+
+      resolve(&Resolvers.Account.delete_list_item/3)
     end
   end
 end

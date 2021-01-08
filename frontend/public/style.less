@@ -73,10 +73,12 @@ body {
 
 .input {
     display: flex;
-    height: 20px;
+    height: 35px;
+    width: 100%;
 
     input {
         padding-left: 30px;
+        width: 100%;
     }
 
     .icon {
@@ -98,4 +100,24 @@ body {
     .main { grid-area: main }
     .search { grid-area: search }
     .lists { grid-area: lists; }
+}
+
+.home-container {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    flex-direction: column;
+
+    & > .item-list {
+        height: 80%;
+        transition: all 0.8s;
+
+        &.hidden {
+            height: 0;
+            opacity: 0;
+
+            transition: all 0.8s;
+        }
+    }
 }

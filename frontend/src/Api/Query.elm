@@ -19,10 +19,24 @@ import Graphql.SelectionSet exposing (SelectionSet)
 import Json.Decode as Decode exposing (Decoder)
 
 
+type alias ItemsRequiredArguments =
+    { name : String }
+
+
 {-| Get a list of items
 -}
 items :
-    SelectionSet decodesTo Api.Object.Item
-    -> SelectionSet (Maybe (List (Maybe decodesTo))) RootQuery
-items object_ =
-    Object.selectionForCompositeField "items" [] object_ (identity >> Decode.nullable >> Decode.list >> Decode.nullable)
+    ItemsRequiredArguments
+    -> SelectionSet decodesTo Api.Object.Item
+    -> SelectionSet (List decodesTo) RootQuery
+items requiredArgs object_ =
+    Object.selectionForCompositeField "items" [ Argument.required "name" requiredArgs.name Encode.string ] object_ (identity >> Decode.list)
+
+
+{-| Gets the current logged in user
+-}
+me :
+    SelectionSet decodesTo Api.Object.User
+    -> SelectionSet decodesTo RootQuery
+me object_ =
+    Object.selectionForCompositeField "me" [] object_ identity

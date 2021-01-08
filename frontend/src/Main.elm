@@ -1,8 +1,10 @@
 module Main exposing (..)
 
+import Api.Query
 import App exposing (Model, Msg(..))
 import Browser
 import Browser.Navigation as Nav
+import Graphql.Http
 import Html exposing (Html, div)
 import Html.Attributes exposing (class)
 import Pages.CraftingLists
@@ -15,7 +17,7 @@ import Url.Parser
 
 init : () -> Url -> Nav.Key -> ( Model, Cmd Msg )
 init _ url navKey =
-    ( { navKey = navKey, route = Url.Parser.parse Route.parser url }, Cmd.none )
+    ( { navKey = navKey, route = Url.Parser.parse Route.parser url, itemQuery = Nothing }, Cmd.none )
 
 
 
@@ -38,6 +40,9 @@ update msg model =
 
                 Browser.External url ->
                     ( model, Nav.load url )
+
+        EnteredItemQuery query ->
+            ( { model | itemQuery = Just query }, Cmd.none )
 
 
 
@@ -63,7 +68,7 @@ mainArea model =
             Just route ->
                 case route of
                     Home ->
-                        Pages.Home.view
+                        Pages.Home.view model
 
                     CraftingList _ ->
                         div [] []

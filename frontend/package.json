@@ -8,7 +8,7 @@
   },
   "scripts": {
     "dev": "parcel ./public/index.html",
-    "generate-graphql": "elm-graphql http://localhost:4000",
+    "generate-graphql": "elm-graphql http://localhost:1233",
     "build": "parcel build ./public/index.html"
   },
   "keywords": [],

@@ -10,6 +10,9 @@ defmodule Craftup.Game.Recipe do
     field :required_control, :integer
     field :required_craftsmanship, :integer
     field :resulting_item_quantity, :integer
+    field :difficulty_factor, :integer
+    field :quality_factor, :integer
+    field :durability_factor, :integer
 
     belongs_to :item, Craftup.Game.Item
     belongs_to :recipe_level, Craftup.Game.RecipeLevel
@@ -31,7 +34,10 @@ defmodule Craftup.Game.Recipe do
       :required_craftsmanship,
       :patch_number,
       :quality,
-      :is_specialization_required
+      :is_specialization_required,
+      :difficulty_factor,
+      :quality_factor,
+      :durability_factor
     ])
     |> validate_required([
       :can_hq,
@@ -42,7 +48,10 @@ defmodule Craftup.Game.Recipe do
       :required_craftsmanship,
       :patch_number,
       :quality,
-      :is_specialization_required
+      :is_specialization_required,
+      :difficulty_factor,
+      :quality_factor,
+      :durability_factor
     ])
   end
 end

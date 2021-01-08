@@ -76,7 +76,7 @@ defmodule Craftup.Account do
             |> Enum.find(fn y -> x.id == String.to_integer(y.id) end)
             |> case do
               nil -> false
-              i -> i |> Map.fetch!(:is_hq) |> IO.inspect() |> Kernel.==(true)
+              i -> i |> Map.fetch!(:is_hq) |> Kernel.==(true)
             end
 
         %ListItem{}
@@ -101,6 +101,16 @@ defmodule Craftup.Account do
     |> where([li], li.id == ^id)
     |> Repo.one!()
     |> ListItem.changeset(args, user.id)
+    |> ListItem.validate_is_owner(user.id)
     |> Repo.update()
+  end
+
+  def delete_list_item(user, id) do
+    ListItem
+    |> where([li], li.id == ^id)
+    |> Repo.one!()
+    |> ListItem.changeset(%{})
+    |> ListItem.validate_is_owner(user.id)
+    |> Repo.delete()
   end
 end

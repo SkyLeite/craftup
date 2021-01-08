@@ -18,4 +18,8 @@ defmodule CraftupWeb.Resolvers.Account do
   def update_list_item(_parents, %{id: id, input: input}, %{context: %{current_user: user}}) do
     Craftup.Account.update_list_item(user, id, input)
   end
+
+  def delete_list_item(_parents, %{id: id}, %{context: %{current_user: user}}) do
+    Craftup.Account.delete_list_item(user, id)
+  end
 end

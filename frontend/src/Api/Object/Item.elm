@@ -19,6 +19,53 @@ import Graphql.SelectionSet exposing (SelectionSet)
 import Json.Decode as Decode
 
 
+description : SelectionSet String Api.Object.Item
+description =
+    Object.selectionForField "String" "description" [] Decode.string
+
+
+icon : SelectionSet String Api.Object.Item
+icon =
+    Object.selectionForField "String" "icon" [] Decode.string
+
+
 id : SelectionSet (Maybe Api.ScalarCodecs.Id) Api.Object.Item
 id =
     Object.selectionForField "(Maybe ScalarCodecs.Id)" "id" [] (Api.ScalarCodecs.codecs |> Api.Scalar.unwrapCodecs |> .codecId |> .decoder |> Decode.nullable)
+
+
+level : SelectionSet Int Api.Object.Item
+level =
+    Object.selectionForField "Int" "level" [] Decode.int
+
+
+name : SelectionSet String Api.Object.Item
+name =
+    Object.selectionForField "String" "name" [] Decode.string
+
+
+patch : SelectionSet Int Api.Object.Item
+patch =
+    Object.selectionForField "Int" "patch" [] Decode.int
+
+
+plural : SelectionSet String Api.Object.Item
+plural =
+    Object.selectionForField "String" "plural" [] Decode.string
+
+
+recipe :
+    SelectionSet decodesTo Api.Object.Recipe
+    -> SelectionSet (Maybe decodesTo) Api.Object.Item
+recipe object_ =
+    Object.selectionForCompositeField "recipe" [] object_ (identity >> Decode.nullable)
+
+
+singular : SelectionSet String Api.Object.Item
+singular =
+    Object.selectionForField "String" "singular" [] Decode.string
+
+
+stackSize : SelectionSet Int Api.Object.Item
+stackSize =
+    Object.selectionForField "Int" "stackSize" [] Decode.int

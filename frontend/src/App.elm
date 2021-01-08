@@ -10,6 +10,7 @@ import Url.Parser exposing ((</>), Parser, int, map, oneOf, s, string)
 type alias Model =
     { navKey : Nav.Key
     , route : Maybe Route
+    , itemQuery : Maybe String
     }
 
 
@@ -17,3 +18,4 @@ type Msg
     = NoOp
     | ChangedUrl Url
     | ClickedLink Browser.UrlRequest
+    | EnteredItemQuery String
