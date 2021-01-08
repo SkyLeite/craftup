@@ -1,10 +1,10 @@
 module Main exposing (..)
 
-import Api.Query
 import App exposing (Model, Msg(..))
+import Api
+import DataTypes.Item
 import Browser
 import Browser.Navigation as Nav
-import Graphql.Http
 import Html exposing (Html, div)
 import Html.Attributes exposing (class)
 import Pages.CraftingLists
@@ -14,10 +14,17 @@ import Sidebar
 import Url exposing (Url)
 import Url.Parser
 
+initModel : Url -> Nav.Key -> App.Model
+initModel url navKey =
+    { navKey = navKey
+    , route = Url.Parser.parse Route.parser url
+    , itemQuery = Nothing
+    , foundItems = Nothing
+    }
 
 init : () -> Url -> Nav.Key -> ( Model, Cmd Msg )
 init _ url navKey =
-    ( { navKey = navKey, route = Url.Parser.parse Route.parser url, itemQuery = Nothing }, Cmd.none )
+    (initModel url navKey , Cmd.none )
 
 
 
@@ -42,8 +49,13 @@ update msg model =
                     ( model, Nav.load url )
 
         EnteredItemQuery query ->
-            ( { model | itemQuery = Just query }, Cmd.none )
+            ( { model | itemQuery = Just query }, Api.makeRequest (DataTypes.Item.itemSearchQuery query) GotItemsResponse)
 
+        GotItemsResponse response ->
+            case response of
+                Ok items -> ({ model | foundItems = Just items }, Cmd.none)
+
+                Err _ -> ({ model | foundItems = Nothing }, Cmd.none)
 
 
 ---- VIEW ----

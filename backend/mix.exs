@@ -50,7 +50,8 @@ defmodule Craftup.MixProject do
       {:cortex, "~> 0.1", only: [:dev, :test]},
       {:dataloader, "~> 1.0.0"},
       {:argon2_elixir, "~> 2.0"},
-      {:joken, "~> 2.3.0"}
+      {:joken, "~> 2.3.0"},
+      {:corsica, "~> 1.0"}
     ]
   end
 

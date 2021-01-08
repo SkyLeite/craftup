@@ -1,48 +1,48 @@
 module Pages.Home exposing (view)
 
-import Api.Interface
-import Api.Object exposing (Item)
-import Api.Object.Item
-import Api.Query
 import App exposing (Msg(..))
-import Components
-import Graphql.Operation exposing (RootQuery)
 import Graphql.SelectionSet exposing (SelectionSet, with)
 import Html exposing (Html, div, input, text)
 import Html.Attributes exposing (class, placeholder, style)
 import Html.Events exposing (onInput)
-
-
-type alias Item =
-    { name : String
-    }
+import Api exposing (makeRequest)
+import Zondicons
+import Svg.Attributes
+import DataTypes.Item exposing (Item)
+import Maybe
+import Html exposing (span)
+import Html exposing (p)
 
 
 view : App.Model -> Html App.Msg
 view model =
     div [ class "home-container" ]
-        [ Components.searchInput EnteredItemQuery
-        , itemList model.itemQuery
+        [ searchInput EnteredItemQuery
+        , itemList model.foundItems
         ]
 
+searchInput : (String -> App.Msg) -> Html App.Msg
+searchInput msg =
+    div [ class "search input" ]
+        [ Zondicons.search [ Svg.Attributes.class "icon" ]
+        , input [ placeholder "Search...", onInput msg ] []
+        ]
 
-itemList : Maybe String -> Html App.Msg
+itemList : Maybe (List Item) -> Html App.Msg
 itemList items =
     let
-        -- isShown =
-        --     if items |> List.length |> (<) 0 then
-        --         "unset"
-        --     else
-        --         "none"
         isShown =
             case items of
-                Just "" ->
+                Just [] ->
                     "hidden"
 
-                Just a ->
+                Just _ ->
                     ""
 
                 Nothing ->
                     "hidden"
+
+        i = items |> Maybe.withDefault []
     in
-    div [ class "item-list", class isShown ] [ text "hi" ]
+    div [ class "item-list", class isShown ]
+        (i |> List.map (\x -> p [] [ text x.name ]))

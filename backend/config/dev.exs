@@ -6,7 +6,7 @@ config :craftup, Craftup.Repo,
   password: "postgres",
   database: "craftup_dev",
   hostname: "localhost",
-  port: 5432,
+  port: 1231,
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
 

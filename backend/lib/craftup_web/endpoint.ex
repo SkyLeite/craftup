@@ -3,6 +3,14 @@ defmodule CraftupWeb.Endpoint do
 
   use Phoenix.Endpoint, otp_app: :craftup
 
+  IO.inspect("???")
+
+  plug Corsica,
+    max_age: 600,
+    origins: "*",
+    allow_headers: ["content-type"],
+    log: [rejected: :error, invalid: :warn, accepted: :debug]
+
   # The session will be stored in the cookie and signed,
   # this means its contents can be read but not tampered with.
   # Set :encryption_salt if you would also like to encrypt it.
