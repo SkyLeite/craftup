@@ -1,30 +1,34 @@
 module Main exposing (..)
 
-import App exposing (Model, Msg(..))
 import Api
-import DataTypes.Item
+import App exposing (Model, Msg(..))
 import Browser
 import Browser.Navigation as Nav
+import DataTypes.Item
 import Html exposing (Html, div)
 import Html.Attributes exposing (class)
+import Navbar
 import Pages.CraftingLists
 import Pages.Home
 import Route exposing (Route(..))
-import Sidebar
+import Search
 import Url exposing (Url)
 import Url.Parser
+
 
 initModel : Url -> Nav.Key -> App.Model
 initModel url navKey =
     { navKey = navKey
     , route = Url.Parser.parse Route.parser url
-    , itemQuery = Nothing
+    , searchQuery = Nothing
     , foundItems = Nothing
+    , searchModalOpen = False
     }
+
 
 init : () -> Url -> Nav.Key -> ( Model, Cmd Msg )
 init _ url navKey =
-    (initModel url navKey , Cmd.none )
+    ( initModel url navKey, Cmd.none )
 
 
 
@@ -48,14 +52,23 @@ update msg model =
                 Browser.External url ->
                     ( model, Nav.load url )
 
-        EnteredItemQuery query ->
-            ( { model | itemQuery = Just query }, Api.makeRequest (DataTypes.Item.itemSearchQuery query) GotItemsResponse)
+        EnteredSearchQuery query ->
+            ( { model | searchQuery = Just query }, Api.makeRequest (DataTypes.Item.itemSearchQuery query) GotItemsResponse )
+
+        OpenSearchModal ->
+            ( { model | searchModalOpen = True }, Cmd.none )
+
+        CloseSearchModal ->
+            ( { model | searchModalOpen = False }, Cmd.none )
 
         GotItemsResponse response ->
             case response of
-                Ok items -> ({ model | foundItems = Just items }, Cmd.none)
+                Ok items ->
+                    ( { model | foundItems = Just items }, Cmd.none )
 
-                Err _ -> ({ model | foundItems = Nothing }, Cmd.none)
+                Err _ ->
+                    ( { model | foundItems = Nothing }, Cmd.none )
+
 
 
 ---- VIEW ----
@@ -65,17 +78,20 @@ view : Model -> Browser.Document Msg
 view model =
     { title = "XIVCraft"
     , body =
-        [ div [ class "main-container" ]
-            [ Sidebar.view model
+        [ div [ class "w-full max-w-7xl mx-auto" ]
+            [ -- Sidebar.view model
+              -- ,
+              Navbar.view model
             , mainArea model
             ]
+        , Search.view model
         ]
     }
 
 
 mainArea : Model -> Html Msg
 mainArea model =
-    div [ class "main" ]
+    div [ class "" ]
         [ case model.route of
             Just route ->
                 case route of

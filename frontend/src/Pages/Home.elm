@@ -1,25 +1,28 @@
 module Pages.Home exposing (view)
 
-import App exposing (Msg(..))
-import Graphql.SelectionSet exposing (SelectionSet, with)
-import Html exposing (Html, div, input, text)
-import Html.Attributes exposing (class, placeholder, style)
-import Html.Events exposing (onInput)
 import Api exposing (makeRequest)
-import Zondicons
-import Svg.Attributes
+import App exposing (Msg(..))
 import DataTypes.Item exposing (Item)
+import Graphql.SelectionSet exposing (SelectionSet, with)
+import Html exposing (Html, div, img, input, p, span, text)
+import Html.Attributes exposing (class, placeholder, src, style)
+import Html.Events exposing (onInput)
 import Maybe
-import Html exposing (span)
-import Html exposing (p)
+import Svg.Attributes
+import Zondicons
 
 
 view : App.Model -> Html App.Msg
 view model =
     div [ class "home-container" ]
-        [ searchInput EnteredItemQuery
-        , itemList model.foundItems
-        ]
+        []
+
+
+
+-- [ searchInput EnteredItemQuery
+-- , itemList model.foundItems
+-- ]
+
 
 searchInput : (String -> App.Msg) -> Html App.Msg
 searchInput msg =
@@ -27,6 +30,7 @@ searchInput msg =
         [ Zondicons.search [ Svg.Attributes.class "icon" ]
         , input [ placeholder "Search...", onInput msg ] []
         ]
+
 
 itemList : Maybe (List Item) -> Html App.Msg
 itemList items =
@@ -42,7 +46,20 @@ itemList items =
                 Nothing ->
                     "hidden"
 
-        i = items |> Maybe.withDefault []
+        i =
+            items |> Maybe.withDefault []
     in
     div [ class "item-list", class isShown ]
-        (i |> List.map (\x -> p [] [ text x.name ]))
+        (i |> List.map itemListItem)
+
+
+itemListItem : Item -> Html App.Msg
+itemListItem item =
+    div [ class "list-item-container" ]
+        [ div [ class "icon" ]
+            [ img [ src "https://xivapi.com/cj/1/gladiator.png" ] []
+            ]
+        , div [ class "item-name" ] [ text item.name ]
+        , div [ class "item-stats" ] [ text "Lvl 80" ]
+        , div [ class "actions" ] [ Zondicons.listAdd [ Svg.Attributes.class "icon" ] ]
+        ]
