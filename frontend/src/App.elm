@@ -13,7 +13,7 @@ type alias Model =
     , route : Maybe Route
     , searchQuery : Maybe String
     , foundItems : Maybe (List DataTypes.Item.Item)
-    , searchModalOpen : Bool
+    , searchResultsOpen : Bool
     }
 
 
@@ -22,6 +22,6 @@ type Msg
     | ChangedUrl Url
     | ClickedLink Browser.UrlRequest
     | EnteredSearchQuery String
-    | OpenSearchModal
-    | CloseSearchModal
+    | OpenSearchResults
+    | CloseSearchResults
     | GotItemsResponse (Result (Graphql.Http.Error (List DataTypes.Item.Item)) (List DataTypes.Item.Item))

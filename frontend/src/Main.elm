@@ -7,6 +7,7 @@ import Browser.Navigation as Nav
 import DataTypes.Item
 import Html exposing (Html, div)
 import Html.Attributes exposing (class)
+import Html.Events exposing (onClick)
 import Navbar
 import Pages.CraftingLists
 import Pages.Home
@@ -22,7 +23,7 @@ initModel url navKey =
     , route = Url.Parser.parse Route.parser url
     , searchQuery = Nothing
     , foundItems = Nothing
-    , searchModalOpen = False
+    , searchResultsOpen = False
     }
 
 
@@ -53,13 +54,13 @@ update msg model =
                     ( model, Nav.load url )
 
         EnteredSearchQuery query ->
-            ( { model | searchQuery = Just query }, Api.makeRequest (DataTypes.Item.itemSearchQuery query) GotItemsResponse )
+            ( { model | searchQuery = Just query, searchResultsOpen = not (query == "")  }, Api.makeRequest (DataTypes.Item.itemSearchQuery query) GotItemsResponse )
 
-        OpenSearchModal ->
-            ( { model | searchModalOpen = True }, Cmd.none )
+        OpenSearchResults ->
+            ( { model | searchResultsOpen = True }, Cmd.none )
 
-        CloseSearchModal ->
-            ( { model | searchModalOpen = False }, Cmd.none )
+        CloseSearchResults ->
+            ( { model | searchResultsOpen = False }, Cmd.none )
 
         GotItemsResponse response ->
             case response of
@@ -78,20 +79,18 @@ view : Model -> Browser.Document Msg
 view model =
     { title = "XIVCraft"
     , body =
-        [ div [ class "w-full max-w-7xl mx-auto" ]
-            [ -- Sidebar.view model
-              -- ,
-              Navbar.view model
+        [ div [ class "flex flex-col w-full h-screen max-w-7xl mx-auto"
+              , onClick CloseSearchResults]
+            [ Navbar.view model
             , mainArea model
             ]
-        , Search.view model
         ]
     }
 
 
 mainArea : Model -> Html Msg
 mainArea model =
-    div [ class "" ]
+    div [ class "flex-grow" ]
         [ case model.route of
             Just route ->
                 case route of

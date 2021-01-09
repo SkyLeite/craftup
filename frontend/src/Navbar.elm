@@ -3,7 +3,8 @@ module Navbar exposing (view)
 import App exposing (Msg(..))
 import Html exposing (Html, a, div, form, img, input, span, text)
 import Html.Attributes exposing (class, classList, src)
-import Html.Events exposing (onClick, onInput)
+import Utils exposing (onClick)
+import Html.Events exposing (onInput)
 import Route
 import Svg.Attributes
 import Zondicons
@@ -39,12 +40,13 @@ searchInput : App.Model -> Html App.Msg
 searchInput model =
     div
         [ class
-            "relative flex-auto flex h-10 items-center justify-start text-gray-600 font-medium"
+            "relative flex-auto flex h-10 items-center justify-start text-gray-600 font-medium "
         ]
         [ Zondicons.search [ Svg.Attributes.class "text-gray-400 w-4 absolute ml-2" ]
         , input
             [ class "border w-full h-full pl-8 rounded"
             , onInput EnteredSearchQuery
+            , onClick (if model.searchQuery /= Just "" then OpenSearchResults else NoOp)
             ]
             []
         , searchResults model
@@ -71,15 +73,14 @@ searchResults : App.Model -> Html App.Msg
 searchResults model =
     let
         isShown =
-            case model.searchQuery of
-                Nothing ->
+            case (model.searchQuery, model.searchResultsOpen) of
+                (Nothing, _) ->
                     False
 
-                Just "" ->
-                    False
-
-                Just a ->
+                (Just _, True) ->
                     True
+
+                _ -> False
 
         opacityClass =
             if isShown then
