@@ -1,4 +1,4 @@
-module Main exposing (..)
+module Main exposing (init, initModel, main, mainArea, update, view)
 
 import Api
 import App exposing (Model, Msg(..))
@@ -12,7 +12,6 @@ import Navbar
 import Pages.CraftingLists
 import Pages.Home
 import Route exposing (Route(..))
-import Search
 import Url exposing (Url)
 import Url.Parser
 
@@ -24,6 +23,7 @@ initModel url navKey =
     , searchQuery = Nothing
     , foundItems = Nothing
     , searchResultsOpen = False
+    , searchResults = Navbar.commands
     }
 
 
@@ -54,7 +54,7 @@ update msg model =
                     ( model, Nav.load url )
 
         EnteredSearchQuery query ->
-            ( { model | searchQuery = Just query, searchResultsOpen = not (query == "")  }, Api.makeRequest (DataTypes.Item.itemSearchQuery query) GotItemsResponse )
+            ( { model | searchQuery = Just query, searchResultsOpen = not (query == "") }, Api.makeRequest (DataTypes.Item.itemSearchQuery query) GotItemsResponse )
 
         OpenSearchResults ->
             ( { model | searchResultsOpen = True }, Cmd.none )
@@ -79,8 +79,10 @@ view : Model -> Browser.Document Msg
 view model =
     { title = "XIVCraft"
     , body =
-        [ div [ class "flex flex-col w-full h-screen max-w-7xl mx-auto"
-              , onClick CloseSearchResults]
+        [ div
+            [ class "flex flex-col w-full h-screen max-w-7xl mx-auto"
+            , onClick CloseSearchResults
+            ]
             [ Navbar.view model
             , mainArea model
             ]
