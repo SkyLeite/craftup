@@ -5,6 +5,7 @@ import Browser.Navigation as Nav
 import DataTypes.Item
 import Graphql.Http
 import Route exposing (Route(..))
+import Search
 import Url exposing (Url)
 
 
@@ -14,6 +15,7 @@ type alias Model =
     , searchQuery : Maybe String
     , foundItems : Maybe (List DataTypes.Item.Item)
     , searchResultsOpen : Bool
+    , searchResults : List (Search.SearchResult Msg)
     }
 
 

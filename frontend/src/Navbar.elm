@@ -1,12 +1,15 @@
-module Navbar exposing (view)
+module Navbar exposing (commands, view)
 
 import App exposing (Msg(..))
+import DataTypes.Item
 import Html exposing (Html, a, div, form, img, input, span, text)
 import Html.Attributes exposing (class, classList, src)
-import Utils exposing (onClick)
 import Html.Events exposing (onInput)
+import List
 import Route
+import Search exposing (SearchResultType(..))
 import Svg.Attributes
+import Utils exposing (onClick)
 import Zondicons
 
 
@@ -46,7 +49,13 @@ searchInput model =
         , input
             [ class "border w-full h-full pl-8 rounded"
             , onInput EnteredSearchQuery
-            , onClick (if model.searchQuery /= Just "" then OpenSearchResults else NoOp)
+            , onClick
+                (if model.searchQuery /= Just "" then
+                    OpenSearchResults
+
+                 else
+                    NoOp
+                )
             ]
             []
         , searchResults model
@@ -73,14 +82,15 @@ searchResults : App.Model -> Html App.Msg
 searchResults model =
     let
         isShown =
-            case (model.searchQuery, model.searchResultsOpen) of
-                (Nothing, _) ->
+            case ( model.searchQuery, model.searchResultsOpen ) of
+                ( Nothing, _ ) ->
                     False
 
-                (Just _, True) ->
+                ( Just _, True ) ->
                     True
 
-                _ -> False
+                _ ->
+                    False
 
         opacityClass =
             if isShown then
@@ -90,7 +100,43 @@ searchResults model =
                 "opacity-0"
     in
     div
-        [ class "absolute mt-48 h-40 w-full z-50 bg-white rounded-b border transition-all"
+        [ class "absolute mt-72 h-64 w-full z-50 bg-white rounded-b border transition-all p-2 space-y-1 overflow-y-scroll"
         , classList [ ( "invisible", not isShown ), ( opacityClass, True ) ]
+        , onClick NoOp
         ]
-        [ text "hi" ]
+        (model.foundItems
+            |> Maybe.withDefault []
+            |> List.map itemToSearchResult
+            |> (++) model.searchResults
+            |> List.map searchResult
+        )
+
+
+searchResult : Search.SearchResult Msg -> Html App.Msg
+searchResult data =
+    let
+        prefixHtml =
+            case data.resultType of
+                Command prefix ->
+                    span [ class "px-0.5 rounded text-blue-500" ] [ text prefix ]
+
+                Search ->
+                    span [] []
+    in
+    div [ class "bg-green-100 hover:bg-green-200 cursor-pointer rounded py-1 px-2" ]
+        [ prefixHtml
+        , span [ class "mx-2" ] [ text data.title ]
+        ]
+
+
+commands : List (Search.SearchResult Msg)
+commands =
+    [ { title = "Create list", description = "Creates an empty list", action = NoOp, resultType = Command "cl" }
+    , { title = "Go to list", description = "Opens a list", action = NoOp, resultType = Command "gl" }
+    , { title = "Login", description = "Login to your account", action = NoOp, resultType = Command "log" }
+    ]
+
+
+itemToSearchResult : DataTypes.Item.Item -> Search.SearchResult App.Msg
+itemToSearchResult item =
+    { title = item.name, description = "Some item", action = NoOp, resultType = Search }
