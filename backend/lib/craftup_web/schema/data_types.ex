@@ -51,14 +51,10 @@ defmodule CraftupWeb.Schema.DataTypes do
   end
 
   object :user do
-    field :id, :id
-    field :email, :string
+    field :id, non_null(:id)
+    field :email, non_null(:string)
 
     field :lists, non_null(list_of(:list)), resolve: dataloader(Craftup.Game)
-  end
-
-  object :token_payload do
-    field :token, :string
   end
 
   input_object :register_input do

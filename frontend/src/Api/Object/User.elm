@@ -8,8 +8,8 @@ import Api.InputObject
 import Api.Interface
 import Api.Object
 import Api.Scalar
-import Api.ScalarCodecs
 import Api.Union
+import CustomScalarCodecs
 import Graphql.Internal.Builder.Argument as Argument exposing (Argument)
 import Graphql.Internal.Builder.Object as Object
 import Graphql.Internal.Encode as Encode exposing (Value)
@@ -19,14 +19,14 @@ import Graphql.SelectionSet exposing (SelectionSet)
 import Json.Decode as Decode
 
 
-email : SelectionSet (Maybe String) Api.Object.User
+email : SelectionSet String Api.Object.User
 email =
-    Object.selectionForField "(Maybe String)" "email" [] (Decode.string |> Decode.nullable)
+    Object.selectionForField "String" "email" [] Decode.string
 
 
-id : SelectionSet (Maybe Api.ScalarCodecs.Id) Api.Object.User
+id : SelectionSet CustomScalarCodecs.Id Api.Object.User
 id =
-    Object.selectionForField "(Maybe ScalarCodecs.Id)" "id" [] (Api.ScalarCodecs.codecs |> Api.Scalar.unwrapCodecs |> .codecId |> .decoder |> Decode.nullable)
+    Object.selectionForField "CustomScalarCodecs.Id" "id" [] (CustomScalarCodecs.codecs |> Api.Scalar.unwrapCodecs |> .codecId |> .decoder)
 
 
 lists :

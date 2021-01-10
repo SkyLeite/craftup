@@ -18,4 +18,5 @@ makeRequest :
 makeRequest query msg =
     query
         |> Graphql.Http.queryRequest graphqlUrl
+        |> Graphql.Http.withCredentials
         |> Graphql.Http.send msg

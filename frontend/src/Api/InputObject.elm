@@ -7,8 +7,8 @@ module Api.InputObject exposing (..)
 import Api.Interface
 import Api.Object
 import Api.Scalar
-import Api.ScalarCodecs
 import Api.Union
+import CustomScalarCodecs
 import Graphql.Internal.Builder.Argument as Argument exposing (Argument)
 import Graphql.Internal.Builder.Object as Object
 import Graphql.Internal.Encode as Encode exposing (Value)
@@ -59,7 +59,7 @@ buildItemInput fillOptionals =
 
 
 type alias ItemInputOptionalFields =
-    { id : OptionalArgument Api.ScalarCodecs.Id
+    { id : OptionalArgument CustomScalarCodecs.Id
     , isHq : OptionalArgument Bool
     , quantity : OptionalArgument Int
     }
@@ -68,7 +68,7 @@ type alias ItemInputOptionalFields =
 {-| Type for the ItemInput input object.
 -}
 type alias ItemInput =
-    { id : OptionalArgument Api.ScalarCodecs.Id
+    { id : OptionalArgument CustomScalarCodecs.Id
     , isHq : OptionalArgument Bool
     , quantity : OptionalArgument Int
     }
@@ -79,7 +79,7 @@ type alias ItemInput =
 encodeItemInput : ItemInput -> Value
 encodeItemInput input =
     Encode.maybeObject
-        [ ( "id", (Api.ScalarCodecs.codecs |> Api.Scalar.unwrapEncoder .codecId) |> Encode.optional input.id ), ( "isHq", Encode.bool |> Encode.optional input.isHq ), ( "quantity", Encode.int |> Encode.optional input.quantity ) ]
+        [ ( "id", (CustomScalarCodecs.codecs |> Api.Scalar.unwrapEncoder .codecId) |> Encode.optional input.id ), ( "isHq", Encode.bool |> Encode.optional input.isHq ), ( "quantity", Encode.int |> Encode.optional input.quantity ) ]
 
 
 buildLoginInput :

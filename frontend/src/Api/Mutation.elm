@@ -8,8 +8,8 @@ import Api.InputObject
 import Api.Interface
 import Api.Object
 import Api.Scalar
-import Api.ScalarCodecs
 import Api.Union
+import CustomScalarCodecs
 import Graphql.Internal.Builder.Argument as Argument exposing (Argument)
 import Graphql.Internal.Builder.Object as Object
 import Graphql.Internal.Encode as Encode exposing (Value)
@@ -41,7 +41,7 @@ type alias LoginRequiredArguments =
 -}
 login :
     LoginRequiredArguments
-    -> SelectionSet decodesTo Api.Object.TokenPayload
+    -> SelectionSet decodesTo Api.Object.User
     -> SelectionSet (Maybe decodesTo) RootMutation
 login requiredArgs object_ =
     Object.selectionForCompositeField "login" [ Argument.required "input" requiredArgs.input Api.InputObject.encodeLoginInput ] object_ (identity >> Decode.nullable)
@@ -62,7 +62,7 @@ register requiredArgs object_ =
 
 
 type alias RemoveListItemRequiredArguments =
-    { id : Api.ScalarCodecs.Id }
+    { id : CustomScalarCodecs.Id }
 
 
 {-| Remove item from list
@@ -72,11 +72,11 @@ removeListItem :
     -> SelectionSet decodesTo Api.Object.List
     -> SelectionSet (Maybe decodesTo) RootMutation
 removeListItem requiredArgs object_ =
-    Object.selectionForCompositeField "removeListItem" [ Argument.required "id" requiredArgs.id (Api.ScalarCodecs.codecs |> Api.Scalar.unwrapEncoder .codecId) ] object_ (identity >> Decode.nullable)
+    Object.selectionForCompositeField "removeListItem" [ Argument.required "id" requiredArgs.id (CustomScalarCodecs.codecs |> Api.Scalar.unwrapEncoder .codecId) ] object_ (identity >> Decode.nullable)
 
 
 type alias UpdateListItemRequiredArguments =
-    { id : Api.ScalarCodecs.Id
+    { id : CustomScalarCodecs.Id
     , input : Api.InputObject.UpdateListItemInput
     }
 
@@ -88,4 +88,4 @@ updateListItem :
     -> SelectionSet decodesTo Api.Object.ListItem
     -> SelectionSet (Maybe decodesTo) RootMutation
 updateListItem requiredArgs object_ =
-    Object.selectionForCompositeField "updateListItem" [ Argument.required "id" requiredArgs.id (Api.ScalarCodecs.codecs |> Api.Scalar.unwrapEncoder .codecId), Argument.required "input" requiredArgs.input Api.InputObject.encodeUpdateListItemInput ] object_ (identity >> Decode.nullable)
+    Object.selectionForCompositeField "updateListItem" [ Argument.required "id" requiredArgs.id (CustomScalarCodecs.codecs |> Api.Scalar.unwrapEncoder .codecId), Argument.required "input" requiredArgs.input Api.InputObject.encodeUpdateListItemInput ] object_ (identity >> Decode.nullable)

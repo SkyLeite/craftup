@@ -8,8 +8,8 @@ import Api.InputObject
 import Api.Interface
 import Api.Object
 import Api.Scalar
-import Api.ScalarCodecs
 import Api.Union
+import CustomScalarCodecs
 import Graphql.Internal.Builder.Argument as Argument exposing (Argument)
 import Graphql.Internal.Builder.Object as Object
 import Graphql.Internal.Encode as Encode exposing (Value)
@@ -29,9 +29,9 @@ icon =
     Object.selectionForField "String" "icon" [] Decode.string
 
 
-id : SelectionSet (Maybe Api.ScalarCodecs.Id) Api.Object.Item
+id : SelectionSet (Maybe CustomScalarCodecs.Id) Api.Object.Item
 id =
-    Object.selectionForField "(Maybe ScalarCodecs.Id)" "id" [] (Api.ScalarCodecs.codecs |> Api.Scalar.unwrapCodecs |> .codecId |> .decoder |> Decode.nullable)
+    Object.selectionForField "(Maybe CustomScalarCodecs.Id)" "id" [] (CustomScalarCodecs.codecs |> Api.Scalar.unwrapCodecs |> .codecId |> .decoder |> Decode.nullable)
 
 
 level : SelectionSet Int Api.Object.Item

@@ -25,9 +25,5 @@ type RecipeIngredient
     = RecipeIngredient
 
 
-type TokenPayload
-    = TokenPayload
-
-
 type User
     = User
