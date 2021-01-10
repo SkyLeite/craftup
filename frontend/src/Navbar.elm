@@ -58,6 +58,7 @@ searchInput model =
                 )
             ]
             []
+        , span [ class "absolute right-3 border rounded py-0.5 px-2 text-sm text-gray-400"] [ text "CTRL+K" ]
         , searchResults model
         ]
 
@@ -123,7 +124,7 @@ searchResult data =
                 Search ->
                     span [] []
     in
-    div [ class "bg-green-100 hover:bg-green-200 cursor-pointer rounded py-1 px-2" ]
+    div [ class "flex items-center h-12 sm:h-8 bg-green-100 hover:bg-green-200 cursor-pointer rounded py-1 px-2" ]
         [ prefixHtml
         , span [ class "mx-2" ] [ text data.title ]
         ]
