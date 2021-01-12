@@ -7,7 +7,8 @@ defmodule CraftupWeb.Endpoint do
     max_age: 600,
     origins: "*",
     allow_headers: ["content-type"],
-    log: [rejected: :error, invalid: :warn, accepted: :debug]
+    allow_credentials: true,
+    log: [rejected: :error, invalid: :warn]
 
   # The session will be stored in the cookie and signed,
   # this means its contents can be read but not tampered with.
