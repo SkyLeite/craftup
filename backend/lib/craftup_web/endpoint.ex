@@ -3,8 +3,6 @@ defmodule CraftupWeb.Endpoint do
 
   use Phoenix.Endpoint, otp_app: :craftup
 
-  IO.inspect("???")
-
   plug Corsica,
     max_age: 600,
     origins: "*",
