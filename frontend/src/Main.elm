@@ -77,7 +77,7 @@ update msg model =
 
 view : Model -> Browser.Document Msg
 view model =
-    { title = "XIVCraft"
+    { title = "Manipulation.app"
     , body =
         [ div
             [ class "flex flex-col w-full h-screen max-w-7xl mx-auto"
