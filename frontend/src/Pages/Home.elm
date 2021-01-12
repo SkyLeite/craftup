@@ -1,59 +1,28 @@
 module Pages.Home exposing (view)
 
-import Api exposing (makeRequest)
 import App exposing (Msg(..))
-import DataTypes.Item exposing (Item)
-import Graphql.SelectionSet exposing (SelectionSet, with)
-import Html exposing (Html, div, img, input, p, span, text)
-import Html.Attributes exposing (class, placeholder, src, style)
-import Html.Events exposing (onInput)
-import Maybe
-import Svg.Attributes
-import Zondicons
+import Html exposing (Html, div, h1, h2, li, p, text, ul)
+import Html.Attributes exposing (class)
 
 
 view : App.Model -> Html App.Msg
 view model =
-    div [ class "home-container" ]
-        []
-
-
-searchInput : (String -> App.Msg) -> Html App.Msg
-searchInput msg =
-    div [ class "search input" ]
-        [ Zondicons.search [ Svg.Attributes.class "icon" ]
-        , input [ placeholder "Search...", onInput msg ] []
-        ]
-
-
-itemList : Maybe (List Item) -> Html App.Msg
-itemList items =
-    let
-        isShown =
-            case items of
-                Just [] ->
-                    "hidden"
-
-                Just _ ->
-                    ""
-
-                Nothing ->
-                    "hidden"
-
-        i =
-            items |> Maybe.withDefault []
-    in
-    div [ class "item-list", class isShown ]
-        (i |> List.map itemListItem)
-
-
-itemListItem : Item -> Html App.Msg
-itemListItem item =
-    div [ class "list-item-container" ]
-        [ div [ class "icon" ]
-            [ img [ src "https://xivapi.com/cj/1/gladiator.png" ] []
+    div [ class "p-8 space-y-4" ]
+        [ h1 [ class "font-semibold text-xl" ] [ text "Welcome to Manipulation!" ]
+        , p [] [ text """
+                         Manipulation aims to make your crafting experience in Eorzea butter smooth.
+                         Using modern web development techniques, we can help you along in the entire process
+                          of growing your fortune in Final Fantasy XIV with no fuss or complications.
+                         """ ]
+        , h2 [ class "font-semibold text-lg" ] [ text "Here's how:" ]
+        , ul [ class "list-disc list-inside space-y-4" ]
+            [ li [ class "text-lg bg-green-50 rounded px-4 py-2" ]
+                [ text "Lists"
+                , p [ class "text-base" ] [ text "Create a list to streamline the process of making one (or more!) items. Share it with your friends, your free company, or even on Twitter." ]
+                ]
+            , li [ class "text-lg text-lg bg-green-50 rounded px-4 py-2" ]
+                [ text "Alerts"
+                , p [ class "text-base" ] [ text "Never miss a node again! With alerts, you can get notified right when an item you need is about to spawn." ]
+                ]
             ]
-        , div [ class "item-name" ] [ text item.name ]
-        , div [ class "item-stats" ] [ text "Lvl 80" ]
-        , div [ class "actions" ] [ Zondicons.listAdd [ Svg.Attributes.class "icon" ] ]
         ]
