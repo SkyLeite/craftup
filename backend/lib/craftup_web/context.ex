@@ -24,8 +24,8 @@ defmodule CraftupWeb.Context do
 
   defp build_context_object(user) do
     case user do
-       nil -> nil,
-       user -> %{current_user: user}
+      nil -> nil
+      user -> %{current_user: user}
     end
   end
 
