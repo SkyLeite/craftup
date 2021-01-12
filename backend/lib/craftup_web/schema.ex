@@ -32,14 +32,14 @@ defmodule CraftupWeb.Schema do
 
   mutation do
     @desc "Register a user"
-    field :register, :user do
+    field :register, non_null(:user) do
       arg(:input, non_null(:register_input))
 
       resolve(&Resolvers.Account.register/3)
     end
 
     @desc "Login"
-    field :login, :user do
+    field :login, non_null(:user) do
       arg(:input, non_null(:login_input))
 
       resolve(&Resolvers.Account.login/3)
@@ -62,14 +62,14 @@ defmodule CraftupWeb.Schema do
     end
 
     @desc "Create a list"
-    field :create_list, :list do
+    field :create_list, non_null(:list) do
       arg(:input, non_null(:create_list_input))
 
       resolve(&Resolvers.Account.create_list/3)
     end
 
     @desc "Update item in list"
-    field :update_list_item, :list_item do
+    field :update_list_item, non_null(:list_item) do
       arg(:id, non_null(:id))
       arg(:input, non_null(:update_list_item_input))
 
@@ -77,7 +77,7 @@ defmodule CraftupWeb.Schema do
     end
 
     @desc "Remove item from list"
-    field :remove_list_item, :list do
+    field :remove_list_item, non_null(:list) do
       arg(:id, non_null(:id))
 
       resolve(&Resolvers.Account.delete_list_item/3)

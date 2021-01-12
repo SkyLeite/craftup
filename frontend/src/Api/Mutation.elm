@@ -28,9 +28,9 @@ type alias CreateListRequiredArguments =
 createList :
     CreateListRequiredArguments
     -> SelectionSet decodesTo Api.Object.List
-    -> SelectionSet (Maybe decodesTo) RootMutation
+    -> SelectionSet decodesTo RootMutation
 createList requiredArgs object_ =
-    Object.selectionForCompositeField "createList" [ Argument.required "input" requiredArgs.input Api.InputObject.encodeCreateListInput ] object_ (identity >> Decode.nullable)
+    Object.selectionForCompositeField "createList" [ Argument.required "input" requiredArgs.input Api.InputObject.encodeCreateListInput ] object_ identity
 
 
 type alias LoginRequiredArguments =
@@ -42,9 +42,9 @@ type alias LoginRequiredArguments =
 login :
     LoginRequiredArguments
     -> SelectionSet decodesTo Api.Object.User
-    -> SelectionSet (Maybe decodesTo) RootMutation
+    -> SelectionSet decodesTo RootMutation
 login requiredArgs object_ =
-    Object.selectionForCompositeField "login" [ Argument.required "input" requiredArgs.input Api.InputObject.encodeLoginInput ] object_ (identity >> Decode.nullable)
+    Object.selectionForCompositeField "login" [ Argument.required "input" requiredArgs.input Api.InputObject.encodeLoginInput ] object_ identity
 
 
 type alias RegisterRequiredArguments =
@@ -56,9 +56,9 @@ type alias RegisterRequiredArguments =
 register :
     RegisterRequiredArguments
     -> SelectionSet decodesTo Api.Object.User
-    -> SelectionSet (Maybe decodesTo) RootMutation
+    -> SelectionSet decodesTo RootMutation
 register requiredArgs object_ =
-    Object.selectionForCompositeField "register" [ Argument.required "input" requiredArgs.input Api.InputObject.encodeRegisterInput ] object_ (identity >> Decode.nullable)
+    Object.selectionForCompositeField "register" [ Argument.required "input" requiredArgs.input Api.InputObject.encodeRegisterInput ] object_ identity
 
 
 type alias RemoveListItemRequiredArguments =
@@ -70,9 +70,9 @@ type alias RemoveListItemRequiredArguments =
 removeListItem :
     RemoveListItemRequiredArguments
     -> SelectionSet decodesTo Api.Object.List
-    -> SelectionSet (Maybe decodesTo) RootMutation
+    -> SelectionSet decodesTo RootMutation
 removeListItem requiredArgs object_ =
-    Object.selectionForCompositeField "removeListItem" [ Argument.required "id" requiredArgs.id (CustomScalarCodecs.codecs |> Api.Scalar.unwrapEncoder .codecId) ] object_ (identity >> Decode.nullable)
+    Object.selectionForCompositeField "removeListItem" [ Argument.required "id" requiredArgs.id (CustomScalarCodecs.codecs |> Api.Scalar.unwrapEncoder .codecId) ] object_ identity
 
 
 type alias UpdateListItemRequiredArguments =
@@ -86,6 +86,6 @@ type alias UpdateListItemRequiredArguments =
 updateListItem :
     UpdateListItemRequiredArguments
     -> SelectionSet decodesTo Api.Object.ListItem
-    -> SelectionSet (Maybe decodesTo) RootMutation
+    -> SelectionSet decodesTo RootMutation
 updateListItem requiredArgs object_ =
-    Object.selectionForCompositeField "updateListItem" [ Argument.required "id" requiredArgs.id (CustomScalarCodecs.codecs |> Api.Scalar.unwrapEncoder .codecId), Argument.required "input" requiredArgs.input Api.InputObject.encodeUpdateListItemInput ] object_ (identity >> Decode.nullable)
+    Object.selectionForCompositeField "updateListItem" [ Argument.required "id" requiredArgs.id (CustomScalarCodecs.codecs |> Api.Scalar.unwrapEncoder .codecId), Argument.required "input" requiredArgs.input Api.InputObject.encodeUpdateListItemInput ] object_ identity
