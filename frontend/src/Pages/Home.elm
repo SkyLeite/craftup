@@ -18,12 +18,6 @@ view model =
         []
 
 
-
--- [ searchInput EnteredItemQuery
--- , itemList model.foundItems
--- ]
-
-
 searchInput : (String -> App.Msg) -> Html App.Msg
 searchInput msg =
     div [ class "search input" ]

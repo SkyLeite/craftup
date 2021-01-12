@@ -5,13 +5,16 @@ import App exposing (Model, Msg(..))
 import Browser
 import Browser.Navigation as Nav
 import DataTypes.Item
-import Html exposing (Html, div)
+import DataTypes.User
+import Html exposing (Html, div, text)
 import Html.Attributes exposing (class)
 import Html.Events exposing (onClick)
 import Navbar
 import Pages.CraftingLists
 import Pages.Home
+import Pages.Login
 import Route exposing (Route(..))
+import Session exposing (SessionStatus(..))
 import Url exposing (Url)
 import Url.Parser
 
@@ -24,12 +27,16 @@ initModel url navKey =
     , foundItems = Nothing
     , searchResultsOpen = False
     , searchResults = Navbar.commands
+    , session = Guest
+    , isLoginDialogOpen = False
+    , loginEmail = ""
+    , loginPassword = ""
     }
 
 
 init : () -> Url -> Nav.Key -> ( Model, Cmd Msg )
 init _ url navKey =
-    ( initModel url navKey, Cmd.none )
+    ( initModel url navKey, Api.makeRequest DataTypes.User.meQuery GotMeResponse )
 
 
 
@@ -70,6 +77,32 @@ update msg model =
                 Err _ ->
                     ( { model | foundItems = Nothing }, Cmd.none )
 
+        GotMeResponse response ->
+            case response of
+                Ok user ->
+                    ( { model | session = LoggedIn user, route = Just Home }, Nav.pushUrl model.navKey "/" )
+
+                Err _ ->
+                    ( { model | session = Guest }, Cmd.none )
+
+        OpenLoginDialog ->
+            ( { model | isLoginDialogOpen = True }, Cmd.none )
+
+        CloseLoginDialog ->
+            ( { model | isLoginDialogOpen = False }, Cmd.none )
+
+        CloseAllDialogs ->
+            ( { model | isLoginDialogOpen = False, searchResultsOpen = False }, Cmd.none )
+
+        EnteredLoginPassword password ->
+            ( { model | loginPassword = password }, Cmd.none )
+
+        EnteredLoginEmail email ->
+            ( { model | loginEmail = email }, Cmd.none )
+
+        SubmitLogin ->
+            ( model, Pages.Login.loginMutation { email = model.loginEmail, password = model.loginPassword } GotMeResponse )
+
 
 
 ---- VIEW ----
@@ -81,7 +114,7 @@ view model =
     , body =
         [ div
             [ class "flex flex-col w-full h-screen max-w-7xl mx-auto"
-            , onClick CloseSearchResults
+            , onClick CloseAllDialogs
             ]
             [ Navbar.view model
             , mainArea model
@@ -104,6 +137,9 @@ mainArea model =
 
                     CraftingLists ->
                         Pages.CraftingLists.view model
+
+                    Login ->
+                        Pages.Login.view model
 
             Nothing ->
                 div [] []

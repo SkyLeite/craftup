@@ -1,13 +1,15 @@
 module Navbar exposing (commands, view)
 
-import App exposing (Msg(..))
+import App exposing (Model, Msg(..))
 import DataTypes.Item
-import Html exposing (Html, a, div, form, img, input, span, text)
+import DataTypes.User exposing (User)
+import Html exposing (Html, a, button, div, img, input, span, text)
 import Html.Attributes exposing (class, classList, src)
 import Html.Events exposing (onInput)
 import List
 import Route
 import Search exposing (SearchResultType(..))
+import Session exposing (SessionStatus(..))
 import Svg.Attributes
 import Utils exposing (onClick)
 import Zondicons
@@ -18,7 +20,12 @@ view model =
     div [ class "sticky flex items-center border-b-2 space-x-2 p-4" ]
         [ logo
         , searchInput model
-        , userArea model
+        , case model.session of
+            LoggedIn user ->
+                userArea user
+
+            Guest ->
+                guestUserArea
         ]
 
 
@@ -62,8 +69,8 @@ searchInput model =
         ]
 
 
-userArea : App.Model -> Html App.Msg
-userArea model =
+userArea : User -> Html App.Msg
+userArea user =
     let
         imgUrl =
             "https://img2.finalfantasyxiv.com/f/c1006670e130fe1ec501ae70fff2fcdc_96ab1df8877c1f8ba6a89a39cccfd437fc0_96x96.jpg?1610153005"
@@ -74,8 +81,17 @@ userArea model =
             , class "rounded h-10"
             ]
             []
-        , span [ class "hidden sm:block" ] [ text "Nayeon Im" ]
+        , span [ class "hidden sm:block" ] [ text user.email ]
         ]
+
+
+guestUserArea : Html App.Msg
+guestUserArea =
+    a
+        [ class "rounded text-center w-16 font-semibold bg-green-500 text-white py-2 shadow-md"
+        , Route.href Route.Login
+        ]
+        [ text "Login" ]
 
 
 searchResults : App.Model -> Html App.Msg

@@ -1,8 +1,8 @@
 module Session exposing (..)
 
-import App
-import Html exposing (Html, div, node)
+import DataTypes.User exposing (User)
 
 
-type alias Session =
-    { user : DataTypes.User }
+type SessionStatus
+    = LoggedIn User
+    | Guest
