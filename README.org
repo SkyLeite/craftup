@@ -1,0 +1,30 @@
+* Manipulation.app
+
+Welcome to Manipulation! This is a web app that aims to guide you on your crafting journey through Final Fantasy XIV.
+
+* Running
+
+Datasync is only necessary if you intend on interacting with game data (lists, alerts, etc).
+
+** Database
+1. [[https://docs.docker.com/get-docker/][Install Docker]]
+2. [[https://docs.docker.com/get-docker/][Install Docker Compose]]
+3. Run =docker-compose up -d postgres pgadmin= to run the database
+
+** Sync
+1. [[https://www.rust-lang.org/tools/install][Install Rust]]
+2. Make sure the database is running
+3. Run =make sync=
+4. Synchronization might take a good minute or so, as the data repository is quite large. Please hold tight.
+
+** Backend
+
+1. [[https://elixir-lang.org/install.html][Install Elixir]] v1.11 or higher
+2. Run =make migrate= (or =cd backend && mix ecto.migrate=)
+3. Run =make server= (or =cd backend && mix phx.server=)
+
+
+** Frontend
+
+1. Install Node.js (version shouldn't matter)
+2. Run `cd frontend && npm install && npm run dev`
