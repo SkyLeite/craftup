@@ -47,30 +47,25 @@ encodeCreateListInput input =
 
 
 buildItemInput :
-    (ItemInputOptionalFields -> ItemInputOptionalFields)
+    ItemInputRequiredFields
     -> ItemInput
-buildItemInput fillOptionals =
-    let
-        optionals =
-            fillOptionals
-                { id = Absent, isHq = Absent, quantity = Absent }
-    in
-    { id = optionals.id, isHq = optionals.isHq, quantity = optionals.quantity }
+buildItemInput required =
+    { id = required.id, isHq = required.isHq, quantity = required.quantity }
 
 
-type alias ItemInputOptionalFields =
-    { id : OptionalArgument CustomScalarCodecs.Id
-    , isHq : OptionalArgument Bool
-    , quantity : OptionalArgument Int
+type alias ItemInputRequiredFields =
+    { id : CustomScalarCodecs.Id
+    , isHq : Bool
+    , quantity : Int
     }
 
 
 {-| Type for the ItemInput input object.
 -}
 type alias ItemInput =
-    { id : OptionalArgument CustomScalarCodecs.Id
-    , isHq : OptionalArgument Bool
-    , quantity : OptionalArgument Int
+    { id : CustomScalarCodecs.Id
+    , isHq : Bool
+    , quantity : Int
     }
 
 
@@ -79,7 +74,7 @@ type alias ItemInput =
 encodeItemInput : ItemInput -> Value
 encodeItemInput input =
     Encode.maybeObject
-        [ ( "id", (CustomScalarCodecs.codecs |> Api.Scalar.unwrapEncoder .codecId) |> Encode.optional input.id ), ( "isHq", Encode.bool |> Encode.optional input.isHq ), ( "quantity", Encode.int |> Encode.optional input.quantity ) ]
+        [ ( "id", (CustomScalarCodecs.codecs |> Api.Scalar.unwrapEncoder .codecId) input.id |> Just ), ( "isHq", Encode.bool input.isHq |> Just ), ( "quantity", Encode.int input.quantity |> Just ) ]
 
 
 buildLoginInput :
@@ -112,28 +107,23 @@ encodeLoginInput input =
 
 
 buildRegisterInput :
-    (RegisterInputOptionalFields -> RegisterInputOptionalFields)
+    RegisterInputRequiredFields
     -> RegisterInput
-buildRegisterInput fillOptionals =
-    let
-        optionals =
-            fillOptionals
-                { email = Absent, password = Absent }
-    in
-    { email = optionals.email, password = optionals.password }
+buildRegisterInput required =
+    { email = required.email, password = required.password }
 
 
-type alias RegisterInputOptionalFields =
-    { email : OptionalArgument String
-    , password : OptionalArgument String
+type alias RegisterInputRequiredFields =
+    { email : String
+    , password : String
     }
 
 
 {-| Type for the RegisterInput input object.
 -}
 type alias RegisterInput =
-    { email : OptionalArgument String
-    , password : OptionalArgument String
+    { email : String
+    , password : String
     }
 
 
@@ -142,34 +132,29 @@ type alias RegisterInput =
 encodeRegisterInput : RegisterInput -> Value
 encodeRegisterInput input =
     Encode.maybeObject
-        [ ( "email", Encode.string |> Encode.optional input.email ), ( "password", Encode.string |> Encode.optional input.password ) ]
+        [ ( "email", Encode.string input.email |> Just ), ( "password", Encode.string input.password |> Just ) ]
 
 
 buildUpdateListItemInput :
-    (UpdateListItemInputOptionalFields -> UpdateListItemInputOptionalFields)
+    UpdateListItemInputRequiredFields
     -> UpdateListItemInput
-buildUpdateListItemInput fillOptionals =
-    let
-        optionals =
-            fillOptionals
-                { isHq = Absent, necessaryQuantity = Absent, quantity = Absent }
-    in
-    { isHq = optionals.isHq, necessaryQuantity = optionals.necessaryQuantity, quantity = optionals.quantity }
+buildUpdateListItemInput required =
+    { isHq = required.isHq, necessaryQuantity = required.necessaryQuantity, quantity = required.quantity }
 
 
-type alias UpdateListItemInputOptionalFields =
-    { isHq : OptionalArgument Bool
-    , necessaryQuantity : OptionalArgument Int
-    , quantity : OptionalArgument Int
+type alias UpdateListItemInputRequiredFields =
+    { isHq : Bool
+    , necessaryQuantity : Int
+    , quantity : Int
     }
 
 
 {-| Type for the UpdateListItemInput input object.
 -}
 type alias UpdateListItemInput =
-    { isHq : OptionalArgument Bool
-    , necessaryQuantity : OptionalArgument Int
-    , quantity : OptionalArgument Int
+    { isHq : Bool
+    , necessaryQuantity : Int
+    , quantity : Int
     }
 
 
@@ -178,4 +163,4 @@ type alias UpdateListItemInput =
 encodeUpdateListItemInput : UpdateListItemInput -> Value
 encodeUpdateListItemInput input =
     Encode.maybeObject
-        [ ( "isHq", Encode.bool |> Encode.optional input.isHq ), ( "necessaryQuantity", Encode.int |> Encode.optional input.necessaryQuantity ), ( "quantity", Encode.int |> Encode.optional input.quantity ) ]
+        [ ( "isHq", Encode.bool input.isHq |> Just ), ( "necessaryQuantity", Encode.int input.necessaryQuantity |> Just ), ( "quantity", Encode.int input.quantity |> Just ) ]

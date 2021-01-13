@@ -58,8 +58,8 @@ defmodule CraftupWeb.Schema.DataTypes do
   end
 
   input_object :register_input do
-    field :email, :string
-    field :password, :string
+    field :email, non_null(:string)
+    field :password, non_null(:string)
   end
 
   input_object :login_input do
@@ -68,9 +68,9 @@ defmodule CraftupWeb.Schema.DataTypes do
   end
 
   input_object :item_input do
-    field :id, :id
-    field :quantity, :integer
-    field :is_hq, :boolean
+    field :id, non_null(:id)
+    field :quantity, non_null(:integer)
+    field :is_hq, non_null(:boolean)
   end
 
   input_object :create_list_input do
@@ -79,8 +79,8 @@ defmodule CraftupWeb.Schema.DataTypes do
   end
 
   input_object :update_list_item_input do
-    field :is_hq, :boolean
-    field :quantity, :integer
-    field :necessary_quantity, :integer
+    field :is_hq, non_null(:boolean)
+    field :quantity, non_null(:integer)
+    field :necessary_quantity, non_null(:integer)
   end
 end
