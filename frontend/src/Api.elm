@@ -8,7 +8,7 @@ import Graphql.SelectionSet exposing (SelectionSet)
 
 graphqlUrl : String
 graphqlUrl =
-    "http://localhost:4000/"
+    "http://192.168.0.4:4000/"
 
 
 makeRequest :

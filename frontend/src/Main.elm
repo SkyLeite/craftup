@@ -13,6 +13,7 @@ import Navbar
 import Pages.CraftingLists
 import Pages.Home
 import Pages.Login
+import Pages.Register
 import Route exposing (Route(..))
 import Session exposing (SessionStatus(..))
 import Url exposing (Url)
@@ -31,6 +32,8 @@ initModel url navKey =
     , isLoginDialogOpen = False
     , loginEmail = ""
     , loginPassword = ""
+    , registerEmail = ""
+    , registerPassword = ""
     }
 
 
@@ -103,6 +106,15 @@ update msg model =
         SubmitLogin ->
             ( model, Pages.Login.loginMutation { email = model.loginEmail, password = model.loginPassword } GotMeResponse )
 
+        EnteredRegisterPassword password ->
+            ( { model | registerPassword = password }, Cmd.none )
+
+        EnteredRegisterEmail email ->
+            ( { model | registerEmail = email }, Cmd.none )
+
+        SubmitRegister ->
+            ( model, Pages.Register.registerMutation { email = model.registerEmail, password = model.registerPassword } GotMeResponse )
+
 
 
 ---- VIEW ----
@@ -141,8 +153,11 @@ mainArea model =
                     Login ->
                         Pages.Login.view model
 
+                    Register ->
+                        Pages.Register.view model
+
             Nothing ->
-                div [] []
+                div [] [ text "Not found" ]
         ]
 
 

@@ -22,6 +22,8 @@ type alias Model =
     , isLoginDialogOpen : Bool
     , loginEmail : String
     , loginPassword : String
+    , registerEmail : String
+    , registerPassword : String
     }
 
 
@@ -40,3 +42,6 @@ type Msg
     | EnteredLoginPassword String
     | EnteredLoginEmail String
     | SubmitLogin
+    | EnteredRegisterPassword String
+    | EnteredRegisterEmail String
+    | SubmitRegister

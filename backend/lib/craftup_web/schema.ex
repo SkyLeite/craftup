@@ -36,6 +36,20 @@ defmodule CraftupWeb.Schema do
       arg(:input, non_null(:register_input))
 
       resolve(&Resolvers.Account.register/3)
+
+      middleware(fn resolution, _ ->
+        case resolution.value do
+          %{id: id} ->
+            Map.update!(
+              resolution,
+              :context,
+              &Map.merge(&1, %{user: id})
+            )
+
+          _ ->
+            resolution
+        end
+      end)
     end
 
     @desc "Login"
@@ -45,8 +59,6 @@ defmodule CraftupWeb.Schema do
       resolve(&Resolvers.Account.login/3)
 
       middleware(fn resolution, _ ->
-        IO.inspect(resolution.value)
-
         case resolution.value do
           %{id: id} ->
             Map.update!(

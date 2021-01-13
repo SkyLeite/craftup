@@ -16,6 +16,7 @@ type Route
     | CraftingList String
     | CraftingLists
     | Login
+    | Register
 
 
 parser : Parser (Route -> a) a
@@ -25,6 +26,7 @@ parser =
         , Parser.map CraftingList (s "list" </> string)
         , Parser.map CraftingLists (s "lists")
         , Parser.map Login (s "login")
+        , Parser.map Register (s "register")
         ]
 
 
@@ -74,3 +76,6 @@ routeToPieces page =
 
         Login ->
             [ "login" ]
+
+        Register ->
+            [ "register" ]
