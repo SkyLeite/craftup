@@ -28,3 +28,12 @@ Datasync is only necessary if you intend on interacting with game data (lists, a
 
 1. Install Node.js (version shouldn't matter)
 2. Run `cd frontend && npm install && npm run dev`
+
+* Roadmap
+
+** TODO Add proper error reporting and handling :backend:frontend:
+** TODO Add list creation :frontend:
+** TODO Add list display :frontend:
+** TODO Add alerts :backend:frontend:
+** TODO Add functionality to command pallete :frontend:
+** TODO Benchmark application on PageSpeed :frontend:
