@@ -45,5 +45,6 @@
 /frontend/.DS_Store
 /frontend/dist
 /frontend/.cache
+/frontend/.parcel-cache
 
 /datasync/target
