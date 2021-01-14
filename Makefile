@@ -15,3 +15,6 @@ db-clean:
 
 sync:
 	cd datasync && RUST_LOG=debug cargo run
+
+build-front:
+	cd frontend && npm install && npm run build
