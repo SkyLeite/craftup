@@ -6,6 +6,7 @@ import Browser
 import Browser.Navigation as Nav
 import DataTypes.Item
 import DataTypes.User
+import Footer
 import Html exposing (Html, div, text)
 import Html.Attributes exposing (class)
 import Html.Events exposing (onClick)
@@ -130,6 +131,7 @@ view model =
             ]
             [ Navbar.view model
             , mainArea model
+            , Footer.view model
             ]
         ]
     }
