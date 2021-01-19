@@ -16,7 +16,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "parcel": "^2.0.0-nightly.532",
+    "parcel": "^2.0.0-nightly.540",
     "postcss": "^8.2.3",
     "postcss-modules": "^4.0.0",
     "tailwindcss": "^2.0.2"
