@@ -1,11 +1,12 @@
 module Pages.Home exposing (view)
 
-import App exposing (Msg(..))
 import Html exposing (Html, div, h1, h2, li, p, text, ul)
 import Html.Attributes exposing (class)
+import Model exposing (Model)
+import Msg exposing (Msg(..))
 
 
-view : App.Model -> Html App.Msg
+view : Model -> Html Msg
 view model =
     div [ class "p-8 space-y-4" ]
         [ h1 [ class "font-semibold text-xl" ] [ text "Welcome to Manipulation!" ]

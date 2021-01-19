@@ -1,11 +1,11 @@
 module Sidebar exposing (view)
 
-import App exposing (Msg(..))
 import Html exposing (Html, a, div, text)
 import Html.Attributes exposing (class)
 import Route
 import Svg
 import Svg.Attributes
+import Update exposing (Msg(..))
 import Zondicons
 
 

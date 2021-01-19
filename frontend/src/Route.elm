@@ -1,4 +1,4 @@
-module Route exposing (Route(..), fromUrl, href, parser, replaceUrl)
+module Route exposing (Route(..), fromUrl, href, parser, replaceUrl, routeToCmd)
 
 import Browser.Navigation as Nav
 import Html exposing (Attribute)
@@ -23,8 +23,8 @@ parser : Parser (Route -> a) a
 parser =
     oneOf
         [ Parser.map Home Parser.top
-        , Parser.map CraftingList (s "list" </> string)
         , Parser.map CraftingLists (s "lists")
+        , Parser.map CraftingList (s "list" </> string)
         , Parser.map Login (s "login")
         , Parser.map Register (s "register")
         ]
@@ -51,6 +51,16 @@ fromUrl url =
     -- with parsing as if it had been a normal path all along.
     { url | path = Maybe.withDefault "" url.fragment, fragment = Nothing }
         |> Parser.parse parser
+
+
+routeToCmd : Route -> Cmd msg
+routeToCmd page =
+    case page of
+        CraftingLists ->
+            Cmd.none
+
+        _ ->
+            Cmd.none
 
 
 

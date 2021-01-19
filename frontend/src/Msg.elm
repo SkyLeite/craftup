@@ -1,30 +1,10 @@
-module App exposing (Model, Msg(..))
+module Msg exposing (Msg(..))
 
 import Browser
-import Browser.Navigation as Nav
 import DataTypes.Item
 import DataTypes.User
 import Graphql.Http
-import Route exposing (Route(..))
-import Search
-import Session exposing (SessionStatus)
 import Url exposing (Url)
-
-
-type alias Model =
-    { navKey : Nav.Key
-    , route : Maybe Route
-    , searchQuery : Maybe String
-    , foundItems : Maybe (List DataTypes.Item.Item)
-    , searchResultsOpen : Bool
-    , searchResults : List (Search.SearchResult Msg)
-    , session : SessionStatus
-    , isLoginDialogOpen : Bool
-    , loginEmail : String
-    , loginPassword : String
-    , registerEmail : String
-    , registerPassword : String
-    }
 
 
 type Msg

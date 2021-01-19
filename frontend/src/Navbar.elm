@@ -1,12 +1,13 @@
-module Navbar exposing (commands, view)
+module Navbar exposing (view)
 
-import App exposing (Model, Msg(..))
 import DataTypes.Item
 import DataTypes.User exposing (User)
 import Html exposing (Html, a, button, div, img, input, span, text)
 import Html.Attributes exposing (class, classList, src)
 import Html.Events exposing (onInput)
 import List
+import Model exposing (Model)
+import Msg exposing (Msg(..))
 import Route
 import Search exposing (SearchResultType(..))
 import Session exposing (SessionStatus(..))
@@ -15,7 +16,7 @@ import Utils exposing (onClick)
 import Zondicons
 
 
-view : App.Model -> Html App.Msg
+view : Model -> Html Msg
 view model =
     div [ class "sticky flex items-center border-b-2 space-x-2 p-4" ]
         [ logo
@@ -46,7 +47,7 @@ logo =
         ]
 
 
-searchInput : App.Model -> Html App.Msg
+searchInput : Model -> Html Msg
 searchInput model =
     div
         [ class
@@ -65,12 +66,12 @@ searchInput model =
                 )
             ]
             []
-        , span [ class "absolute right-3 border rounded py-0.5 px-2 text-sm text-gray-400"] [ text "CTRL+K" ]
+        , span [ class "absolute right-3 border rounded py-0.5 px-2 text-sm text-gray-400" ] [ text "CTRL+K" ]
         , searchResults model
         ]
 
 
-userArea : User -> Html App.Msg
+userArea : User -> Html Msg
 userArea user =
     let
         imgUrl =
@@ -86,7 +87,7 @@ userArea user =
         ]
 
 
-guestUserArea : Html App.Msg
+guestUserArea : Html Msg
 guestUserArea =
     a
         [ class "rounded text-center w-16 font-semibold bg-green-500 text-white py-2 shadow-md"
@@ -95,7 +96,7 @@ guestUserArea =
         [ text "Login" ]
 
 
-searchResults : App.Model -> Html App.Msg
+searchResults : Model -> Html Msg
 searchResults model =
     let
         isShown =
@@ -129,7 +130,7 @@ searchResults model =
         )
 
 
-searchResult : Search.SearchResult Msg -> Html App.Msg
+searchResult : Search.SearchResult Msg -> Html Msg
 searchResult data =
     let
         prefixHtml =
@@ -146,14 +147,6 @@ searchResult data =
         ]
 
 
-commands : List (Search.SearchResult Msg)
-commands =
-    [ { title = "Create list", description = "Creates an empty list", action = NoOp, resultType = Command "cl" }
-    , { title = "Go to list", description = "Opens a list", action = NoOp, resultType = Command "gl" }
-    , { title = "Login", description = "Login to your account", action = NoOp, resultType = Command "log" }
-    ]
-
-
-itemToSearchResult : DataTypes.Item.Item -> Search.SearchResult App.Msg
+itemToSearchResult : DataTypes.Item.Item -> Search.SearchResult Msg
 itemToSearchResult item =
     { title = item.name, description = "Some item", action = NoOp, resultType = Search }

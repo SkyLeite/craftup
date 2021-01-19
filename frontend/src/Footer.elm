@@ -1,12 +1,13 @@
 module Footer exposing (view)
 
-import App
 import Html exposing (Html, a, div, li, span, text, ul)
 import Html.Attributes exposing (class, classList)
+import Model exposing (Model)
+import Msg exposing (Msg(..))
 import Route exposing (Route, href)
 
 
-view : App.Model -> Html App.Msg
+view : Model -> Html Msg
 view model =
     let
         currentRoute =
@@ -21,7 +22,7 @@ view model =
         ]
 
 
-pageButton : String -> Route -> Route -> Html App.Msg
+pageButton : String -> Route -> Route -> Html Msg
 pageButton name route activeRoute =
     let
         isActive =

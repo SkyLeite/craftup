@@ -1,14 +1,14 @@
 module Components exposing (searchInput)
 
-import App
 import Html exposing (Html, div, input)
 import Html.Attributes exposing (class, placeholder)
 import Html.Events exposing (onInput)
+import Msg exposing (Msg(..))
 import Svg.Attributes
 import Zondicons
 
 
-searchInput : (String -> App.Msg) -> Html App.Msg
+searchInput : (String -> Msg) -> Html Msg
 searchInput msg =
     div [ class "search input" ]
         [ Zondicons.search [ Svg.Attributes.class "icon" ]

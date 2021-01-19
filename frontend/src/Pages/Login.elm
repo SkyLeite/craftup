@@ -3,16 +3,17 @@ module Pages.Login exposing (loginMutation, view)
 import Api
 import Api.InputObject
 import Api.Mutation
-import App exposing (Msg(..))
 import DataTypes.User
 import Graphql.Http exposing (Error)
 import Html exposing (Html, a, button, div, form, h1, h2, input, span, text)
 import Html.Attributes exposing (class, placeholder, required, type_, value)
 import Html.Events exposing (onInput, onSubmit)
+import Model exposing (Model)
+import Msg exposing (Msg(..))
 import Route
 
 
-view : App.Model -> Html App.Msg
+view : Model -> Html Msg
 view model =
     let
         inputClasses =
@@ -60,7 +61,7 @@ view model =
         ]
 
 
-loginMutation : Api.InputObject.LoginInput -> (Result (Error DataTypes.User.User) DataTypes.User.User -> Msg) -> Cmd Msg
+loginMutation : Api.InputObject.LoginInput -> (Result (Error DataTypes.User.User) DataTypes.User.User -> msg) -> Cmd msg
 loginMutation input =
     Api.makeMutation
         (Api.Mutation.login { input = input } DataTypes.User.userSelectionSet)
