@@ -79,13 +79,13 @@ routeToPieces page =
             [ "/" ]
 
         CraftingList id ->
-            [ "list", id ]
+            [ "/list", id ]
 
         CraftingLists ->
-            [ "lists" ]
+            [ "/lists" ]
 
         Login ->
-            [ "login" ]
+            [ "/login" ]
 
         Register ->
-            [ "register" ]
+            [ "/register" ]
