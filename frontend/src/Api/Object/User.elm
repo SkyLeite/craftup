@@ -31,6 +31,6 @@ id =
 
 lists :
     SelectionSet decodesTo Api.Object.List
-    -> SelectionSet (List (Maybe decodesTo)) Api.Object.User
+    -> SelectionSet (List decodesTo) Api.Object.User
 lists object_ =
-    Object.selectionForCompositeField "lists" [] object_ (identity >> Decode.nullable >> Decode.list)
+    Object.selectionForCompositeField "lists" [] object_ (identity >> Decode.list)

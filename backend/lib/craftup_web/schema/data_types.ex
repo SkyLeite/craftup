@@ -54,7 +54,7 @@ defmodule CraftupWeb.Schema.DataTypes do
     field :id, non_null(:id)
     field :email, non_null(:string)
 
-    field :lists, non_null(list_of(:list)), resolve: dataloader(Craftup.Game)
+    field :lists, non_null(list_of(non_null(:list))), resolve: dataloader(Craftup.Game)
   end
 
   input_object :register_input do
