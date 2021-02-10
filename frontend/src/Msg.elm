@@ -15,6 +15,7 @@ type Msg
     | OpenSearchResults
     | CloseSearchResults
     | GotItemsResponse (Result (Graphql.Http.Error (List DataTypes.Item.Item)) (List DataTypes.Item.Item))
+    | GotLoginResponse (Result (Graphql.Http.Error DataTypes.User.User) DataTypes.User.User)
     | GotMeResponse (Result (Graphql.Http.Error DataTypes.User.User) DataTypes.User.User)
     | OpenLoginDialog
     | CloseLoginDialog
@@ -25,3 +26,4 @@ type Msg
     | EnteredRegisterPassword String
     | EnteredRegisterEmail String
     | SubmitRegister
+    | EnteredListFilter String

@@ -54,10 +54,18 @@ update msg model =
                 Err _ ->
                     ( { model | foundItems = Nothing }, Cmd.none )
 
+        GotLoginResponse response ->
+            case response of
+                Ok user ->
+                    ( { model | session = LoggedIn user }, Nav.pushUrl model.navKey "/" )
+
+                Err _ ->
+                    ( { model | session = Guest }, Cmd.none )
+
         GotMeResponse response ->
             case response of
                 Ok user ->
-                    ( { model | session = LoggedIn user, route = Just Home }, Nav.pushUrl model.navKey "/" )
+                    ( { model | session = LoggedIn user }, Cmd.none )
 
                 Err _ ->
                     ( { model | session = Guest }, Cmd.none )
@@ -88,3 +96,6 @@ update msg model =
 
         SubmitRegister ->
             ( model, Pages.Register.registerMutation { email = model.registerEmail, password = model.registerPassword } GotMeResponse )
+
+        EnteredListFilter filter ->
+            ( { model | listFilter = filter }, Cmd.none )

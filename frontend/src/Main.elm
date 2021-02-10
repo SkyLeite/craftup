@@ -14,6 +14,7 @@ import Navbar
 import Pages.CraftingLists
 import Pages.Home
 import Pages.Login
+import Pages.NewCraftingList
 import Pages.Register
 import Route exposing (Route(..))
 import Session exposing (SessionStatus(..))
@@ -60,6 +61,9 @@ mainArea model =
 
                     CraftingLists ->
                         Pages.CraftingLists.view model
+
+                    NewCraftingList ->
+                        Pages.NewCraftingList.view model
 
                     Login ->
                         Pages.Login.view model

@@ -2,6 +2,7 @@ module Model exposing (Model, init)
 
 import Browser
 import Browser.Navigation as Nav
+import DataTypes.CraftingList
 import DataTypes.Item
 import DataTypes.User
 import Graphql.Http
@@ -26,6 +27,7 @@ type alias Model =
     , loginPassword : String
     , registerEmail : String
     , registerPassword : String
+    , listFilter : String
     }
 
 
@@ -43,4 +45,5 @@ init url navKey =
     , loginPassword = ""
     , registerEmail = ""
     , registerPassword = ""
+    , listFilter = ""
     }

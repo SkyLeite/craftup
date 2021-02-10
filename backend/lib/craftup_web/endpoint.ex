@@ -16,7 +16,8 @@ defmodule CraftupWeb.Endpoint do
   @session_options [
     store: :cookie,
     key: "_craftup_key",
-    signing_salt: "Z7h4pOnW"
+    signing_salt: "Z7h4pOnW",
+    extra: "SameSite=Lax"
   ]
 
   plug Phoenix.LiveDashboard.RequestLogger,

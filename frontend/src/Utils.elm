@@ -1,10 +1,9 @@
-module Utils exposing (modal, onClick)
+module Utils exposing (modal, onClick, toLowerContains)
 
 import Html exposing (Html, node)
-import Html.Attributes exposing (attribute, class, property)
+import Html.Attributes exposing (attribute, class)
 import Html.Events
 import Json.Decode
-import Json.Encode exposing (bool)
 
 
 onClick : msg -> Html.Attribute msg
@@ -27,3 +26,10 @@ modal isOpen attributes children =
             ++ attributes
         )
         children
+
+
+toLowerContains : String -> String -> Bool
+toLowerContains str1 str2 =
+    str2
+        |> String.toLower
+        |> String.contains (String.toLower str1)

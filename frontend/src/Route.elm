@@ -1,8 +1,11 @@
 module Route exposing (Route(..), fromUrl, href, parser, replaceUrl, routeToCmd)
 
+import Api
 import Browser.Navigation as Nav
+import DataTypes.User
 import Html exposing (Attribute)
 import Html.Attributes as Attr
+import Msg exposing (Msg(..))
 import Url exposing (Url)
 import Url.Parser as Parser exposing ((</>), Parser, oneOf, s, string)
 
@@ -17,6 +20,7 @@ type Route
     | CraftingLists
     | Login
     | Register
+    | NewCraftingList
 
 
 parser : Parser (Route -> a) a
@@ -24,6 +28,7 @@ parser =
     oneOf
         [ Parser.map Home Parser.top
         , Parser.map CraftingLists (s "lists")
+        , Parser.map NewCraftingList (s "lists" </> s "new")
         , Parser.map CraftingList (s "list" </> string)
         , Parser.map Login (s "login")
         , Parser.map Register (s "register")
@@ -53,11 +58,11 @@ fromUrl url =
         |> Parser.parse parser
 
 
-routeToCmd : Route -> Cmd msg
+routeToCmd : Route -> Cmd Msg
 routeToCmd page =
     case page of
         CraftingLists ->
-            Cmd.none
+            Api.makeRequest DataTypes.User.meQuery GotMeResponse
 
         _ ->
             Cmd.none
@@ -83,6 +88,9 @@ routeToPieces page =
 
         CraftingLists ->
             [ "/lists" ]
+
+        NewCraftingList ->
+            [ "/lists/new" ]
 
         Login ->
             [ "/login" ]
