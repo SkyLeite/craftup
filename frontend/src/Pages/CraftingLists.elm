@@ -3,7 +3,7 @@ module Pages.CraftingLists exposing (view)
 import DataTypes.CraftingList exposing (CraftingList)
 import DataTypes.User exposing (User)
 import Html exposing (Html, a, button, div, input, span, text)
-import Html.Attributes exposing (class, placeholder, type_)
+import Html.Attributes exposing (class, disabled, placeholder, type_)
 import Html.Events exposing (onInput)
 import Model exposing (Model)
 import Msg exposing (Msg(..))
@@ -19,7 +19,7 @@ view model =
     case model.session of
         LoggedIn user ->
             div [ class "pt-8 px-7 xs:px-8 space-y-4" ]
-                [ tableHeader
+                [ tableHeader user.lists
                 , tableBody user.lists model.listFilter
                 ]
 
@@ -27,9 +27,12 @@ view model =
             div [] []
 
 
-tableHeader : Html Msg
-tableHeader =
-    div [ class "flex w-full" ] [ searchInput, actions ]
+tableHeader : List CraftingList -> Html Msg
+tableHeader lists =
+    div [ class "flex w-full" ]
+        [ searchInput (List.length lists > 0)
+        , actions
+        ]
 
 
 actions : Html Msg
@@ -43,13 +46,14 @@ actions =
         ]
 
 
-searchInput : Html Msg
-searchInput =
+searchInput : Bool -> Html Msg
+searchInput enabled =
     input
         [ type_ "text"
         , class "border rounded pl-2"
         , placeholder "Filter"
         , onInput EnteredListFilter
+        , disabled (not enabled)
         ]
         []
 
@@ -57,14 +61,28 @@ searchInput =
 tableBody : List CraftingList -> String -> Html Msg
 tableBody lists filter =
     div [ class "w-full rounded border p-4 space-y-5" ]
-        (lists
-            |> List.filter
-                (\l ->
-                    l.title
-                        |> Utils.toLowerContains filter
-                )
-            |> List.map singleList
+        (case lists of
+            [] ->
+                [ noLists ]
+
+            xs ->
+                lists
+                    |> List.filter
+                        (\l ->
+                            l.title
+                                |> Utils.toLowerContains filter
+                        )
+                    |> List.map singleList
         )
+
+
+noLists : Html Msg
+noLists =
+    span []
+        [ text "No lists found. Try "
+        , a [ Route.href Route.NewCraftingList ] [ text "creating one" ]
+        , text "."
+        ]
 
 
 singleList : CraftingList -> Html Msg
