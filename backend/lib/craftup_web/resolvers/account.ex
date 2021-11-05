@@ -11,6 +11,10 @@ defmodule CraftupWeb.Resolvers.Account do
     {:ok, user}
   end
 
+  def me(_parents, _args, _ctx) do
+    {:error, "Unauthorized"}
+  end
+
   def create_list(_parents, args, %{context: %{current_user: user}}) do
     Craftup.Account.create_list(user, args)
   end
