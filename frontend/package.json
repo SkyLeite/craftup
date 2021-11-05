@@ -8,7 +8,7 @@
     "test": "tests"
   },
   "scripts": {
-    "dev": "parcel ./public/index.html --https",
+    "dev": "parcel ./public/index.html",
     "generate-graphql": "elm-graphql http://localhost:4000 --scalar-codecs CustomScalarCodecs",
     "build": "NODE_ENV=production parcel build ./public/index.html"
   },
