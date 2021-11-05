@@ -18,8 +18,10 @@ type alias Model =
     { navKey : Nav.Key
     , route : Maybe Route
     , searchQuery : Maybe String
+    , newListSearchQuery : Maybe String
     , foundItems : Maybe (List DataTypes.Item.Item)
     , searchResultsOpen : Bool
+    , newListSearchResultsOpen : Bool
     , searchResults : List (Search.SearchResult Msg)
     , session : SessionStatus
     , isLoginDialogOpen : Bool
@@ -36,8 +38,10 @@ init url navKey =
     { navKey = navKey
     , route = Url.Parser.parse Route.parser url
     , searchQuery = Nothing
+    , newListSearchQuery = Nothing
     , foundItems = Nothing
     , searchResultsOpen = False
+    , newListSearchResultsOpen = False
     , searchResults = []
     , session = Guest
     , isLoginDialogOpen = False

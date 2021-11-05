@@ -16,6 +16,7 @@ import Pages.Home
 import Pages.Login
 import Pages.NewCraftingList
 import Pages.Register
+import Pages.Item
 import Route exposing (Route(..))
 import Session exposing (SessionStatus(..))
 import Update
@@ -36,7 +37,7 @@ view model =
     { title = "Manipulation.app"
     , body =
         [ div
-            [ class "flex flex-col w-full h-screen max-w-7xl mx-auto"
+            [ class "flex flex-col w-full h-screen mx-auto max-w-7xl"
             , onClick CloseAllDialogs
             ]
             [ Navbar.view model
@@ -70,6 +71,9 @@ mainArea model =
 
                     Register ->
                         Pages.Register.view model
+
+                    Item id ->
+                        Pages.Item.view model id
 
             Nothing ->
                 div [] [ text "Not found" ]

@@ -21,6 +21,7 @@ type Route
     | Login
     | Register
     | NewCraftingList
+    | Item String
 
 
 parser : Parser (Route -> a) a
@@ -32,6 +33,7 @@ parser =
         , Parser.map CraftingList (s "list" </> string)
         , Parser.map Login (s "login")
         , Parser.map Register (s "register")
+        , Parser.map Item (s "item" </> string)
         ]
 
 
@@ -97,3 +99,6 @@ routeToPieces page =
 
         Register ->
             [ "/register" ]
+
+        Item id ->
+            [ "/item", id ]

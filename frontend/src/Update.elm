@@ -77,7 +77,7 @@ update msg model =
             ( { model | isLoginDialogOpen = False }, Cmd.none )
 
         CloseAllDialogs ->
-            ( { model | isLoginDialogOpen = False, searchResultsOpen = False }, Cmd.none )
+            ( { model | isLoginDialogOpen = False, searchResultsOpen = False, newListSearchResultsOpen = False }, Cmd.none )
 
         EnteredLoginPassword password ->
             ( { model | loginPassword = password }, Cmd.none )
@@ -99,3 +99,9 @@ update msg model =
 
         EnteredListFilter filter ->
             ( { model | listFilter = filter }, Cmd.none )
+
+        EnteredNewListSearchQuery query ->
+            ( { model | newListSearchQuery = Just query, newListSearchResultsOpen = not (query == "") }, Api.makeRequest (DataTypes.Item.itemSearchQuery query) GotItemsResponse )
+
+        OpenNewListSearchResults ->
+            ( { model | newListSearchResultsOpen = True }, Cmd.none )

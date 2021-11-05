@@ -1,0 +1,30 @@
+@font-face {
+  font-family: Karma;
+  src: url("fonts/Karma-Regular.ttf");
+}
+
+@font-face {
+  font-family: Raleway;
+  src: url("fonts/Raleway-Regular.ttf");
+}
+
+.crafting-list-list-item {
+  display: grid;
+  grid-template-columns: 30px 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 0px 0px;
+  grid-template-areas:
+    "icon title title title"
+    "icon progress . .";
+}
+
+.crafting-list-list-item > .icon {
+  grid-area: icon;
+}
+
+.crafting-list-list-item > .title {
+  grid-area: title;
+}
+.crafting-list-list-item > .progress {
+  grid-area: progress;
+}

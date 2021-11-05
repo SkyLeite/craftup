@@ -1,4 +1,4 @@
-module Navbar exposing (view)
+module Navbar exposing (searchInput, view)
 
 import DataTypes.Item
 import DataTypes.User exposing (User)

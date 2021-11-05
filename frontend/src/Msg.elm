@@ -27,3 +27,5 @@ type Msg
     | EnteredRegisterEmail String
     | SubmitRegister
     | EnteredListFilter String
+    | EnteredNewListSearchQuery String
+    | OpenNewListSearchResults
