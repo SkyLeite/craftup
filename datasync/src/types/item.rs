@@ -1,6 +1,8 @@
 use crate::types::{bool_from_string, GameItem};
 use serde::{self, Deserialize};
 
+
+
 #[derive(Debug, Deserialize)]
 pub struct Item {
     pub id: i64,
@@ -26,24 +28,24 @@ pub struct Item {
     pub blank2: String,
     pub stack_size: i32,
 
-    #[serde(deserialize_with = "bool_from_string")]
-    pub is_unique: bool,
+    // #[serde(deserialize_with = "bool_from_string")]
+    pub is_unique: String,
 
-    #[serde(deserialize_with = "bool_from_string")]
-    pub is_untradable: bool,
+    // #[serde(deserialize_with = "bool_from_string")]
+    pub is_untradable: String,
 
-    #[serde(deserialize_with = "bool_from_string")]
-    pub is_indisposable: bool,
+    // #[serde(deserialize_with = "bool_from_string")]
+    pub is_indisposable: String,
     pub lot: String,
     pub price_mid: String,
     pub price_low: String,
     pub can_be_hq: String,
 
-    #[serde(deserialize_with = "bool_from_string")]
-    pub is_dyeable: bool,
+    // #[serde(deserialize_with = "bool_from_string")]
+    pub is_dyeable: String,
 
-    #[serde(deserialize_with = "bool_from_string")]
-    pub is_crest_worthy: bool,
+    // #[serde(deserialize_with = "bool_from_string")]
+    pub is_crest_worthy: String,
     pub item_action: String,
     pub blank3: String,
     pub cooldown: String,
@@ -52,11 +54,10 @@ pub struct Item {
     pub item_glamour: String,
     pub desynth: String,
 
-    #[serde(deserialize_with = "bool_from_string")]
-    pub is_collectable: bool,
+    // #[serde(deserialize_with = "bool_from_string")]
+    pub is_collectable: String,
     pub always_collectable: String,
     pub aetherial_reduce: String,
-    pub unknown54: String,
     pub level_equip: String,
     pub blank4: String,
     pub equip_restriction: String,
@@ -105,15 +106,15 @@ pub struct Item {
     pub materialize_type: String,
     pub materia_slot_count: String,
 
-    #[serde(deserialize_with = "bool_from_string")]
-    pub is_advanced_melding_permitted: bool,
+    // #[serde(deserialize_with = "bool_from_string")]
+    pub is_advanced_melding_permitted: String,
 
-    #[serde(deserialize_with = "bool_from_string")]
-    pub is_pv_p: bool,
-    pub blank: i32,
+    // #[serde(deserialize_with = "bool_from_string")]
+    pub is_pv_p: String,
+    pub sub_stat_category: i32,
 
-    #[serde(deserialize_with = "bool_from_string")]
-    pub is_glamourous: bool,
+    // #[serde(deserialize_with = "bool_from_string")]
+    pub is_glamourous: String,
 }
 
 impl GameItem for Item {
