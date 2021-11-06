@@ -3,18 +3,17 @@ module Navbar exposing (searchInput, view)
 import DataTypes.Item
 import DataTypes.User exposing (User)
 import Html exposing (Html, a, button, div, img, input, span, text)
-import Html.Attributes exposing (class, classList, src)
+import Html.Attributes exposing (class, classList, src, value)
 import Html.Events exposing (onInput)
 import List
 import Model exposing (Model)
 import Msg exposing (Msg(..))
-import Route
+import Route exposing (href)
 import Search exposing (SearchResultType(..))
 import Session exposing (SessionStatus(..))
 import Svg.Attributes
 import Utils exposing (onClick)
 import Zondicons
-import Route exposing (href)
 
 
 view : Model -> Html Msg
@@ -57,6 +56,7 @@ searchInput model =
         [ Zondicons.search [ Svg.Attributes.class "absolute w-4 ml-2 text-gray-400" ]
         , input
             [ class "w-full h-full pl-8 border rounded"
+            , model.searchQuery |> Maybe.withDefault "" |> value
             , onInput EnteredSearchQuery
             , onClick
                 (if model.searchQuery /= Just "" then
@@ -142,8 +142,10 @@ searchResult data =
                 Search ->
                     span [] []
     in
-    a [ class "flex items-center h-12 px-2 py-1 bg-green-100 rounded cursor-pointer sm:h-8 hover:bg-green-200"
-    , href (Route.Item data.title)]
+    a
+        [ class "flex items-center h-12 px-2 py-1 bg-green-100 rounded cursor-pointer sm:h-8 hover:bg-green-200"
+        , href (Route.Item data.title)
+        ]
         [ prefixHtml
         , span [ class "mx-2" ] [ text data.title ]
         ]

@@ -26,8 +26,16 @@ update msg model =
             let
                 route =
                     Url.Parser.parse Route.parser url
+
+                setRoute r m =
+                    { m | route = r }
             in
-            ( { model | route = route }, route |> Maybe.withDefault Route.Home |> Route.routeToCmd )
+            ( model
+                |> closeDialogs
+                |> clearSearchQuery
+                |> setRoute route
+            , route |> Maybe.withDefault Route.Home |> Route.routeToCmd
+            )
 
         ClickedLink urlRequest ->
             case urlRequest of
@@ -77,7 +85,7 @@ update msg model =
             ( { model | isLoginDialogOpen = False }, Cmd.none )
 
         CloseAllDialogs ->
-            ( { model | isLoginDialogOpen = False, searchResultsOpen = False, newListSearchResultsOpen = False }, Cmd.none )
+            ( closeDialogs model, Cmd.none )
 
         EnteredLoginPassword password ->
             ( { model | loginPassword = password }, Cmd.none )
@@ -108,9 +116,18 @@ update msg model =
 
         GotItemResponse response ->
             case response of
-              Ok item -> 
-                ({ model | foundItem = item }, Cmd.none)
+                Ok item ->
+                    ( { model | foundItem = item }, Cmd.none )
 
-              Err _ ->
-                (model, Cmd.none)
-                        
+                Err _ ->
+                    ( model, Cmd.none )
+
+
+closeDialogs : Model -> Model
+closeDialogs model =
+    { model | isLoginDialogOpen = False, searchResultsOpen = False, newListSearchResultsOpen = False }
+
+
+clearSearchQuery : Model -> Model
+clearSearchQuery model =
+    { model | searchQuery = Nothing }
