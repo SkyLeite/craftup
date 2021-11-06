@@ -16,6 +16,8 @@ pkgs.mkShell {
     pkgs.pkg-config
     pkgs.nodejs-12_x
     pkgs.elmPackages.elm-language-server
+
+    pkgs.python # For fucking node-sass
   ];
 
   RUST_SRC_PATH = "${pkgs.rust.packages.stable.rustPlatform.rustLibSrc}";
