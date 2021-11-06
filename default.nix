@@ -16,6 +16,7 @@ pkgs.mkShell {
     pkgs.pkg-config
     pkgs.nodejs-12_x
     pkgs.elmPackages.elm-language-server
+    pkgs.elmPackages.elm-format
     pkgs.postgresql
 
     pkgs.python # For fucking node-sass
