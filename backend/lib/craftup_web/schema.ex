@@ -18,6 +18,12 @@ defmodule CraftupWeb.Schema do
   end
 
   query do
+    @desc "Get a single item"
+    field :item, :item do
+      arg(:name, non_null(:string))
+      resolve(&Resolvers.Game.get_item/3)
+    end
+
     @desc "Get a list of items"
     field :items, non_null(list_of(non_null(:item))) do
       arg(:name, non_null(:string))

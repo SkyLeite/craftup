@@ -58,11 +58,11 @@ searchInput : Model -> Html Msg
 searchInput model =
     div
         [ class
-            "relative flex-auto flex h-10 items-center justify-start text-gray-600 font-medium "
+            "relative flex items-center justify-start flex-auto h-10 font-medium text-gray-600 "
         ]
-        [ Zondicons.search [ Svg.Attributes.class "text-gray-400 w-4 absolute ml-2" ]
+        [ Zondicons.search [ Svg.Attributes.class "absolute w-4 ml-2 text-gray-400" ]
         , input
-            [ class "border w-full h-full pl-8 rounded"
+            [ class "w-full h-full pl-8 border rounded"
             , onInput EnteredNewListSearchQuery
             , onClick
                 (if model.searchQuery /= Just "" then
@@ -88,7 +88,7 @@ searchResult data =
                 Search ->
                     span [] []
     in
-    div [ class "flex items-center h-12 sm:h-8 bg-green-100 hover:bg-green-200 cursor-pointer rounded py-1 px-2" ]
+    div [ class "flex items-center h-12 px-2 py-1 bg-green-100 rounded cursor-pointer sm:h-8 hover:bg-green-200" ]
         [ prefixHtml
         , span [ class "mx-2" ] [ text data.title ]
         ]
@@ -116,7 +116,7 @@ searchResults model =
                 "opacity-0"
     in
     div
-        [ class "absolute mt-72 h-64 w-full z-50 bg-white rounded-b border transition-all p-2 space-y-1 overflow-y-scroll"
+        [ class "absolute z-50 w-full h-64 p-2 overflow-y-scroll bg-white border rounded-b mt-72 transition-all space-y-1"
         , classList [ ( "invisible", not isShown ), ( opacityClass, True ) ]
         , onClick NoOp
         ]

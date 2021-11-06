@@ -20,6 +20,7 @@ type alias Model =
     , searchQuery : Maybe String
     , newListSearchQuery : Maybe String
     , foundItems : Maybe (List DataTypes.Item.Item)
+    , foundItem : Maybe (DataTypes.Item.Item)
     , searchResultsOpen : Bool
     , newListSearchResultsOpen : Bool
     , searchResults : List (Search.SearchResult Msg)
@@ -40,6 +41,7 @@ init url navKey =
     , searchQuery = Nothing
     , newListSearchQuery = Nothing
     , foundItems = Nothing
+    , foundItem = Nothing
     , searchResultsOpen = False
     , newListSearchResultsOpen = False
     , searchResults = []

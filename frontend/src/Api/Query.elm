@@ -19,6 +19,20 @@ import Graphql.SelectionSet exposing (SelectionSet)
 import Json.Decode as Decode exposing (Decoder)
 
 
+type alias ItemRequiredArguments =
+    { name : String }
+
+
+{-| Get a single item
+-}
+item :
+    ItemRequiredArguments
+    -> SelectionSet decodesTo Api.Object.Item
+    -> SelectionSet (Maybe decodesTo) RootQuery
+item requiredArgs object_ =
+    Object.selectionForCompositeField "item" [ Argument.required "name" requiredArgs.name Encode.string ] object_ (identity >> Decode.nullable)
+
+
 type alias ItemsRequiredArguments =
     { name : String }
 

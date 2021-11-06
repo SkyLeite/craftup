@@ -17,6 +17,7 @@ type Msg
     | GotItemsResponse (Result (Graphql.Http.Error (List DataTypes.Item.Item)) (List DataTypes.Item.Item))
     | GotLoginResponse (Result (Graphql.Http.Error DataTypes.User.User) DataTypes.User.User)
     | GotMeResponse (Result (Graphql.Http.Error DataTypes.User.User) DataTypes.User.User)
+    | GotItemResponse (Result (Graphql.Http.Error (Maybe DataTypes.Item.Item)) (Maybe DataTypes.Item.Item))
     | OpenLoginDialog
     | CloseLoginDialog
     | CloseAllDialogs
@@ -29,3 +30,4 @@ type Msg
     | EnteredListFilter String
     | EnteredNewListSearchQuery String
     | OpenNewListSearchResults
+

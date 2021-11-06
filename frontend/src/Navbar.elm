@@ -14,11 +14,12 @@ import Session exposing (SessionStatus(..))
 import Svg.Attributes
 import Utils exposing (onClick)
 import Zondicons
+import Route exposing (href)
 
 
 view : Model -> Html Msg
 view model =
-    div [ class "sticky flex items-center border-b-2 space-x-2 p-4" ]
+    div [ class "sticky flex items-center p-4 border-b-2 space-x-2" ]
         [ logo
         , searchInput model
         , case model.session of
@@ -39,10 +40,10 @@ logo =
             ]
             [ img
                 [ src "http://garlandtools.org/files/icons/action/1668.png"
-                , class "rounded h-10"
+                , class "h-10 rounded"
                 ]
                 []
-            , span [ class "text-xl hidden sm:block" ] [ text "Manipulation.app" ]
+            , span [ class "hidden text-xl sm:block" ] [ text "Manipulation.app" ]
             ]
         ]
 
@@ -51,11 +52,11 @@ searchInput : Model -> Html Msg
 searchInput model =
     div
         [ class
-            "relative flex-auto flex h-10 items-center justify-start text-gray-600 font-medium "
+            "relative flex items-center justify-start flex-auto h-10 font-medium text-gray-600 "
         ]
-        [ Zondicons.search [ Svg.Attributes.class "text-gray-400 w-4 absolute ml-2" ]
+        [ Zondicons.search [ Svg.Attributes.class "absolute w-4 ml-2 text-gray-400" ]
         , input
-            [ class "border w-full h-full pl-8 rounded"
+            [ class "w-full h-full pl-8 border rounded"
             , onInput EnteredSearchQuery
             , onClick
                 (if model.searchQuery /= Just "" then
@@ -80,7 +81,7 @@ userArea user =
     div [ class "flex items-center space-x-4" ]
         [ img
             [ src imgUrl
-            , class "rounded h-10"
+            , class "h-10 rounded"
             ]
             []
         , span [ class "hidden sm:block" ] [ text user.email ]
@@ -90,7 +91,7 @@ userArea user =
 guestUserArea : Html Msg
 guestUserArea =
     a
-        [ class "rounded text-center w-16 font-semibold bg-green-500 text-white py-2 shadow-md"
+        [ class "w-16 py-2 font-semibold text-center text-white bg-green-500 rounded shadow-md"
         , Route.href Route.Login
         ]
         [ text "Login" ]
@@ -118,7 +119,7 @@ searchResults model =
                 "opacity-0"
     in
     div
-        [ class "absolute mt-72 h-64 w-full z-50 bg-white rounded-b border transition-all p-2 space-y-1 overflow-y-scroll"
+        [ class "absolute z-50 w-full h-64 p-2 overflow-y-scroll bg-white border rounded-b mt-72 transition-all space-y-1"
         , classList [ ( "invisible", not isShown ), ( opacityClass, True ) ]
         , onClick NoOp
         ]
@@ -141,7 +142,8 @@ searchResult data =
                 Search ->
                     span [] []
     in
-    div [ class "flex items-center h-12 sm:h-8 bg-green-100 hover:bg-green-200 cursor-pointer rounded py-1 px-2" ]
+    a [ class "flex items-center h-12 px-2 py-1 bg-green-100 rounded cursor-pointer sm:h-8 hover:bg-green-200"
+    , href (Route.Item data.title)]
         [ prefixHtml
         , span [ class "mx-2" ] [ text data.title ]
         ]

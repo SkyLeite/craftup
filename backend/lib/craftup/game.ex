@@ -8,6 +8,14 @@ defmodule Craftup.Game do
     |> Craftup.Repo.all()
   end
 
+  def get_item(%{name: name}) do
+    IO.inspect(name)
+
+    Craftup.Game.Item
+    |> where([i], i.name == ^name)
+    |> Craftup.Repo.one()
+  end
+
   def data() do
     Dataloader.Ecto.new(Craftup.Repo, query: &query/2)
   end

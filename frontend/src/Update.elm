@@ -105,3 +105,12 @@ update msg model =
 
         OpenNewListSearchResults ->
             ( { model | newListSearchResultsOpen = True }, Cmd.none )
+
+        GotItemResponse response ->
+            case response of
+              Ok item -> 
+                ({ model | foundItem = item }, Cmd.none)
+
+              Err _ ->
+                (model, Cmd.none)
+                        

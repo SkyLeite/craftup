@@ -4,5 +4,6 @@ import Msg exposing (Msg)
 import Html exposing (Html, div, text)
 
 view : Model -> String -> Html Msg
-view model id =
-        div [] [ text id ]
+view model name =
+        div [] [ model.foundItem |> Maybe.map .name |> Maybe.withDefault "Not found" |> text ]
+

@@ -3,6 +3,7 @@ module Route exposing (Route(..), fromUrl, href, parser, replaceUrl, routeToCmd)
 import Api
 import Browser.Navigation as Nav
 import DataTypes.User
+import DataTypes.Item
 import Html exposing (Attribute)
 import Html.Attributes as Attr
 import Msg exposing (Msg(..))
@@ -65,6 +66,12 @@ routeToCmd page =
     case page of
         CraftingLists ->
             Api.makeRequest DataTypes.User.meQuery GotMeResponse
+
+        Item name ->
+            name
+                |> Url.percentDecode
+                |> Maybe.andThen (\x -> Api.makeRequest (DataTypes.Item.itemQuery x) GotItemResponse |> Just)
+                |> Maybe.withDefault Cmd.none
 
         _ ->
             Cmd.none
