@@ -3,6 +3,7 @@ module DataTypes.Item exposing (Item, itemQuery, itemSearchQuery, itemSelectionS
 import Api.Object
 import Api.Object.Item
 import Api.Query
+import DataTypes.Recipe exposing (Recipe, recipeSelectionSet)
 import Graphql.Operation exposing (RootQuery)
 import Graphql.SelectionSet exposing (SelectionSet, with)
 
@@ -10,6 +11,7 @@ import Graphql.SelectionSet exposing (SelectionSet, with)
 type alias Item =
     { name : String
     , icon : String
+    , recipe : Maybe Recipe
     }
 
 
@@ -28,3 +30,4 @@ itemSelectionSet =
     Graphql.SelectionSet.succeed Item
         |> with Api.Object.Item.name
         |> with Api.Object.Item.icon
+        |> with (Api.Object.Item.recipe recipeSelectionSet)

@@ -1,10 +1,12 @@
 module Pages.Item exposing (view)
 
 import DataTypes.Item exposing (Item)
-import Html exposing (Html, div, h1, img, span, text)
+import DataTypes.Recipe exposing (Recipe)
+import Html exposing (Html, a, article, div, h1, h2, header, img, li, section, span, text, ul)
 import Html.Attributes exposing (class, src)
 import Model exposing (Model)
 import Msg exposing (Msg)
+import Route exposing (href)
 
 
 iconUrl : String -> String
@@ -21,9 +23,36 @@ iconUrl id =
 
 view : Item -> Html Msg
 view item =
-    div [ class "flex flex-col w-full h-full" ]
-        [ div [ class "flex items-center" ]
+    article [ class "flex flex-col w-full h-full" ]
+        [ header [ class "flex items-center mb-8" ]
             [ img [ item.icon |> iconUrl |> src, class "mr-4" ] []
             , h1 [ class "text-xl" ] [ text item.name ]
             ]
+        , div [ class "space-y-8" ]
+            [ item.recipe |> Maybe.map recipeView |> Maybe.withDefault (div [] [])
+            ]
+        ]
+
+
+recipeView : Recipe -> Html Msg
+recipeView recipe =
+    div [ class "max-w-lg p-4 border rounded shadow-md" ]
+        [ h2 [ class "mb-4 text-lg" ] [ text "Crafting Recipe" ]
+        , ul [ class "space-y-2" ]
+            (recipe.ingredients
+                |> List.map
+                    (\x ->
+                        li []
+                            [ a [ class "flex items-center p-2 bg-green-100 rounded hover:bg-green-200", href (Route.Item x.item.name) ]
+                                [ img [ x.item.icon |> iconUrl |> src, class "mr-2" ] []
+                                , span []
+                                    [ span [ class "mr-2" ]
+                                        [ x.quantity |> String.fromInt |> (\quantity -> quantity ++ "x") |> text
+                                        ]
+                                    , span [] [ text x.item.name ]
+                                    ]
+                                ]
+                            ]
+                    )
+            )
         ]
