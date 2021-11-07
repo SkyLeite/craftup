@@ -46,7 +46,7 @@ recipeView recipe =
                 |> List.map
                     (\x ->
                         li []
-                            [ a [ class "flex items-center p-2 bg-green-100 rounded hover:bg-green-200", href (Route.Item x.item.name) ]
+                            [ a [ class "flex items-center p-2 rounded bg-gray-50 hover:bg-green-50", href (Route.Item x.item.name) ]
                                 [ img [ x.item.icon |> iconUrl |> src, class "mr-2" ] []
                                 , span []
                                     [ span [ class "mr-2" ]
