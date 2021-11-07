@@ -5,9 +5,10 @@ import Browser
 import Browser.Navigation as Nav
 import DataTypes.User
 import Footer
-import Html exposing (Html, div, text)
+import Html exposing (Html, div, span, text)
 import Html.Attributes exposing (class)
 import Html.Events exposing (onClick)
+import Icons
 import Model exposing (Model)
 import Msg exposing (Msg(..))
 import Navbar
@@ -58,9 +59,17 @@ view model =
     }
 
 
+loadingView : Html Msg
+loadingView =
+    div [ class "flex items-center justify-between text-xl w-28" ]
+        [ Icons.loading (Just 15)
+        , span [] [ text "Loading" ]
+        ]
+
+
 mainArea : Model -> Html Msg
 mainArea model =
-    div [ class "flex-grow" ]
+    div [ class "flex items-center justify-center flex-grow w-full h-full" ]
         [ case model.route of
             Just route ->
                 case route of
@@ -83,7 +92,12 @@ mainArea model =
                         Pages.Register.view model
 
                     Item id ->
-                        Pages.Item.view model id
+                        case model.foundItem of
+                            Nothing ->
+                                loadingView
+
+                            Just item ->
+                                Pages.Item.view item
 
             Nothing ->
                 div [] [ text "Not found" ]

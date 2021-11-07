@@ -1,5 +1,6 @@
 module Pages.Item exposing (view)
 
+import DataTypes.Item exposing (Item)
 import Html exposing (Html, div, img, span, text)
 import Html.Attributes exposing (class, src)
 import Model exposing (Model)
@@ -18,9 +19,9 @@ iconUrl id =
     "https://xivapi.com/i/" ++ folder ++ "/" ++ file ++ ".png"
 
 
-view : Model -> String -> Html Msg
-view model name =
+view : Item -> Html Msg
+view item =
     div [ class "flex" ]
-        [ img [ model.foundItem |> Maybe.map .icon |> Maybe.map iconUrl |> Maybe.withDefault "" |> src ] []
-        , span [] [ model.foundItem |> Maybe.map .name |> Maybe.withDefault "Not found" |> text ]
+        [ img [ item.icon |> iconUrl |> src ] []
+        , span [] [ text item.name ]
         ]
