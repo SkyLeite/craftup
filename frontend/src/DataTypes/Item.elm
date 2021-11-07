@@ -10,6 +10,7 @@ import Graphql.SelectionSet exposing (SelectionSet, with)
 
 type alias Item =
     { name : String
+    , description : String
     , icon : String
     , recipe : Maybe Recipe
     }
@@ -29,5 +30,6 @@ itemSelectionSet : SelectionSet Item Api.Object.Item
 itemSelectionSet =
     Graphql.SelectionSet.succeed Item
         |> with Api.Object.Item.name
+        |> with Api.Object.Item.description
         |> with Api.Object.Item.icon
         |> with (Api.Object.Item.recipe recipeSelectionSet)

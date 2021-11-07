@@ -26,7 +26,10 @@ view item =
     article [ class "flex flex-col w-full h-full" ]
         [ header [ class "flex items-center mb-8" ]
             [ img [ item.icon |> iconUrl |> src, class "mr-4" ] []
-            , h1 [ class "text-xl" ] [ text item.name ]
+            , span [ class "flex flex-col" ]
+                [ h1 [ class "text-xl" ] [ text item.name ]
+                , h2 [] [ text item.description ]
+                ]
             ]
         , div [ class "space-y-8" ]
             [ item.recipe |> Maybe.map recipeView |> Maybe.withDefault (div [] [])
