@@ -18,7 +18,7 @@ import Zondicons
 
 view : Model -> Html Msg
 view model =
-    div [ class "sticky flex items-center p-4 border-b-2 space-x-2" ]
+    div [ class "sticky flex items-center p-4 border-t-4 border-b-2 border-green-200 space-x-2" ]
         [ logo
         , searchInput model
         , case model.session of
@@ -38,7 +38,7 @@ logo =
             , class "flex items-center space-x-4"
             ]
             [ img
-                [ src "http://garlandtools.org/files/icons/action/1668.png"
+                [ src "assets/logo.png"
                 , class "h-10 rounded"
                 ]
                 []

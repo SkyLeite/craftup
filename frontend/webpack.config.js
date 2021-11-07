@@ -36,6 +36,14 @@ var common = {
       // inject details of output file at end of body
       inject: "body",
     }),
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: "public/assets",
+          to: "assets",
+        },
+      ],
+    }),
   ],
   resolve: {
     modules: [path.join(__dirname, "src"), "node_modules"],
@@ -160,6 +168,7 @@ if (MODE === "production") {
         patterns: [
           {
             from: "public/assets",
+            to: "assets",
           },
         ],
       }),
