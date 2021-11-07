@@ -41,18 +41,18 @@ recipeView : Recipe -> Html Msg
 recipeView recipe =
     div [ class "max-w-lg p-4 border rounded shadow-md" ]
         [ h2 [ class "mb-4 text-lg" ] [ text "Crafting Recipe" ]
-        , ul [ class "space-y-2" ]
+        , ul [ class "space-y-2 divide-solid divide-y" ]
             (recipe.ingredients
                 |> List.map
                     (\x ->
-                        li []
-                            [ a [ class "flex items-center p-2 rounded bg-gray-50 hover:bg-green-50", href (Route.Item x.item.name) ]
+                        li [ class "pt-2" ]
+                            [ a [ class "flex items-center p-2 rounded hover:bg-green-50", href (Route.Item x.item.name) ]
                                 [ img [ x.item.icon |> iconUrl |> src, class "mr-2" ] []
                                 , span []
-                                    [ span [ class "mr-2" ]
+                                    [ span [ class "mr-2 font-thin text-gray-600" ]
                                         [ x.quantity |> String.fromInt |> (\quantity -> quantity ++ "x") |> text
                                         ]
-                                    , span [] [ text x.item.name ]
+                                    , span [ class "font-bold" ] [ text x.item.name ]
                                     ]
                                 ]
                             ]
