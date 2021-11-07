@@ -4,9 +4,11 @@ import DataTypes.Item exposing (Item)
 import DataTypes.Recipe exposing (Recipe)
 import Html exposing (Html, a, article, div, h1, h2, header, img, li, section, span, text, ul)
 import Html.Attributes exposing (class, src)
+import Icons
 import Model exposing (Model)
 import Msg exposing (Msg)
 import Route exposing (href)
+import Ui.Button
 
 
 iconUrl : String -> String
@@ -31,9 +33,19 @@ view item =
                 , h2 [] [ text item.description ]
                 ]
             ]
-        , div [ class "space-y-8" ]
-            [ item.recipe |> Maybe.map recipeView |> Maybe.withDefault (div [] [])
+        , div [ class "space-y-4" ]
+            [ actions
+            , item.recipe |> Maybe.map recipeView |> Maybe.withDefault (div [] [])
             ]
+        ]
+
+
+actions : Html Msg
+actions =
+    div [ class "flex space-x-2" ]
+        [ Ui.Button.init "Add to List"
+            |> Ui.Button.withIcon (Icons.addToList Nothing)
+            |> Ui.Button.view
         ]
 
 
@@ -47,10 +59,19 @@ recipeView recipe =
                     (\x ->
                         li [ class "pt-2" ]
                             [ a [ class "flex items-center p-2 rounded hover:bg-green-50", href (Route.Item x.item.name) ]
-                                [ img [ x.item.icon |> iconUrl |> src, class "mr-2" ] []
+                                [ img
+                                    [ x.item.icon
+                                        |> iconUrl
+                                        |> src
+                                    , class "mr-2"
+                                    ]
+                                    []
                                 , span []
                                     [ span [ class "mr-2 font-thin text-gray-600" ]
-                                        [ x.quantity |> String.fromInt |> (\quantity -> quantity ++ "x") |> text
+                                        [ x.quantity
+                                            |> String.fromInt
+                                            |> (\quantity -> quantity ++ "x")
+                                            |> text
                                         ]
                                     , span [ class "font-bold" ] [ text x.item.name ]
                                     ]
