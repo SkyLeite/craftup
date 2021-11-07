@@ -2,8 +2,8 @@ module Route exposing (Route(..), fromUrl, href, parser, replaceUrl, routeToCmd)
 
 import Api
 import Browser.Navigation as Nav
-import DataTypes.User
 import DataTypes.Item
+import DataTypes.User
 import Html exposing (Attribute)
 import Html.Attributes as Attr
 import Msg exposing (Msg(..))
@@ -54,19 +54,13 @@ replaceUrl key route =
 
 fromUrl : Url -> Maybe Route
 fromUrl url =
-    -- The RealWorld spec treats the fragment like a path.
-    -- This makes it *literally* the path, so we can proceed
-    -- with parsing as if it had been a normal path all along.
-    { url | path = Maybe.withDefault "" url.fragment, fragment = Nothing }
+    url
         |> Parser.parse parser
 
 
 routeToCmd : Route -> Cmd Msg
 routeToCmd page =
     case page of
-        CraftingLists ->
-            Api.makeRequest DataTypes.User.meQuery GotMeResponse
-
         Item name ->
             name
                 |> Url.percentDecode

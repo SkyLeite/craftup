@@ -13,10 +13,10 @@ import Msg exposing (Msg(..))
 import Navbar
 import Pages.CraftingLists
 import Pages.Home
+import Pages.Item
 import Pages.Login
 import Pages.NewCraftingList
 import Pages.Register
-import Pages.Item
 import Route exposing (Route(..))
 import Session exposing (SessionStatus(..))
 import Update
@@ -25,7 +25,17 @@ import Url exposing (Url)
 
 init : () -> Url -> Nav.Key -> ( Model, Cmd Msg )
 init _ url navKey =
-    ( Model.init url navKey, Api.makeRequest DataTypes.User.meQuery GotMeResponse )
+    let
+        meRequest =
+            Api.makeRequest DataTypes.User.meQuery GotMeResponse
+    in
+    ( Model.init url navKey
+    , url
+        |> Route.fromUrl
+        |> Maybe.map Route.routeToCmd
+        |> Maybe.map (\x -> Cmd.batch [ x, meRequest ])
+        |> Maybe.withDefault meRequest
+    )
 
 
 
