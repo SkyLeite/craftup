@@ -23,6 +23,7 @@ view model =
             div [] []
 
 
+inputClasses : String
 inputClasses =
     "border rounded p-2 focus:ring-2 transition ease-in duration-75 w-full"
 
