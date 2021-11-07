@@ -38,7 +38,7 @@ logo =
             , class "flex items-center space-x-4"
             ]
             [ img
-                [ src "assets/logo.png"
+                [ src "/assets/logo.png"
                 , class "h-10 rounded"
                 ]
                 []
