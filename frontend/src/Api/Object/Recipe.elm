@@ -31,9 +31,9 @@ canQuickSynth =
 
 ingredients :
     SelectionSet decodesTo Api.Object.RecipeIngredient
-    -> SelectionSet (Maybe (List (Maybe decodesTo))) Api.Object.Recipe
+    -> SelectionSet (List decodesTo) Api.Object.Recipe
 ingredients object_ =
-    Object.selectionForCompositeField "ingredients" [] object_ (identity >> Decode.nullable >> Decode.list >> Decode.nullable)
+    Object.selectionForCompositeField "ingredients" [] object_ (identity >> Decode.list)
 
 
 isSpecializationRequired : SelectionSet Bool Api.Object.Recipe

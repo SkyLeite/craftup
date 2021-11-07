@@ -16,7 +16,7 @@ defmodule CraftupWeb.Schema.DataTypes do
     field :required_control, non_null(:integer)
     field :required_craftsmanship, non_null(:integer)
 
-    field :ingredients, list_of(:recipe_ingredient), resolve: dataloader(Craftup.Game)
+    field :ingredients, non_null(list_of(non_null(:recipe_ingredient))), resolve: dataloader(Craftup.Game)
   end
 
   object :item do
