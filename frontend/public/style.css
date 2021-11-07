@@ -4,12 +4,16 @@
 
 @font-face {
   font-family: Karma;
-  src: url("fonts/Karma-Regular.ttf");
+  src: url("/assets/fonts/Karma-Regular.ttf");
 }
 
 @font-face {
   font-family: Raleway;
-  src: url("fonts/Raleway-Regular.ttf");
+  src: url("/assets/fonts/Raleway-Regular.ttf");
+}
+
+body {
+  font-family: Raleway;
 }
 
 .crafting-list-list-item {
