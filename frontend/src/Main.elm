@@ -69,7 +69,7 @@ loadingView =
 
 mainArea : Model -> Html Msg
 mainArea model =
-    div [ class "flex items-center justify-center flex-grow w-full h-full" ]
+    div [ class "flex items-center justify-center flex-grow w-full h-full p-8" ]
         [ case model.route of
             Just route ->
                 case route of
