@@ -1,7 +1,7 @@
 module Pages.Item exposing (view)
 
 import DataTypes.Item exposing (Item)
-import Html exposing (Html, div, img, span, text)
+import Html exposing (Html, div, h1, img, span, text)
 import Html.Attributes exposing (class, src)
 import Model exposing (Model)
 import Msg exposing (Msg)
@@ -21,7 +21,9 @@ iconUrl id =
 
 view : Item -> Html Msg
 view item =
-    div [ class "flex" ]
-        [ img [ item.icon |> iconUrl |> src ] []
-        , span [] [ text item.name ]
+    div [ class "flex flex-col w-full h-full" ]
+        [ div [ class "flex items-center" ]
+            [ img [ item.icon |> iconUrl |> src, class "mr-4" ] []
+            , h1 [ class "text-xl" ] [ text item.name ]
+            ]
         ]
