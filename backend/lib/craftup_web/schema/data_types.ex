@@ -20,7 +20,7 @@ defmodule CraftupWeb.Schema.DataTypes do
   end
 
   object :item do
-    field :id, :id
+    field :id, non_null(:id)
     field :name, non_null(:string)
     field :description, non_null(:string)
     field :icon, non_null(:string)
@@ -34,20 +34,20 @@ defmodule CraftupWeb.Schema.DataTypes do
   end
 
   object :list_item do
-    field :id, :id
-    field :is_hq, :string
-    field :is_result, :string
-    field :quantity, :integer
-    field :necessary_quantity, :integer
+    field :id, non_null(:id)
+    field :is_hq, non_null(:string)
+    field :is_result, non_null(:string)
+    field :quantity, non_null(:integer)
+    field :necessary_quantity, non_null(:integer)
 
-    field :item, :item, resolve: dataloader(Craftup.Game)
+    field :item, non_null(:item), resolve: dataloader(Craftup.Game)
   end
 
   object :list do
     field :id, non_null(:id)
     field :title, non_null(:string)
 
-    field :items, non_null(list_of(:list_item)), resolve: dataloader(Craftup.Game)
+    field :items, non_null(list_of(non_null(:list_item))), resolve: dataloader(Craftup.Game)
   end
 
   object :user do

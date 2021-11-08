@@ -19,33 +19,33 @@ import Graphql.SelectionSet exposing (SelectionSet)
 import Json.Decode as Decode
 
 
-id : SelectionSet (Maybe CustomScalarCodecs.Id) Api.Object.ListItem
+id : SelectionSet CustomScalarCodecs.Id Api.Object.ListItem
 id =
-    Object.selectionForField "(Maybe CustomScalarCodecs.Id)" "id" [] (CustomScalarCodecs.codecs |> Api.Scalar.unwrapCodecs |> .codecId |> .decoder |> Decode.nullable)
+    Object.selectionForField "CustomScalarCodecs.Id" "id" [] (CustomScalarCodecs.codecs |> Api.Scalar.unwrapCodecs |> .codecId |> .decoder)
 
 
-isHq : SelectionSet (Maybe String) Api.Object.ListItem
+isHq : SelectionSet String Api.Object.ListItem
 isHq =
-    Object.selectionForField "(Maybe String)" "isHq" [] (Decode.string |> Decode.nullable)
+    Object.selectionForField "String" "isHq" [] Decode.string
 
 
-isResult : SelectionSet (Maybe String) Api.Object.ListItem
+isResult : SelectionSet String Api.Object.ListItem
 isResult =
-    Object.selectionForField "(Maybe String)" "isResult" [] (Decode.string |> Decode.nullable)
+    Object.selectionForField "String" "isResult" [] Decode.string
 
 
 item :
     SelectionSet decodesTo Api.Object.Item
-    -> SelectionSet (Maybe decodesTo) Api.Object.ListItem
+    -> SelectionSet decodesTo Api.Object.ListItem
 item object_ =
-    Object.selectionForCompositeField "item" [] object_ (identity >> Decode.nullable)
+    Object.selectionForCompositeField "item" [] object_ identity
 
 
-necessaryQuantity : SelectionSet (Maybe Int) Api.Object.ListItem
+necessaryQuantity : SelectionSet Int Api.Object.ListItem
 necessaryQuantity =
-    Object.selectionForField "(Maybe Int)" "necessaryQuantity" [] (Decode.int |> Decode.nullable)
+    Object.selectionForField "Int" "necessaryQuantity" [] Decode.int
 
 
-quantity : SelectionSet (Maybe Int) Api.Object.ListItem
+quantity : SelectionSet Int Api.Object.ListItem
 quantity =
-    Object.selectionForField "(Maybe Int)" "quantity" [] (Decode.int |> Decode.nullable)
+    Object.selectionForField "Int" "quantity" [] Decode.int

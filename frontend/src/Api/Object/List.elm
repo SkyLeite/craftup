@@ -26,9 +26,9 @@ id =
 
 items :
     SelectionSet decodesTo Api.Object.ListItem
-    -> SelectionSet (List (Maybe decodesTo)) Api.Object.List
+    -> SelectionSet (List decodesTo) Api.Object.List
 items object_ =
-    Object.selectionForCompositeField "items" [] object_ (identity >> Decode.nullable >> Decode.list)
+    Object.selectionForCompositeField "items" [] object_ (identity >> Decode.list)
 
 
 title : SelectionSet String Api.Object.List

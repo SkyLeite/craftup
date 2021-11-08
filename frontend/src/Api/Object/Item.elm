@@ -29,9 +29,9 @@ icon =
     Object.selectionForField "String" "icon" [] Decode.string
 
 
-id : SelectionSet (Maybe CustomScalarCodecs.Id) Api.Object.Item
+id : SelectionSet CustomScalarCodecs.Id Api.Object.Item
 id =
-    Object.selectionForField "(Maybe CustomScalarCodecs.Id)" "id" [] (CustomScalarCodecs.codecs |> Api.Scalar.unwrapCodecs |> .codecId |> .decoder |> Decode.nullable)
+    Object.selectionForField "CustomScalarCodecs.Id" "id" [] (CustomScalarCodecs.codecs |> Api.Scalar.unwrapCodecs |> .codecId |> .decoder)
 
 
 level : SelectionSet Int Api.Object.Item
