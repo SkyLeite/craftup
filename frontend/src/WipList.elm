@@ -3,7 +3,7 @@ module WipList exposing (..)
 import DataTypes.CraftingList exposing (WipList)
 import DataTypes.Item exposing (Item)
 import DataTypes.ListItem exposing (WipListItem)
-import Html exposing (Html, div)
+import Html exposing (Html, div, li, text, ul)
 import Html.Attributes exposing (class, classList)
 import Icons
 import Msg exposing (Msg(..))
@@ -58,10 +58,21 @@ listView list open =
                 "opacity-0"
     in
     div
-        [ class "absolute mb-2 bg-white border rounded shadow-md bottom-10 w-96 h-96 transition-all duration-100"
+        [ class "absolute p-4 mb-2 bg-white border rounded shadow-md bottom-10 w-96 h-min-content transition-all duration-100"
         , class opacityClass
         , classList
             [ ( "invisible", not open )
             ]
         ]
-        []
+        [ ul [] (list.items |> List.map listItemView) ]
+
+
+
+-- TODO: Continue adding functionality here
+
+
+listItemView : WipListItem -> Html Msg
+listItemView listItem =
+    li
+        [ class "rounded" ]
+        [ text listItem.item.name ]

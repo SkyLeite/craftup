@@ -146,7 +146,6 @@ closeDialogs model =
         | isLoginDialogOpen = False
         , searchResultsOpen = False
         , newListSearchResultsOpen = False
-        , wipListOpen = False
     }
 
 
