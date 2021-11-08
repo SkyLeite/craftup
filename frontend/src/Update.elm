@@ -14,6 +14,7 @@ import Route exposing (Route(..))
 import Session exposing (SessionStatus(..))
 import Url exposing (Url)
 import Url.Parser
+import WipList
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -121,6 +122,22 @@ update msg model =
 
                 Err _ ->
                     ( model, Cmd.none )
+
+        OpenWipList ->
+            ( { model | wipListOpen = True }, Cmd.none )
+
+        CloseWipList ->
+            ( { model | wipListOpen = False }, Cmd.none )
+
+        ToggleWipList ->
+            ( { model | wipListOpen = not model.wipListOpen }, Cmd.none )
+
+        AddItemToWipList item ->
+            let
+                newWipList =
+                    item |> WipList.addItem model.wipList
+            in
+            ( { model | wipList = Just newWipList }, Cmd.none )
 
 
 closeDialogs : Model -> Model

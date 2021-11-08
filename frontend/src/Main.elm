@@ -8,7 +8,7 @@ import Footer
 import Html exposing (Html, div, span, text)
 import Html.Attributes exposing (class)
 import Html.Events exposing (onClick)
-import Html.Lazy exposing (lazy)
+import Html.Lazy exposing (lazy, lazy2)
 import Icons
 import Model exposing (Model)
 import Msg exposing (Msg(..))
@@ -23,6 +23,7 @@ import Route exposing (Route(..))
 import Session exposing (SessionStatus(..))
 import Update
 import Url exposing (Url)
+import WipList
 
 
 init : () -> Url -> Nav.Key -> ( Model, Cmd Msg )
@@ -55,6 +56,7 @@ view model =
             [ lazy Navbar.view model
             , lazy mainArea model
             , lazy Footer.view model
+            , lazy2 WipList.view model.wipList model.wipListOpen
             ]
         ]
     }

@@ -1,7 +1,7 @@
 module Msg exposing (Msg(..))
 
 import Browser
-import DataTypes.Item
+import DataTypes.Item exposing (Item)
 import DataTypes.User
 import Graphql.Http
 import Url exposing (Url)
@@ -30,4 +30,7 @@ type Msg
     | EnteredListFilter String
     | EnteredNewListSearchQuery String
     | OpenNewListSearchResults
-
+    | AddItemToWipList Item
+    | CloseWipList
+    | OpenWipList
+    | ToggleWipList

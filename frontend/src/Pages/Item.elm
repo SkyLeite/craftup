@@ -4,9 +4,10 @@ import DataTypes.Item exposing (Item)
 import DataTypes.Recipe exposing (Recipe)
 import Html exposing (Html, a, article, div, h1, h2, header, img, li, section, span, text, ul)
 import Html.Attributes exposing (class, src)
+import Html.Events exposing (onClick)
 import Icons
 import Model exposing (Model)
-import Msg exposing (Msg)
+import Msg exposing (Msg(..))
 import Route exposing (href)
 import Ui.Button
 
@@ -34,17 +35,18 @@ view item =
                 ]
             ]
         , div [ class "space-y-4" ]
-            [ actions
+            [ actions item
             , item.recipe |> Maybe.map recipeView |> Maybe.withDefault (div [] [])
             ]
         ]
 
 
-actions : Html Msg
-actions =
+actions : Item -> Html Msg
+actions item =
     div [ class "flex space-x-2" ]
         [ Ui.Button.init "Add to List"
             |> Ui.Button.withIcon (Icons.addToList Nothing)
+            |> Ui.Button.withAttribute (onClick (AddItemToWipList item))
             |> Ui.Button.view
         ]
 

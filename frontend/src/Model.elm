@@ -2,7 +2,7 @@ module Model exposing (Model, init)
 
 import Browser
 import Browser.Navigation as Nav
-import DataTypes.CraftingList
+import DataTypes.CraftingList exposing (WipList)
 import DataTypes.Item
 import DataTypes.User
 import Graphql.Http
@@ -20,7 +20,7 @@ type alias Model =
     , searchQuery : Maybe String
     , newListSearchQuery : Maybe String
     , foundItems : Maybe (List DataTypes.Item.Item)
-    , foundItem : Maybe (DataTypes.Item.Item)
+    , foundItem : Maybe DataTypes.Item.Item
     , searchResultsOpen : Bool
     , newListSearchResultsOpen : Bool
     , searchResults : List (Search.SearchResult Msg)
@@ -31,6 +31,8 @@ type alias Model =
     , registerEmail : String
     , registerPassword : String
     , listFilter : String
+    , wipList : Maybe WipList
+    , wipListOpen : Bool
     }
 
 
@@ -52,4 +54,6 @@ init url navKey =
     , registerEmail = ""
     , registerPassword = ""
     , listFilter = ""
+    , wipList = Nothing
+    , wipListOpen = False
     }
