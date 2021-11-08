@@ -142,7 +142,12 @@ update msg model =
 
 closeDialogs : Model -> Model
 closeDialogs model =
-    { model | isLoginDialogOpen = False, searchResultsOpen = False, newListSearchResultsOpen = False }
+    { model
+        | isLoginDialogOpen = False
+        , searchResultsOpen = False
+        , newListSearchResultsOpen = False
+        , wipListOpen = False
+    }
 
 
 clearSearchQuery : Model -> Model
