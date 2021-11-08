@@ -49,8 +49,19 @@ view list open =
 
 listView : WipList -> Bool -> Html Msg
 listView list open =
+    let
+        opacityClass =
+            if open then
+                "opacity-100"
+
+            else
+                "opacity-0"
+    in
     div
-        [ class "mb-2 bg-white border rounded w-96 h-96"
-        , classList [ ( "hidden", not open ) ]
+        [ class "absolute mb-2 bg-white border rounded shadow-md bottom-10 w-96 h-96 transition-all duration-100"
+        , class opacityClass
+        , classList
+            [ ( "invisible", not open )
+            ]
         ]
         []
