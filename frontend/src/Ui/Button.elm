@@ -1,4 +1,4 @@
-module Ui.Button exposing (init, view, withAttribute, withIcon)
+module Ui.Button exposing (init, view, withAttribute, withDisabled, withIcon)
 
 import Html exposing (Attribute, Html, button, div, span, text)
 import Html.Attributes exposing (class)
@@ -6,12 +6,16 @@ import Icons exposing (Icon)
 
 
 type alias Options msg =
-    { attributes : List (Attribute msg), text : String, icon : Maybe (Icon msg) }
+    { attributes : List (Attribute msg)
+    , text : String
+    , icon : Maybe (Icon msg)
+    , disabled : Bool
+    }
 
 
 init : String -> Options msg
 init text =
-    { attributes = [], text = text, icon = Nothing }
+    { attributes = [], text = text, icon = Nothing, disabled = False }
 
 
 withAttribute : Attribute msg -> Options msg -> Options msg
@@ -22,6 +26,11 @@ withAttribute attribute options =
 withIcon : Icon msg -> Options msg -> Options msg
 withIcon icon options =
     { options | icon = Just icon }
+
+
+withDisabled : Bool -> Options msg -> Options msg
+withDisabled disabled options =
+    { options | disabled = disabled }
 
 
 view : Options msg -> Html msg
