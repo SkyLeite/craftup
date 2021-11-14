@@ -39,11 +39,26 @@ addItem list item =
         updateItem : WipListItem -> WipListItem
         updateItem i =
             foundItem
-                |> Maybe.map (\f -> { f | necessaryQuantity = f.necessaryQuantity + 1 })
+                |> Maybe.map
+                    (\f ->
+                        if i.item.name == f.item.name then
+                            { f | necessaryQuantity = f.necessaryQuantity + 1 }
+
+                        else
+                            i
+                    )
                 |> Maybe.withDefault i
     in
     list
-        |> Maybe.map (\x -> { x | items = x.items |> List.map updateItem })
+        |> Maybe.map
+            (\x ->
+                case foundItem of
+                    Just _ ->
+                        { x | items = x.items |> List.map updateItem }
+
+                    Nothing ->
+                        { x | items = initListItem item :: x.items }
+            )
         |> Maybe.withDefault (initCraftingList item)
 
 
