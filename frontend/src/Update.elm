@@ -137,7 +137,7 @@ update msg model =
                 newWipList =
                     item |> WipList.addItem model.wipList
             in
-            ( { model | wipList = Just newWipList }, Cmd.none )
+            ( { model | wipList = Just newWipList, wipListOpen = True }, Cmd.none )
 
 
 closeDialogs : Model -> Model
