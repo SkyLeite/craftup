@@ -98,7 +98,7 @@ if (MODE === "development") {
   module.exports = merge(common, {
     optimization: {
       // Prevents compilation errors causing the hot loader to lose state
-      noEmitOnErrors: true,
+      emitOnErrors: false,
     },
     module: {
       rules: [
@@ -114,6 +114,7 @@ if (MODE === "development") {
                 debug: withDebug,
                 //
                 forceWatch: true,
+                cwd: __dirname,
               },
             },
           ],
@@ -121,10 +122,7 @@ if (MODE === "development") {
       ],
     },
     devServer: {
-      static: {
-        directory: path.join(__dirname, "dist"),
-      },
-      hot: false,
+      hot: true,
       port: 1234,
       historyApiFallback: {
         rewrites: [{ from: /./, to: "/" }],
