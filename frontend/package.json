@@ -7,7 +7,7 @@
     "test": "tests"
   },
   "scripts": {
-    "dev": "webpack serve",
+    "dev": "webpack-dev-server --hot",
     "generate-graphql": "elm-graphql http://localhost:4000 --scalar-codecs CustomScalarCodecs",
     "build": "NODE_ENV=production parcel build ./public/index.html"
   },
@@ -34,7 +34,7 @@
     "elm-analyse": "^0.16.5",
     "elm-format": "^0.8.4",
     "elm-hot": "^1.1.6",
-    "elm-hot-webpack-loader": "^1.1.7",
+    "elm-hot-webpack-loader": "^1.1.8",
     "elm-test": "^0.19.1-revision4",
     "elm-webpack-loader": "^6.0.1",
     "file-loader": "^6.1.0",

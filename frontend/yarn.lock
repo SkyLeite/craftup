@@ -3100,7 +3100,7 @@ elm-format@^0.8.4:
   dependencies:
     binwrap "^0.2.3"
 
-elm-hot-webpack-loader@^1.1.7:
+elm-hot-webpack-loader@^1.1.8:
   version "1.1.8"
   resolved "https://registry.yarnpkg.com/elm-hot-webpack-loader/-/elm-hot-webpack-loader-1.1.8.tgz#6da8ad069a151c3c74f93b87af84b4ca3ccb49cc"
   integrity sha512-QXggtyhzeg7ioV8Ujoc6elFY+QYr49hFEb5EDcZP7976w62vjfqFX8YTa73alA+ayLT00ZsIU6eFjAzvLUzF0g==
