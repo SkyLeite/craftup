@@ -48,3 +48,4 @@
 /frontend/.parcel-cache
 
 /datasync/target
+.direnv
