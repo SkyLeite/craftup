@@ -20,13 +20,30 @@ initCraftingList item =
 
 initListItem : Item -> WipListItem
 initListItem item =
-    { item = item, necessaryQuantity = 0 }
+    { item = item, necessaryQuantity = 1 }
 
 
 addItem : Maybe WipList -> Item -> WipList
 addItem list item =
+    let
+        foundItem =
+            list
+                |> Maybe.andThen
+                    (\x ->
+                        x
+                            |> .items
+                            |> List.filter (\i -> i.item.name == item.name)
+                            |> List.head
+                    )
+
+        updateItem : WipListItem -> WipListItem
+        updateItem i =
+            foundItem
+                |> Maybe.map (\f -> { f | necessaryQuantity = f.necessaryQuantity + 1 })
+                |> Maybe.withDefault i
+    in
     list
-        |> Maybe.map (\x -> { x | items = initListItem item :: x.items })
+        |> Maybe.map (\x -> { x | items = x.items |> List.map updateItem })
         |> Maybe.withDefault (initCraftingList item)
 
 
