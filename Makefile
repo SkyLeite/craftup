@@ -1,8 +1,14 @@
 prodserver:
 	cd backend && MIX_ENV=prod mix phx.server
 
+deps:
+	docker-compose up -d postgres pgadmin
+
 server:
 	cd backend && mix phx.server
+
+front:
+	cd frontend && yarn dev
 
 migrate:
 	cd backend && mix ecto.migrate
@@ -18,3 +24,5 @@ sync:
 
 build-front:
 	cd frontend && yarn && yarn build
+
+dev: deps server front
