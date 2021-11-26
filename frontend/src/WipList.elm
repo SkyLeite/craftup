@@ -3,11 +3,13 @@ module WipList exposing (..)
 import DataTypes.CraftingList exposing (WipList)
 import DataTypes.Item exposing (Item)
 import DataTypes.ListItem exposing (WipListItem)
-import Html exposing (Html, div, li, text, ul)
-import Html.Attributes exposing (class, classList)
+import Html exposing (Html, div, img, li, span, text, ul)
+import Html.Attributes exposing (class, classList, src)
 import Icons
 import Msg exposing (Msg(..))
+import Pages.Item exposing (iconUrl)
 import Ui.Button
+import Ui.Quantity
 import Utils exposing (onClick)
 
 
@@ -23,18 +25,42 @@ initListItem item =
     { item = item, necessaryQuantity = 1 }
 
 
+listItemByItemName : String -> WipList -> Maybe WipListItem
+listItemByItemName name wipList =
+    wipList.items
+        |> List.filter (\i -> i.item.name == name)
+        |> List.head
+
+
+updateQuantity : (Int -> Int) -> String -> WipList -> WipList
+updateQuantity f name ({ items } as list) =
+    let
+        updateWipListItem ({ item, necessaryQuantity } as wipListItem) =
+            if item.name == name then
+                { wipListItem | necessaryQuantity = f necessaryQuantity }
+
+            else
+                wipListItem
+    in
+    { list | items = items |> List.map updateWipListItem }
+
+
+increaseListItem : String -> WipList -> WipList
+increaseListItem =
+    updateQuantity (\x -> x + 1)
+
+
+decreaseListItem : String -> WipList -> WipList
+decreaseListItem =
+    updateQuantity (\x -> x - 1)
+
+
 addItem : Maybe WipList -> Item -> WipList
 addItem list item =
     let
         foundItem =
             list
-                |> Maybe.andThen
-                    (\x ->
-                        x
-                            |> .items
-                            |> List.filter (\i -> i.item.name == item.name)
-                            |> List.head
-                    )
+                |> Maybe.andThen (listItemByItemName item.name)
 
         updateItem : WipListItem -> WipListItem
         updateItem i =
@@ -96,7 +122,7 @@ listView list open =
             [ ( "invisible", not open )
             ]
         ]
-        [ ul [] (list.items |> List.map listItemView) ]
+        [ ul [ class "divide-solid divide-y" ] (list.items |> List.map listItemView) ]
 
 
 
@@ -106,5 +132,14 @@ listView list open =
 listItemView : WipListItem -> Html Msg
 listItemView listItem =
     li
-        [ class "rounded" ]
-        [ text listItem.item.name ]
+        [ class "flex items-center py-2" ]
+        [ img [ class "w-8 mr-2", listItem.item.icon |> iconUrl |> src ] []
+        , div [ class "flex items-center justify-between w-full" ]
+            [ span [] [ text listItem.item.name ]
+            , Ui.Quantity.init listItem.necessaryQuantity
+                ( IncreaseWipItemQuantity listItem.item.name
+                , DecreaseWipItemQuantity listItem.item.name
+                )
+                |> Ui.Quantity.view
+            ]
+        ]

@@ -139,6 +139,22 @@ update msg model =
             in
             ( { model | wipList = Just newWipList, wipListOpen = True }, Cmd.none )
 
+        IncreaseWipItemQuantity item ->
+            case model.wipList of
+                Just list ->
+                    ( { model | wipList = list |> WipList.increaseListItem item |> Just }, Cmd.none )
+
+                Nothing ->
+                    ( model, Cmd.none )
+
+        DecreaseWipItemQuantity item ->
+            case model.wipList of
+                Just list ->
+                    ( { model | wipList = list |> WipList.decreaseListItem item |> Just }, Cmd.none )
+
+                Nothing ->
+                    ( model, Cmd.none )
+
 
 closeDialogs : Model -> Model
 closeDialogs model =
