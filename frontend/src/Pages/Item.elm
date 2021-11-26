@@ -1,4 +1,4 @@
-module Pages.Item exposing (view)
+module Pages.Item exposing (iconUrl, view)
 
 import DataTypes.Item exposing (Item)
 import DataTypes.Recipe exposing (Recipe)
