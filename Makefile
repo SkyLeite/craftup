@@ -25,4 +25,5 @@ sync:
 build-front:
 	cd frontend && yarn && yarn build
 
-dev: deps server front
+dev:
+	make -j 3 deps server front
