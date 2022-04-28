@@ -122,7 +122,7 @@ listView list open =
             [ ( "invisible", not open )
             ]
         ]
-        [ ul [ class "divide-solid divide-y" ] (list.items |> List.map listItemView) ]
+        [ ul [ class "divide-solid divide-y max-h-96 overflow-auto" ] (list.items |> List.map listItemView) ]
 
 
 
