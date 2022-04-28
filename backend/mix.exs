@@ -51,7 +51,8 @@ defmodule Craftup.MixProject do
       {:dataloader, "~> 1.0.0"},
       {:argon2_elixir, "~> 2.0"},
       {:joken, "~> 2.3.0"},
-      {:corsica, "~> 1.0"}
+      {:corsica, "~> 1.0"},
+      {:mix_test_watch, "~> 1.0", only: [:dev, :test], runtime: false}
     ]
   end
 
