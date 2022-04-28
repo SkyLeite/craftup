@@ -140,6 +140,7 @@ listItemView listItem =
                 ( IncreaseWipItemQuantity listItem.item.name
                 , DecreaseWipItemQuantity listItem.item.name
                 )
+                |> Ui.Quantity.withMin 1
                 |> Ui.Quantity.view
             ]
         ]
