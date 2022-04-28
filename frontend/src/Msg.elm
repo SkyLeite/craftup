@@ -1,6 +1,7 @@
 module Msg exposing (Msg(..))
 
 import Browser
+import DataTypes.CraftingList exposing (WipList)
 import DataTypes.Item exposing (Item)
 import DataTypes.ListItem exposing (WipListItem)
 import DataTypes.User
@@ -38,3 +39,6 @@ type Msg
     | CloseWipList
     | OpenWipList
     | ToggleWipList
+    | ChangeWipListName String
+    | SaveWipList WipList
+    | GotSaveWipListResponse (Result (Graphql.Http.Error DataTypes.CraftingList.CraftingList) DataTypes.CraftingList.CraftingList)

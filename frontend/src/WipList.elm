@@ -1,14 +1,20 @@
 module WipList exposing (..)
 
+import Api
+import Api.InputObject
+import Api.Mutation
 import DataTypes.CraftingList exposing (WipList)
 import DataTypes.Item exposing (Item)
 import DataTypes.ListItem exposing (WipListItem)
-import Html exposing (Html, button, div, img, li, span, text, ul)
-import Html.Attributes exposing (class, classList, src)
+import Graphql.Http exposing (Error)
+import Html exposing (Html, button, div, img, input, li, span, text, ul)
+import Html.Attributes exposing (class, classList, placeholder, src, type_, value)
+import Html.Events exposing (onInput)
 import Icons
 import Msg exposing (Msg(..))
 import Pages.Item exposing (iconUrl)
-import Ui.Button
+import Ui.Button exposing (ButtonColor(..), ButtonVariant(..))
+import Ui.Input
 import Ui.Quantity
 import Utils exposing (onClick)
 
@@ -135,7 +141,21 @@ listView list open =
             [ ( "invisible", not open )
             ]
         ]
-        [ ul [ class "divide-solid divide-y max-h-96 overflow-auto" ] (list.items |> List.map listItemView) ]
+        [ div [ class "flex" ]
+            [ Ui.Input.init (list.title |> Maybe.withDefault "")
+                |> Ui.Input.withAttribute (onInput ChangeWipListName)
+                |> Ui.Input.withAttribute (placeholder "List title")
+                |> Ui.Input.withIcon (Icons.edit Nothing)
+                |> Ui.Input.view
+            , Ui.Button.init "Save"
+                |> Ui.Button.withVariant Condensed
+                |> Ui.Button.withAttribute (class "ml-auto")
+                |> Ui.Button.withAttribute (onClick (SaveWipList list))
+                |> Ui.Button.withIcon (Icons.plus Nothing)
+                |> Ui.Button.view
+            ]
+        , ul [ class "divide-solid divide-y max-h-96 overflow-auto" ] (list.items |> List.map listItemView)
+        ]
 
 
 
@@ -157,6 +177,7 @@ listItemView listItem =
                     |> Ui.Quantity.withMin 1
                     |> Ui.Quantity.view
                 , Ui.Button.init ""
+                    |> Ui.Button.withColor Red
                     |> Ui.Button.withAttribute (class "ml-1 h-full")
                     |> Ui.Button.withAttribute (onClick (RemoveItemFromWipList listItem.item.name))
                     |> Ui.Button.withIcon (Icons.delete Nothing)
@@ -164,3 +185,8 @@ listItemView listItem =
                 ]
             ]
         ]
+
+
+saveWipListMutation : Api.InputObject.CreateListInput -> (Result (Error DataTypes.CraftingList.CraftingList) DataTypes.CraftingList.CraftingList -> msg) -> Cmd msg
+saveWipListMutation input =
+    Api.makeMutation (Api.Mutation.createList { input = input } DataTypes.CraftingList.craftingListSelectionSet)

@@ -168,6 +168,20 @@ update msg model =
                 Nothing ->
                     ( model, Cmd.none )
 
+        ChangeWipListName newName ->
+            case model.wipList of
+                Just list ->
+                    ( { model | wipList = Just { list | title = Just newName } }, Cmd.none )
+
+                Nothing ->
+                    ( model, Cmd.none )
+
+        GotSaveWipListResponse response ->
+            ( model, Cmd.none )
+
+        SaveWipList list ->
+            ( model, WipList.saveWipListMutation { title = list.title |> Maybe.withDefault "My Awesome List", items = [] } GotSaveWipListResponse )
+
 
 closeDialogs : Model -> Model
 closeDialogs model =
