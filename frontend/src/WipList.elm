@@ -3,7 +3,7 @@ module WipList exposing (..)
 import DataTypes.CraftingList exposing (WipList)
 import DataTypes.Item exposing (Item)
 import DataTypes.ListItem exposing (WipListItem)
-import Html exposing (Html, div, img, li, span, text, ul)
+import Html exposing (Html, button, div, img, li, span, text, ul)
 import Html.Attributes exposing (class, classList, src)
 import Icons
 import Msg exposing (Msg(..))
@@ -88,6 +88,19 @@ addItem list item =
         |> Maybe.withDefault (initCraftingList item)
 
 
+removeItem : WipList -> String -> Maybe WipList
+removeItem list itemName =
+    let
+        newItems =
+            list.items |> List.filter (\listItem -> listItem.item.name /= itemName)
+    in
+    if List.length newItems > 0 then
+        Just { list | items = newItems }
+
+    else
+        Nothing
+
+
 view : Maybe WipList -> Bool -> Html Msg
 view list open =
     case list of
@@ -136,11 +149,18 @@ listItemView listItem =
         [ img [ class "w-8 mr-2", listItem.item.icon |> iconUrl |> src ] []
         , div [ class "flex items-center justify-between w-full" ]
             [ span [] [ text listItem.item.name ]
-            , Ui.Quantity.init listItem.necessaryQuantity
-                ( IncreaseWipItemQuantity listItem.item.name
-                , DecreaseWipItemQuantity listItem.item.name
-                )
-                |> Ui.Quantity.withMin 1
-                |> Ui.Quantity.view
+            , div [ class "flex items-center h-7" ]
+                [ Ui.Quantity.init listItem.necessaryQuantity
+                    ( IncreaseWipItemQuantity listItem.item.name
+                    , DecreaseWipItemQuantity listItem.item.name
+                    )
+                    |> Ui.Quantity.withMin 1
+                    |> Ui.Quantity.view
+                , Ui.Button.init ""
+                    |> Ui.Button.withAttribute (class "ml-1 h-full")
+                    |> Ui.Button.withAttribute (onClick (RemoveItemFromWipList listItem.item.name))
+                    |> Ui.Button.withIcon (Icons.delete Nothing)
+                    |> Ui.Button.view
+                ]
             ]
         ]

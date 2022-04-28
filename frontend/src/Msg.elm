@@ -32,6 +32,7 @@ type Msg
     | EnteredNewListSearchQuery String
     | OpenNewListSearchResults
     | AddItemToWipList Item
+    | RemoveItemFromWipList String
     | IncreaseWipItemQuantity String
     | DecreaseWipItemQuantity String
     | CloseWipList

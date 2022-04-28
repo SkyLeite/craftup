@@ -6,6 +6,7 @@ import Browser.Navigation as Nav
 import DataTypes.Item
 import DataTypes.User
 import Graphql.Http
+import Maybe.Extra
 import Model exposing (Model)
 import Msg exposing (Msg(..))
 import Pages.Login
@@ -138,6 +139,18 @@ update msg model =
                     item |> WipList.addItem model.wipList
             in
             ( { model | wipList = Just newWipList, wipListOpen = True }, Cmd.none )
+
+        RemoveItemFromWipList itemName ->
+            let
+                newList =
+                    case model.wipList of
+                        Just wipList ->
+                            itemName |> WipList.removeItem wipList
+
+                        Nothing ->
+                            Nothing
+            in
+            ( { model | wipList = newList, wipListOpen = Maybe.Extra.isJust newList }, Cmd.none )
 
         IncreaseWipItemQuantity item ->
             case model.wipList of
