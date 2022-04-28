@@ -1,7 +1,7 @@
 module Ui.Button exposing (init, view, withAttribute, withDisabled, withIcon)
 
 import Html exposing (Attribute, Html, button, div, span, text)
-import Html.Attributes exposing (class)
+import Html.Attributes exposing (class, classList)
 import Icons exposing (Icon)
 
 
@@ -41,7 +41,7 @@ view options =
 
         icon =
             options.icon
-                |> Maybe.map (\x -> span [ class "mr-2 text-white" ] [ x ])
+                |> Maybe.map (\x -> span [ class "text-white", classList [ ( "mr-2", options.text /= "" ) ] ] [ x ])
                 |> Maybe.withDefault (div [] [])
     in
     button
