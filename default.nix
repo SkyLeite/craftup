@@ -15,6 +15,7 @@ pkgs.mkShell {
     pkgs.gnumake
     pkgs.pkg-config
     pkgs.nodejs-12_x
+    pkgs.elmPackages.elm
     pkgs.elmPackages.elm-language-server
     pkgs.elmPackages.elm-format
     pkgs.postgresql
