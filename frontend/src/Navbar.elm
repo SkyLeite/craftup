@@ -5,6 +5,7 @@ import DataTypes.User exposing (User)
 import Html exposing (Html, a, button, div, img, input, span, text)
 import Html.Attributes exposing (class, classList, src, value)
 import Html.Events exposing (onInput)
+import Icons
 import List
 import Model exposing (Model)
 import Msg exposing (Msg(..))
@@ -12,6 +13,7 @@ import Route exposing (href)
 import Search exposing (SearchResultType(..))
 import Session exposing (SessionStatus(..))
 import Svg.Attributes
+import Ui.Button
 import Utils exposing (onClick)
 import Zondicons
 
@@ -142,12 +144,18 @@ searchResult data =
                 Search ->
                     span [] []
     in
-    a
-        [ class "flex items-center h-12 px-2 py-1 bg-green-100 rounded cursor-pointer sm:h-8 hover:bg-green-200"
-        , href (Route.Item data.title)
-        ]
-        [ prefixHtml
-        , span [ class "mx-2" ] [ text data.title ]
+    div [ class "flex" ]
+        [ Ui.Button.init ""
+            |> Ui.Button.withAttribute (class "mr-1")
+            |> Ui.Button.withIcon (Icons.addToList Nothing)
+            |> Ui.Button.view
+        , a
+            [ class "w-full flex items-center h-12 px-2 py-1 bg-green-100 rounded cursor-pointer sm:h-8 hover:bg-green-200"
+            , href (Route.Item data.title)
+            ]
+            [ prefixHtml
+            , span [ class "mx-2" ] [ text data.title ]
+            ]
         ]
 
 
