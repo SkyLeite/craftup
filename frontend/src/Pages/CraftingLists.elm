@@ -66,7 +66,7 @@ tableBody lists filter =
                 [ noLists ]
 
             xs ->
-                lists
+                xs
                     |> List.filter
                         (\l ->
                             l.title
