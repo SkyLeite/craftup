@@ -22,6 +22,10 @@ a.button {
   @apply focus:outline-none focus:ring-2 focus:ring-green-200 focus:border-transparent;
 }
 
+button:disabled {
+  @apply bg-green-200 cursor-default;
+}
+
 .crafting-list-list-item {
   display: grid;
   grid-template-columns: 30px 1fr 1fr 1fr;

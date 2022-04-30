@@ -6,6 +6,7 @@ import Browser.Navigation as Nav
 import DataTypes.Item
 import DataTypes.User
 import Graphql.Http
+import Maybe.Extra
 import Model exposing (Model)
 import Msg exposing (Msg(..))
 import Pages.Login
@@ -137,7 +138,24 @@ update msg model =
                 newWipList =
                     item |> WipList.addItem model.wipList
             in
-            ( { model | wipList = Just newWipList, wipListOpen = True }, Cmd.none )
+            case model.session of
+                LoggedIn _ ->
+                    ( { model | wipList = Just newWipList, wipListOpen = True }, Cmd.none )
+
+                Guest ->
+                    ( { model | route = Just Route.Register }, Cmd.none )
+
+        RemoveItemFromWipList itemName ->
+            let
+                newList =
+                    case model.wipList of
+                        Just wipList ->
+                            itemName |> WipList.removeItem wipList
+
+                        Nothing ->
+                            Nothing
+            in
+            ( { model | wipList = newList, wipListOpen = Maybe.Extra.isJust newList }, Cmd.none )
 
         IncreaseWipItemQuantity item ->
             case model.wipList of
@@ -154,6 +172,20 @@ update msg model =
 
                 Nothing ->
                     ( model, Cmd.none )
+
+        ChangeWipListName newName ->
+            case model.wipList of
+                Just list ->
+                    ( { model | wipList = Just { list | title = Just newName } }, Cmd.none )
+
+                Nothing ->
+                    ( model, Cmd.none )
+
+        GotSaveWipListResponse response ->
+            ( model, Cmd.none )
+
+        SaveWipList list ->
+            ( model, WipList.saveWipListMutation { title = list.title |> Maybe.withDefault "My Awesome List", items = [] } GotSaveWipListResponse )
 
 
 closeDialogs : Model -> Model
