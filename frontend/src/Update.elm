@@ -138,7 +138,12 @@ update msg model =
                 newWipList =
                     item |> WipList.addItem model.wipList
             in
-            ( { model | wipList = Just newWipList, wipListOpen = True }, Cmd.none )
+            case model.session of
+                LoggedIn _ ->
+                    ( { model | wipList = Just newWipList, wipListOpen = True }, Cmd.none )
+
+                Guest ->
+                    ( { model | route = Just Route.Register }, Cmd.none )
 
         RemoveItemFromWipList itemName ->
             let
