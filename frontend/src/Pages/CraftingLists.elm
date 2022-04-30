@@ -18,7 +18,7 @@ view : Model -> Html Msg
 view model =
     case model.session of
         LoggedIn user ->
-            div [ class "pt-8 px-7 xs:px-8 space-y-4" ]
+            div [ class "pt-8 px-7 xs:px-8 space-y-4 w-full" ]
                 [ tableHeader user.lists
                 , tableBody user.lists model.listFilter
                 ]
