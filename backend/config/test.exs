@@ -6,11 +6,11 @@ use Mix.Config
 # to provide built-in test partitioning in CI environment.
 # Run `mix help test` for more information.
 config :craftup, Craftup.Repo,
-  username: "postgres",
-  password: "postgres",
+  username: System.get_env("DATABASE_USER", "postgres"),
+  password: System.get_env("DATABASE_PASSWORD", "postgres"),
   database: "craftup_test#{System.get_env("MIX_TEST_PARTITION")}",
-  hostname: "localhost",
-  port: 1231,
+  hostname: System.get_env("DATABASE_HOST", "localhost"),
+  port: System.get_env("DATABASE_PORT", "1231"),
   pool: Ecto.Adapters.SQL.Sandbox
 
 # We don't run a server during test. If one is required,
