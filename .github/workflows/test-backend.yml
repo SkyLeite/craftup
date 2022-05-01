@@ -34,4 +34,4 @@ jobs:
           nix_path: nixpkgs=channel:nixos-unstable
       - name: Run tests
         run: |
-          nix-shell --run "cd backend && mix test --cover"
+          nix-shell test-shell --run "mix test --cover"
