@@ -38,3 +38,7 @@ jobs:
       - name: Run tests
         run: |
           nix-shell test-shell.nix --run "cd backend && mix test --cover"
+      - name: Code Coverage Report
+        uses: romeovs/lcov-reporter-action@v0.2.11
+        with:
+          lcov-file: ./backend/cover/lcov.info
