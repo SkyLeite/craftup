@@ -33,6 +33,20 @@ createList requiredArgs object_ =
     Object.selectionForCompositeField "createList" [ Argument.required "input" requiredArgs.input Api.InputObject.encodeCreateListInput ] object_ identity
 
 
+type alias DeleteListRequiredArguments =
+    { id : CustomScalarCodecs.Id }
+
+
+{-| Delete a list
+-}
+deleteList :
+    DeleteListRequiredArguments
+    -> SelectionSet decodesTo Api.Object.List
+    -> SelectionSet decodesTo RootMutation
+deleteList requiredArgs object_ =
+    Object.selectionForCompositeField "deleteList" [ Argument.required "id" requiredArgs.id (CustomScalarCodecs.codecs |> Api.Scalar.unwrapEncoder .codecId) ] object_ identity
+
+
 type alias LoginRequiredArguments =
     { input : Api.InputObject.LoginInput }
 

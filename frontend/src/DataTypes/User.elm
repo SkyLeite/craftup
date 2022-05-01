@@ -1,4 +1,4 @@
-module DataTypes.User exposing (User, meQuery, userSelectionSet)
+module DataTypes.User exposing (User, meQuery, removeCraftingList, userSelectionSet)
 
 import Api.Object
 import Api.Object.User
@@ -27,3 +27,12 @@ userSelectionSet =
         |> with Api.Object.User.id
         |> with Api.Object.User.email
         |> with (Api.Object.User.lists craftingListSelectionSet)
+
+
+removeCraftingList : User -> CraftingList -> User
+removeCraftingList user craftingList =
+    { user
+        | lists =
+            user.lists
+                |> List.filter (\list -> list.id /= craftingList.id)
+    }

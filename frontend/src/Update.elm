@@ -3,6 +3,7 @@ module Update exposing (update)
 import Api
 import Browser
 import Browser.Navigation as Nav
+import DataTypes.CraftingList exposing (deleteCraftingListMutation)
 import DataTypes.Item
 import DataTypes.User
 import Graphql.Http
@@ -11,6 +12,7 @@ import Model exposing (Model)
 import Msg exposing (Msg(..))
 import Pages.Login
 import Pages.Register
+import Result exposing (Result)
 import Route exposing (Route(..))
 import Session exposing (SessionStatus(..))
 import Url exposing (Url)
@@ -186,6 +188,17 @@ update msg model =
 
         SaveWipList list ->
             ( model, WipList.saveWipListMutation { title = list.title |> Maybe.withDefault "My Awesome List", items = [] } GotSaveWipListResponse )
+
+        DeleteCraftingList craftingList ->
+            ( model, deleteCraftingListMutation craftingList.id GotDeleteCraftingListResponse )
+
+        GotDeleteCraftingListResponse response ->
+            case ( response, model.session ) of
+                ( Ok list, LoggedIn user ) ->
+                    ( { model | session = LoggedIn (DataTypes.User.removeCraftingList user list) }, Cmd.none )
+
+                _ ->
+                    ( model, Cmd.none )
 
 
 closeDialogs : Model -> Model

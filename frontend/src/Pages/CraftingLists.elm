@@ -4,7 +4,7 @@ import DataTypes.CraftingList exposing (CraftingList)
 import DataTypes.User exposing (User)
 import Html exposing (Html, a, button, div, input, span, text)
 import Html.Attributes exposing (class, disabled, placeholder, type_)
-import Html.Events exposing (onInput)
+import Html.Events exposing (onClick, onInput)
 import Icons exposing (Icon)
 import Model exposing (Model)
 import Msg exposing (Msg(..))
@@ -103,6 +103,7 @@ singleList list =
             [ Ui.Button.init ""
                 |> Ui.Button.withIcon (Icons.delete Nothing)
                 |> Ui.Button.withColor Ui.Button.Red
+                |> Ui.Button.withAttribute (onClick (DeleteCraftingList list))
                 |> Ui.Button.view
             ]
         ]
