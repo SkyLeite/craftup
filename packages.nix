@@ -9,6 +9,7 @@
   elixir = {
     base = [
       pkgs.elixir_1_11
+      pkgs.beamPackages.hex
     ];
 
     dev = [
