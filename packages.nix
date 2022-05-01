@@ -10,6 +10,7 @@
     base = [
       pkgs.elixir_1_11
       pkgs.beamPackages.hex
+      pkgs.beamPackages.rebar3
     ];
 
     dev = [
