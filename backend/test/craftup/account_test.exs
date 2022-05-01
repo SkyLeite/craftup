@@ -158,5 +158,35 @@ defmodule Craftup.Test.Account do
 
       assert {:error, _} = result
     end
+
+    test "delete_list/2 correctly deletes a user's list" do
+      user = Factory.insert!(:user)
+      list = Factory.insert!(:list_with_items, user: user)
+
+      result = Craftup.Account.delete_list(user, list.id)
+
+      assert {:ok, _} = result
+      refute Craftup.Account.List |> Craftup.Repo.get(list.id), "List should no longer exist"
+    end
+
+    test "delete_list/2 does not delete another user's list" do
+      user = Factory.insert!(:user)
+      user2 = Factory.insert!(:user)
+      list = Factory.insert!(:list_with_items, user: user)
+
+      assert_raise Ecto.NoResultsError, fn ->
+        Craftup.Account.delete_list(user2, list.id)
+      end
+
+      assert Craftup.Account.List |> Craftup.Repo.get(list.id), "List should still exist"
+    end
+
+    test "delete_list/2 does not delete a list that doesn't exist" do
+      user = Factory.insert!(:user)
+
+      assert_raise Ecto.NoResultsError, fn ->
+        Craftup.Account.delete_list(user, 123_417_239_812_793)
+      end
+    end
   end
 end

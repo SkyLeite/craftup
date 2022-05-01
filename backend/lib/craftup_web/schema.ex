@@ -100,5 +100,12 @@ defmodule CraftupWeb.Schema do
 
       resolve(&Resolvers.Account.delete_list_item/3)
     end
+
+    @desc "Delete a list"
+    field :delete_list, non_null(:list) do
+      arg(:id, non_null(:id))
+
+      resolve(&Resolvers.Account.delete_list/3)
+    end
   end
 end

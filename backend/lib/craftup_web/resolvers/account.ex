@@ -26,4 +26,12 @@ defmodule CraftupWeb.Resolvers.Account do
   def delete_list_item(_parents, %{id: id}, %{context: %{current_user: user}}) do
     Craftup.Account.delete_list_item(user, id)
   end
+
+  def delete_list(_parents, _args, _ctx) do
+    {:error, "Unauthorized"}
+  end
+
+  def delete_list(_parents, %{id: id}, %{context: %{current_user: user}}) do
+    Craftup.Account.delete_list_item(user, id)
+  end
 end

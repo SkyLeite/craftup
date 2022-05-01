@@ -28,12 +28,12 @@ button:disabled {
 
 .crafting-list-list-item {
   display: grid;
-  grid-template-columns: 30px 1fr 1fr 1fr;
+  grid-template-columns: 30px 1fr 1fr 1fr 100px;
   grid-template-rows: 1fr 1fr;
   gap: 0px 0px;
   grid-template-areas:
-    "icon title title title"
-    "icon progress . .";
+    "icon title    title title actions"
+    "icon progress .     .     actions";
 }
 
 .crafting-list-list-item > .icon {
@@ -45,4 +45,32 @@ button:disabled {
 }
 .crafting-list-list-item > .progress {
   grid-area: progress;
+}
+
+.crafting-list-list-item > .actions {
+  grid-area: actions;
+}
+/* Tooltip container */
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+  padding: 5px 0;
+
+  @apply invisible bg-gray-900 opacity-80 text-center rounded-md absolute z-10 text-white w-32;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+  @apply visible;
+}
+
+.tooltip .tooltiptext {
+  width: 120px;
+  top: 105%;
+  left: 50%;
+  margin-left: -60px; /* Use half of the width (120/2 = 60), to center the tooltip */
 }
