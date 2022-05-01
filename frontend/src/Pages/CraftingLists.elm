@@ -5,11 +5,14 @@ import DataTypes.User exposing (User)
 import Html exposing (Html, a, button, div, input, span, text)
 import Html.Attributes exposing (class, disabled, placeholder, type_)
 import Html.Events exposing (onInput)
+import Icons exposing (Icon)
 import Model exposing (Model)
 import Msg exposing (Msg(..))
 import Route exposing (Route)
 import Session exposing (SessionStatus(..))
 import Svg.Attributes
+import Ui.Button
+import Ui.Tooltip
 import Utils
 import Zondicons
 
@@ -93,5 +96,13 @@ singleList list =
         , span [ class "progress flex text-gray-400 text-sm" ]
             [ Zondicons.checkmarkOutline [ Svg.Attributes.class "w-3 mr-1" ]
             , text "0/1"
+            ]
+        , div
+            [ class "actions h-full flex items-center justify-center"
+            ]
+            [ Ui.Button.init ""
+                |> Ui.Button.withIcon (Icons.delete Nothing)
+                |> Ui.Button.withColor Ui.Button.Red
+                |> Ui.Button.view
             ]
         ]

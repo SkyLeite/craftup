@@ -28,12 +28,12 @@ button:disabled {
 
 .crafting-list-list-item {
   display: grid;
-  grid-template-columns: 30px 1fr 1fr 1fr;
+  grid-template-columns: 30px 1fr 1fr 1fr 100px;
   grid-template-rows: 1fr 1fr;
   gap: 0px 0px;
   grid-template-areas:
-    "icon title title title"
-    "icon progress . .";
+    "icon title    title title actions"
+    "icon progress .     .     actions";
 }
 
 .crafting-list-list-item > .icon {
