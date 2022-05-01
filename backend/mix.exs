@@ -10,7 +10,8 @@ defmodule Craftup.MixProject do
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
-      deps: deps()
+      deps: deps(),
+      test_coverage: [tool: LcovEx, output: "cover"]
     ]
   end
 
@@ -52,7 +53,8 @@ defmodule Craftup.MixProject do
       {:argon2_elixir, "~> 2.0"},
       {:joken, "~> 2.3.0"},
       {:corsica, "~> 1.0"},
-      {:mix_test_watch, "~> 1.0", only: [:dev, :test], runtime: false}
+      {:mix_test_watch, "~> 1.0", only: [:dev, :test], runtime: false},
+      {:lcov_ex, "~> 0.2", only: [:dev, :test], runtime: false}
     ]
   end
 

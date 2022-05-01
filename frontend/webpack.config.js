@@ -1,17 +1,14 @@
 const path = require("path");
 const { merge } = require("webpack-merge");
 
-const ClosurePlugin = require("closure-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const HTMLWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 // Production CSS assets - separate, minimised file
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 
-var MODE =
-  process.env.npm_lifecycle_event === "prod" ? "production" : "development";
+var MODE = process.env.NODE_ENV === "production" ? "production" : "development";
 var withDebug = !process.env["npm_config_nodebug"] && MODE === "development";
 // this may help for Yarn users
 // var withDebug = !npmParams.includes("--nodebug");
@@ -137,21 +134,7 @@ if (MODE === "development") {
 if (MODE === "production") {
   module.exports = merge(common, {
     optimization: {
-      minimizer: [
-        new ClosurePlugin(
-          { mode: "STANDARD" },
-          {
-            // compiler flags here
-            //
-            // for debugging help, try these:
-            //
-            // formatting: 'PRETTY_PRINT',
-            // debug: true
-            // renaming: false
-          }
-        ),
-        new OptimizeCSSAssetsPlugin({}),
-      ],
+      minimizer: [new OptimizeCSSAssetsPlugin({})],
     },
     plugins: [
       // Delete everything from output-path (/dist) and report to user
@@ -169,11 +152,6 @@ if (MODE === "production") {
             to: "assets",
           },
         ],
-      }),
-      new MiniCssExtractPlugin({
-        // Options similar to the same options in webpackOptions.output
-        // both options are optional
-        filename: "[name]-[hash].css",
       }),
     ],
     module: {
@@ -194,21 +172,12 @@ if (MODE === "production") {
         {
           test: /\.css$/,
           exclude: [/elm-stuff/, /node_modules/],
-          use: [
-            MiniCssExtractPlugin.loader,
-            "css-loader?url=false",
-            "postcss-loader",
-          ],
+          use: ["postcss-loader"],
         },
         {
           test: /\.scss$/,
           exclude: [/elm-stuff/, /node_modules/],
-          use: [
-            MiniCssExtractPlugin.loader,
-            "css-loader?url=false",
-            "sass-loader",
-            "postcss-loader",
-          ],
+          use: ["sass-loader", "postcss-loader"],
         },
       ],
     },
