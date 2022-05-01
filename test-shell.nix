@@ -10,6 +10,6 @@ pkgs.mkShell {
   ];
 
   shellHook = ''
-  cd backend && mix deps.get && cd ../
+  cd backend && mix deps.get && mix local.rebar --force && cd ../
   '';
 }
