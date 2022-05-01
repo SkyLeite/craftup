@@ -95,6 +95,13 @@ defmodule Craftup.Account do
     |> Repo.insert()
   end
 
+  def delete_list(user, list_id) do
+    List
+    |> Ecto.Query.where([l], l.id == ^list_id and l.user_id == ^user.id)
+    |> Repo.one!()
+    |> Repo.delete()
+  end
+
   def update_list_item(user, id, args) do
     ListItem
     |> where([li], li.id == ^id)
