@@ -38,7 +38,10 @@ jobs:
       - name: Run tests
         run: |
           nix-shell test-shell.nix --run "cd backend && mix test --cover"
-      - name: Code Coverage Report
-        uses: romeovs/lcov-reporter-action@v0.2.11
+      - uses: codecov/codecov-action@v2
         with:
-          lcov-file: ./backend/cover/lcov.info
+          files: ./backend/cover/lcov.info # optional
+          flags: unittests # optional
+          name: codecov-umbrella # optional
+          fail_ci_if_error: true # optional (default = false)
+          verbose: true # optional (default = false)
